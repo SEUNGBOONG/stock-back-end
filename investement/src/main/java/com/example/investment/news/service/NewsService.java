@@ -1,14 +1,12 @@
 package com.example.investment.news.service;
 
-import com.example.investment.news.common.RestTemplateClient;
 import com.example.investment.news.controller.dto.NewsResponse;
 
+import com.example.investment.news.service.client.NewsFetcher;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -18,16 +16,10 @@ import java.util.List;
 @Service
 public class NewsService {
 
-    @Value("${naver.api.clientId}")
-    private String clientId;
+    private final NewsFetcher newsFetcher;
 
-    @Value("${naver.api.clientSecret}")
-    private String clientSecret;
-
-    private final RestTemplateClient restTemplateClient;
-
-    public NewsService(final RestTemplateClient restTemplateClient) {
-        this.restTemplateClient = restTemplateClient;
+    public NewsService(NewsFetcher newsFetcher) {
+        this.newsFetcher = newsFetcher;
     }
 
     public List<NewsResponse> getNews(String keyword) throws JSONException {
@@ -35,11 +27,7 @@ public class NewsService {
     }
 
     private List<NewsResponse> fetchNews(final String keyword) throws JSONException {
-        String url = "https://openapi.naver.com/v1/search/news.json?query=" + keyword;
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("X-Naver-Client-Id", clientId);
-        headers.set("X-Naver-Client-Secret", clientSecret);
-        ResponseEntity<String> response = restTemplateClient.get(url, headers);
+        ResponseEntity<String> response = newsFetcher.fetch(keyword);
         return parseNews(response);
     }
 
