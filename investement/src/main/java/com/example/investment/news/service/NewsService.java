@@ -8,13 +8,8 @@ import org.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.stereotype.Service;
-
-import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +23,12 @@ public class NewsService {
     @Value("${naver.api.clientSecret}")
     private String clientSecret;
 
+    private final RestTemplateClient restTemplateClient;
+
+    public NewsService(final RestTemplateClient restTemplateClient) {
+        this.restTemplateClient = restTemplateClient;
+    }
+
     public List<NewsResponse> getNews(String keyword) throws JSONException {
         return fetchNews(keyword);
     }
@@ -37,9 +38,7 @@ public class NewsService {
         HttpHeaders headers = new HttpHeaders();
         headers.set("X-Naver-Client-Id", clientId);
         headers.set("X-Naver-Client-Secret", clientSecret);
-        HttpEntity<String> entity = new HttpEntity<>(headers);
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
+        ResponseEntity<String> response = restTemplateClient.get(url, headers);
         return parseNews(response);
     }
 
