@@ -1,4 +1,4 @@
-package com.example.investment.news.service;
+package com.example.investment.news.common;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpEntity;

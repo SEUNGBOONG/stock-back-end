@@ -1,5 +1,6 @@
 package com.example.investment.news.service;
 
+import com.example.investment.news.common.RestTemplateClient;
 import com.example.investment.news.controller.dto.NewsResponse;
 
 import org.json.JSONArray;
