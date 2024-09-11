@@ -2,7 +2,6 @@ package com.example.investment.news.service;
 
 import com.example.investment.news.controller.dto.NewsResponse;
 import com.example.investment.news.service.client.NewsFetcher;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.ResponseEntity;
