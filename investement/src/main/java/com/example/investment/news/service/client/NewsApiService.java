@@ -1,6 +1,6 @@
 package com.example.investment.news.service.client;
 
-import com.example.investment.template.RestTemplateClient;
+import com.example.investment.common.RestTemplateClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
