@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ApiService {
+public class NewsApiService {
 
     private final RestTemplateClient restTemplateClient;
 
@@ -16,7 +16,7 @@ public class ApiService {
     @Value("${naver.api.clientSecret}")
     private String clientSecret;
 
-    public ApiService(RestTemplateClient restTemplateClient) {
+    public NewsApiService(RestTemplateClient restTemplateClient) {
         this.restTemplateClient = restTemplateClient;
     }
 
