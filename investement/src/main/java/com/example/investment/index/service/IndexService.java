@@ -29,7 +29,11 @@ public class IndexService {
     }
 
     private KOSPIResponse parseKOSPIResponse(JSONObject jsonObject) {
-        JSONArray items = jsonObject.getJSONObject("response").getJSONObject("body").getJSONObject("items").getJSONArray("item");
+        JSONArray items = jsonObject
+                .getJSONObject("response")
+                .getJSONObject("body")
+                .getJSONObject("items")
+                .getJSONArray("item");
         JSONObject indexData = items.getJSONObject(0);
         String indexName = indexData.getString("idxNm");
         String indexValue = indexData.getString("clpr");
@@ -38,7 +42,11 @@ public class IndexService {
     }
 
     private KOSDAQResponse parseKOSDAQResponse(JSONObject jsonObject) {
-        JSONArray items = jsonObject.getJSONObject("response").getJSONObject("body").getJSONObject("items").getJSONArray("item");
+        JSONArray items = jsonObject
+                .getJSONObject("response")
+                .getJSONObject("body")
+                .getJSONObject("items")
+                .getJSONArray("item");
         JSONObject indexData = items.getJSONObject(0);
         String indexName = indexData.getString("idxNm");
         String indexValue = indexData.getString("clpr");

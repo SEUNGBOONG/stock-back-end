@@ -27,14 +27,20 @@ public class NewsParser {
         Iterator<JsonNode> elements = items.elements();
         int count = 0;
 
+        extractNews(elements, count, newsList);
+
+        return newsList;
+    }
+
+    private void extractNews(final Iterator<JsonNode> elements, int count, final List<NewsResponse> newsList) {
         while (elements.hasNext() && count < 3) {
             JsonNode newsItem = elements.next();
+
             String title = newsItem.path("title").asText().replaceAll("<.*?>", "");
             String link = newsItem.path("link").asText();
+
             newsList.add(new NewsResponse(title, link));
             count++;
         }
-
-        return newsList;
     }
 }
