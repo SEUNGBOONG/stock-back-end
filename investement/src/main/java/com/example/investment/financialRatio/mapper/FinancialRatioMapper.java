@@ -11,7 +11,7 @@ import java.util.List;
 @Component
 public class FinancialRatioMapper {
 
-    public List<FinancialRatioDTO> toFinancialRatioDTO(final JSONArray outputArray) {
+    public void toFinancialRatioDTO(final JSONArray outputArray) {
         List<FinancialRatioDTO> financialRatios = new ArrayList<>();
 
         for (int i = 1; i <= 4; i++) {
@@ -34,6 +34,5 @@ public class FinancialRatioMapper {
             }
         }
 
-        return financialRatios;
     }
 }
