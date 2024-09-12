@@ -1,13 +1,15 @@
 package com.example.investment.home.fluctuation.service.client;
 
 import org.springframework.beans.factory.annotation.Value;
+
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
 
+import org.springframework.stereotype.Component;
+
+import org.springframework.web.client.RestTemplate;
 
 @Component
 public class FluctuationDataFetcher {
@@ -47,8 +49,8 @@ public class FluctuationDataFetcher {
                 + "fid_rsfl_rate1=&"
                 + "fid_rsfl_rate2=";
 
-
         HttpHeaders headers = new HttpHeaders();
+
         headers.set("tr_id", trId);
         headers.set("appsecret", appSecret);
         headers.set("appkey", appKey);
@@ -56,11 +58,7 @@ public class FluctuationDataFetcher {
         headers.set("Content-Type", "application/json");
 
         HttpEntity<String> entity = new HttpEntity<>(headers);
-        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
 
-        System.out.println("Status Code: " + response.getStatusCode());
-        System.out.println("Response Headers: " + response.getHeaders());
-        System.out.println("Response Body: " + response.getBody());
-        return response;
+        return restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
     }
 }
