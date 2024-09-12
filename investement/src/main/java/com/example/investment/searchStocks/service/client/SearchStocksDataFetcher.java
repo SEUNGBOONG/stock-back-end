@@ -1,6 +1,6 @@
-package com.example.investment.financialRatio.service.client;
+package com.example.investment.searchStocks.service.client;
 
-import com.example.investment.financialRatio.controller.dto.FinancialRatioResponse;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -10,9 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 @Component
-public class FinancialRatioDataFetcher {
-
-    private final RestTemplate restTemplate;
+public class SearchStocksDataFetcher {
 
     @Value("${api.tr_id}")
     private String trId;
@@ -26,12 +24,14 @@ public class FinancialRatioDataFetcher {
     @Value("${api.access_token}")
     private String accessToken;
 
-    public FinancialRatioDataFetcher(RestTemplate restTemplate) {
+    private final RestTemplate restTemplate;
+
+    public SearchStocksDataFetcher(final RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
-    public FinancialRatioResponse fetchFinancialRatioData(String fidInputIscd) {
-        String url = "https://openapi.koreainvestment.com:9443/uapi/domestic-stock/v1/finance/financial-ratio?FID_DIV_CLS_CODE=0&fid_cond_mrkt_div_code=J&fid_input_iscd=" + fidInputIscd;
+    public JSONObject SearchStocksData(String fidInputIscd) {
+        String url = "https://openapi.koreainvestment.com:9443/uapi/domestic-stock/v1/quotations/inquire-price?FID_COND_MRKT_DIV_CODE=J&FID_INPUT_ISCD=" + fidInputIscd;
         HttpHeaders headers = new HttpHeaders();
         headers.set("tr_id", trId);
         headers.set("appsecret", appSecret);
@@ -40,8 +40,8 @@ public class FinancialRatioDataFetcher {
 
         HttpEntity<String> entity = new HttpEntity<>(headers);
 
-        ResponseEntity<FinancialRatioResponse> response = restTemplate.exchange(url, HttpMethod.GET, entity, FinancialRatioResponse.class);
+        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
 
-        return response.getBody();
+        return new JSONObject(response.getBody());
     }
 }

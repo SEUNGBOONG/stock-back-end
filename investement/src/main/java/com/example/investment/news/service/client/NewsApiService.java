@@ -3,6 +3,7 @@ package com.example.investment.news.service.client;
 import com.example.investment.common.RestTemplateClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,6 @@ public class NewsApiService {
     public ResponseEntity<String> get(String url, HttpHeaders headers) {
         headers.set("X-Naver-Client-Id", clientId);
         headers.set("X-Naver-Client-Secret", clientSecret);
-        return restTemplateClient.get(url, headers);
+        return restTemplateClient.exchange(url, HttpMethod.GET, headers, String.class);
     }
 }

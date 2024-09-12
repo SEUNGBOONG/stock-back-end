@@ -4,9 +4,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.stereotype.Component;
-
 import org.springframework.web.client.RestTemplate;
 
 @Component
@@ -18,8 +16,8 @@ public class RestTemplateClient {
         this.restTemplate = restTemplate;
     }
 
-    public ResponseEntity<String> get(String url, HttpHeaders headers) {
-        HttpEntity<String> entity = new HttpEntity<>(headers);
-        return restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
+    public ResponseEntity<String> exchange(String url, HttpMethod method, HttpHeaders headers, Object body) {
+        HttpEntity<Object> entity = new HttpEntity<>(body, headers);
+        return restTemplate.exchange(url, method, entity, String.class);
     }
 }

@@ -3,11 +3,13 @@ package com.example.investment.index.service;
 import com.example.investment.index.controller.dto.KOSDAQResponse;
 import com.example.investment.index.controller.dto.KOSPIResponse;
 import com.example.investment.index.service.client.IndexFetcher;
+import jakarta.transaction.Transactional;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 @Service
+@Transactional
 public class IndexService {
 
     private final IndexFetcher indexFetcher;
