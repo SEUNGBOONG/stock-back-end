@@ -30,21 +30,16 @@ public class NewsFetcher {
         return get(url, headers);
     }
 
+    public ResponseEntity<String> get(String url, HttpHeaders headers) {
+        setHeader();
+        return restTemplateClient.exchange(url, HttpMethod.GET, headers, String.class);
+    }
+
     private HttpHeaders setHeader() {
         HttpHeaders headers = new HttpHeaders();
         headers.set("X-Naver-Client-Id", clientId);
         headers.set("X-Naver-Client-Secret", clientSecret);
         return headers;
-    }
-
-    public ResponseEntity<String> get(String url, HttpHeaders headers) {
-        setHeader(headers);
-        return restTemplateClient.exchange(url, HttpMethod.GET, headers, String.class);
-    }
-
-    private void setHeader(final HttpHeaders headers) {
-        headers.set("X-Naver-Client-Id", clientId);
-        headers.set("X-Naver-Client-Secret", clientSecret);
     }
 
 }
