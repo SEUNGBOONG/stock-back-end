@@ -22,7 +22,10 @@ public class TradingVolumeParser {
     public List<TradingVolumeDTO> getTradingVolume(String responseBody) throws IOException {
         JsonNode rootNode = objectMapper.readTree(responseBody);
         JsonNode items = rootNode.path("output");
+        return extractTradingVolumeData(items);
+    }
 
+    private List<TradingVolumeDTO> extractTradingVolumeData(final JsonNode items) {
         List<TradingVolumeDTO> tradingVolumeList = new ArrayList<>();
         Iterator<JsonNode> elements = items.elements();
         int count = 0;
@@ -40,7 +43,6 @@ public class TradingVolumeParser {
             tradingVolumeList.add(new TradingVolumeDTO(stockName, rank, currentPrice, totalVolume, prevVolume, volumeChangeRate));
             count++;
         }
-
         return tradingVolumeList;
     }
 }

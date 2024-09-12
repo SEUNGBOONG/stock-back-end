@@ -1,11 +1,12 @@
 package com.example.investment.financialRatio.service.client;
 
-import com.example.investment.financialRatio.controller.dto.FinancialRatioResponse;
 import org.springframework.beans.factory.annotation.Value;
+
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -30,8 +31,9 @@ public class FinancialRatioDataFetcher {
         this.restTemplate = restTemplate;
     }
 
-    public FinancialRatioResponse fetchFinancialRatioData(String fidInputIscd) {
-        String url = "https://openapi.koreainvestment.com:9443/uapi/domestic-stock/v1/finance/financial-ratio?FID_DIV_CLS_CODE=0&fid_cond_mrkt_div_code=J&fid_input_iscd=" + fidInputIscd;
+    public ResponseEntity<String> fetchFinancialRatioData(String fid_input_iscd) {
+        String url = "https://openapi.koreainvestment.com:9443/uapi/domestic-stock/v1/finance/financial-ratio?FID_DIV_CLS_CODE=0&fid_cond_mrkt_div_code=J&fid_input_iscd=" + fid_input_iscd;
+
         HttpHeaders headers = new HttpHeaders();
         headers.set("tr_id", trId);
         headers.set("appsecret", appSecret);
@@ -39,9 +41,7 @@ public class FinancialRatioDataFetcher {
         headers.set("Authorization", "Bearer " + accessToken);
 
         HttpEntity<String> entity = new HttpEntity<>(headers);
-
-        ResponseEntity<FinancialRatioResponse> response = restTemplate.exchange(url, HttpMethod.GET, entity, FinancialRatioResponse.class);
-
-        return response.getBody();
+        return restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
     }
+
 }
