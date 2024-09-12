@@ -3,7 +3,9 @@ package com.example.investment.news.service;
 import com.example.investment.news.controller.dto.NewsResponse;
 import com.example.investment.news.infrastructure.NewsParser;
 import com.example.investment.news.service.client.NewsFetcher;
+
 import jakarta.transaction.Transactional;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
