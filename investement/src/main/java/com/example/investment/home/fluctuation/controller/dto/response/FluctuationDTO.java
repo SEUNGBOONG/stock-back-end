@@ -1,6 +1,6 @@
 package com.example.investment.home.fluctuation.controller.dto.response;
 
-public record fluctuationDTO(
+public record FluctuationDTO(
         String stockName, //HTS 한글 종목명
         int rank, //데이터(등락률) 순위
         int currentPrice, //현재가

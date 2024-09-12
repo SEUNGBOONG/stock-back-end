@@ -1,25 +1,29 @@
 package com.example.investment.home.fluctuation.service;
 
 
-import com.example.investment.home.fluctuation.controller.dto.response.fluctuationDTO;
-import com.example.investment.home.fluctuation.controller.dto.response.fluctuationResponse;
+import com.example.investment.home.fluctuation.controller.dto.response.FluctuationDTO;
+import com.example.investment.home.fluctuation.infrastructor.FluctuationParser;
 import com.example.investment.home.fluctuation.service.client.FluctuationDataFetcher;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Comparator;
+import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 
+@Service
+@Transactional
 public class FluctuationService {
     private final FluctuationDataFetcher fluctuationDataFetcher;
+    private final FluctuationParser fluctuationParser;
 
-    public FluctuationService (FluctuationDataFetcher fluctuationDataFetcher) {
-        this.fluctuationDataFetcher=fluctuationDataFetcher;
+    public FluctuationService(FluctuationDataFetcher fluctuationDataFetcher, FluctuationParser fluctuationParser) {
+        this.fluctuationDataFetcher = fluctuationDataFetcher;
+        this.fluctuationParser=fluctuationParser;
     }
 
-    public List<fluctuationDTO> getTopFluctuation (String fidInputIscd) {
-        fluctuationResponse response = fluctuationDataFetcher. fluctuationData(fidInputIscd);
-        List<fluctuationDTO> allFluctuation= response.getOutput();
-
-        return allFluctuation;
+    public List<FluctuationDTO> getFluctuation() throws IOException {
+        ResponseEntity<String> response = fluctuationDataFetcher.fluctuationData();
+        return fluctuationParser.getFluctuation(response.getBody());
     }
 }
