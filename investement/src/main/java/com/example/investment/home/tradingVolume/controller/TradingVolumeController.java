@@ -24,6 +24,10 @@ public class TradingVolumeController {
 
     @GetMapping
     public ResponseEntity<List<TradingVolumeDTO>> getTradingVolume() throws IOException {
+        return getListResponseEntity();
+    }
+
+    private ResponseEntity<List<TradingVolumeDTO>> getListResponseEntity() throws IOException {
         List<TradingVolumeDTO> tradingVolumes = tradingVolumeService.getTradingVolume();
         return ResponseEntity.ok(tradingVolumes);
     }

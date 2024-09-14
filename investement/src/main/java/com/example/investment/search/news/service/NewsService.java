@@ -25,6 +25,10 @@ public class NewsService {
     }
 
     public List<NewsResponse> getNews(String keyword) throws IOException {
+        return getNewsResponses(keyword);
+    }
+
+    private List<NewsResponse> getNewsResponses(final String keyword) throws IOException {
         ResponseEntity<String> response = newsFetcher.fetch(keyword);
         return newsParser.parseNews(response.getBody());
     }

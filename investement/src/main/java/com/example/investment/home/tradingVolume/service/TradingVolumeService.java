@@ -26,6 +26,10 @@ public class TradingVolumeService {
     }
 
     public List<TradingVolumeDTO> getTradingVolume() throws IOException {
+        return getTradingVolumeDTOS();
+    }
+
+    private List<TradingVolumeDTO> getTradingVolumeDTOS() throws IOException {
         ResponseEntity<String> response = tradingVolumeFetcher.fetchTradingVolumeData();
         return tradingVolumeParser.getTradingVolume(response.getBody());
     }

@@ -2,6 +2,7 @@ package com.example.investment.home.tradingVolume.infrastructure;
 
 import com.example.investment.home.tradingVolume.controller.dto.TradingVolumeDTO;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -23,8 +24,7 @@ public class TradingVolumeParser {
     }
 
     public List<TradingVolumeDTO> getTradingVolume(String responseBody) throws IOException {
-        JsonNode rootNode = objectMapper.readTree(responseBody);
-        JsonNode items = rootNode.path("output");
+        JsonNode items = setJsonNOde(responseBody);
         return extractTradingVolumeData(items);
     }
 
@@ -51,6 +51,11 @@ public class TradingVolumeParser {
             tradingVolumeList.add(new TradingVolumeDTO(stockName, rank, currentPrice, totalVolume, prevVolume, volumeChangeRate));
             count++;
         }
+    }
+
+    private JsonNode setJsonNOde(final String responseBody) throws JsonProcessingException {
+        JsonNode rootNode = objectMapper.readTree(responseBody);
+        return rootNode.path("output");
     }
 
     private boolean isUnderLimit(Iterator<JsonNode> elements, int count) {
