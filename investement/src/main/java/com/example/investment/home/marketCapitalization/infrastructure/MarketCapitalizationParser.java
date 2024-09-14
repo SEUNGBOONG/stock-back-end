@@ -1,6 +1,7 @@
 package com.example.investment.home.marketCapitalization.infrastructure;
 
 import com.example.investment.home.marketCapitalization.controller.dto.MarketCapitalizationDTO;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;
@@ -21,9 +22,7 @@ public class MarketCapitalizationParser {
     }
 
     public List<MarketCapitalizationDTO> parse(String responseBody) throws IOException {
-        JsonNode rootNode = objectMapper.readTree(responseBody);
-        JsonNode items = rootNode.path("output");
-
+        JsonNode items = getJsonNode(responseBody);
         return extractMarketCapitalizationData(items);
     }
 
@@ -35,7 +34,7 @@ public class MarketCapitalizationParser {
         return marketCapitalizationDTOList;
     }
 
-    private static void buildDataList(List<MarketCapitalizationDTO> marketCapitalizationDTOList, Iterator<JsonNode> elements) {
+    private void buildDataList(List<MarketCapitalizationDTO> marketCapitalizationDTOList, Iterator<JsonNode> elements) {
         int count = 0;
 
         while (isUnderLimit(elements, count)) {
@@ -50,7 +49,12 @@ public class MarketCapitalizationParser {
         }
     }
 
-    private static boolean isUnderLimit(Iterator<JsonNode> elements, int count) {
+    private JsonNode getJsonNode(final String responseBody) throws JsonProcessingException {
+        JsonNode rootNode = objectMapper.readTree(responseBody);
+        return rootNode.path("output");
+    }
+
+    private boolean isUnderLimit(Iterator<JsonNode> elements, int count) {
         return elements.hasNext() && count < LIST_SIZE;
     }
 

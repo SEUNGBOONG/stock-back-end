@@ -25,7 +25,15 @@ public class MarketCapitalizationService {
     }
 
     public List<MarketCapitalizationDTO> getMarketCapitalization() throws IOException {
-        ResponseEntity<String> response = marketCapitalizationFetcher.marketCapitalizationData();
+        return getMarketCapitalizationDTOS();
+    }
+
+    private List<MarketCapitalizationDTO> getMarketCapitalizationDTOS() throws IOException {
+        ResponseEntity<String> response = getStringResponseEntity();
         return marketCapitalizationParser.parse(response.getBody());
+    }
+
+    private ResponseEntity<String> getStringResponseEntity() {
+        return marketCapitalizationFetcher.marketCapitalizationData();
     }
 }
