@@ -15,6 +15,7 @@ import java.util.List;
 @Component
 public class TradingVolumeParser {
 
+    private static final int LIST_SIZE = 5;
     private final ObjectMapper objectMapper;
 
     public TradingVolumeParser(final ObjectMapper objectMapper) {
@@ -30,9 +31,14 @@ public class TradingVolumeParser {
     private List<TradingVolumeDTO> extractTradingVolumeData(final JsonNode items) {
         List<TradingVolumeDTO> tradingVolumeList = new ArrayList<>();
         Iterator<JsonNode> elements = items.elements();
-        int count = 0;
+        buildDataList(tradingVolumeList, elements);
+        return tradingVolumeList;
 
-        while (elements.hasNext() && count < 5) {
+    }
+
+    private void buildDataList(List<TradingVolumeDTO> tradingVolumeList, Iterator<JsonNode> elements) {
+        int count = 0;
+        while (isUnderLimit(elements, count)) {
             JsonNode tradingVolumeItem = elements.next();
 
             String stockName = tradingVolumeItem.path("hts_kor_isnm").asText();
@@ -45,8 +51,9 @@ public class TradingVolumeParser {
             tradingVolumeList.add(new TradingVolumeDTO(stockName, rank, currentPrice, totalVolume, prevVolume, volumeChangeRate));
             count++;
         }
+    }
 
-        return tradingVolumeList;
-
+    private boolean isUnderLimit(Iterator<JsonNode> elements, int count) {
+        return elements.hasNext() && count < LIST_SIZE;
     }
 }

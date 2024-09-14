@@ -13,6 +13,7 @@ import java.util.List;
 @Component
 public class NewsParser {
 
+    private static final int LIST_SIZE = 3;
     private final ObjectMapper objectMapper;
 
     public NewsParser(ObjectMapper objectMapper) {
@@ -25,22 +26,27 @@ public class NewsParser {
 
         List<NewsResponse> newsList = new ArrayList<>();
         Iterator<JsonNode> elements = items.elements();
-        int count = 0;
 
-        extractNews(elements, count, newsList);
+        extractNews(elements, newsList);
 
         return newsList;
     }
 
-    private void extractNews(final Iterator<JsonNode> elements, int count, final List<NewsResponse> newsList) {
-        while (elements.hasNext() && count < 3) {
+    private void extractNews(final Iterator<JsonNode> elements, final List<NewsResponse> newsList) {
+        int count = 0;
+
+        while (isUnderLimit(elements, count)) {
             JsonNode newsItem = elements.next();
 
             String title = newsItem.path("title").asText().replaceAll("<.*?>", "");
             String link = newsItem.path("link").asText();
-
             newsList.add(new NewsResponse(title, link));
+
             count++;
         }
+    }
+
+    private boolean isUnderLimit(Iterator<JsonNode> elements, int count) {
+        return elements.hasNext() && count < LIST_SIZE;
     }
 }

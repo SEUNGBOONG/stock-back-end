@@ -14,6 +14,7 @@ import java.util.List;
 @Component
 public class FinancialRatioParser {
 
+    private static final int LIST_SIZE = 3;
     private final ObjectMapper objectMapper;
 
     public FinancialRatioParser(final ObjectMapper objectMapper) {
@@ -26,15 +27,16 @@ public class FinancialRatioParser {
 
         List<FinancialRatioDTO> financialRatioList = new ArrayList<>();
         Iterator<JsonNode> elements = items.elements();
-        int count = 0;
 
-        extractFinancialRatioData(elements, count, financialRatioList);
+        extractFinancialRatioData(elements, financialRatioList);
 
         return financialRatioList;
     }
 
-    private void extractFinancialRatioData(final Iterator<JsonNode> elements, int count, final List<FinancialRatioDTO> financialRatioList) {
-        while (elements.hasNext() && count < 3) {
+    private void extractFinancialRatioData(final Iterator<JsonNode> elements, final List<FinancialRatioDTO> financialRatioList) {
+        int count = 0;
+
+        while (isUnderLimit(elements, count)) {
             JsonNode ratioItem = elements.next();
 
             String stockAccountingYearMonth = ratioItem.path("stac_yymm").asText();
@@ -51,5 +53,9 @@ public class FinancialRatioParser {
             financialRatioList.add(new FinancialRatioDTO(stockAccountingYearMonth, grossMarginRatio, businessProfitRate, netInterestRate, roeValue, earningsPerShare, salesPerShare, bookValuePerShare, reserveRate, liabilityRate));
             count++;
         }
+    }
+
+    private boolean isUnderLimit(Iterator<JsonNode> elements, int count) {
+        return elements.hasNext() && count < LIST_SIZE;
     }
 }

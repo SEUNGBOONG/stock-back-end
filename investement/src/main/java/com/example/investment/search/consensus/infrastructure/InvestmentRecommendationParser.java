@@ -24,11 +24,11 @@ public class InvestmentRecommendationParser {
     }
 
     public InvestmentRecommendationDTO parseInvestmentRecommendation(String responseBody) throws IOException {
-        Iterator<JsonNode> elements = JsonSetting(responseBody);
+        Iterator<JsonNode> elements = getJsonNodeElements(responseBody);
         return extractInvestmentRecommendationData(elements);
     }
 
-    private Iterator<JsonNode> JsonSetting(final String responseBody) throws JsonProcessingException {
+    private Iterator<JsonNode> getJsonNodeElements(final String responseBody) throws JsonProcessingException {
         JsonNode rootNode = objectMapper.readTree(responseBody);
         JsonNode items = rootNode.path("output");
         Iterator<JsonNode> elements = items.elements();
@@ -42,33 +42,45 @@ public class InvestmentRecommendationParser {
 
         while (elements.hasNext()) {
             JsonNode investmentRecommendationItems = elements.next();
-
-            String targetPriceStr = investmentRecommendationItems.path("hts_goal_prc").asText();
-            String stockPriceStr = investmentRecommendationItems.path("stck_prdy_clpr").asText();
-            String stockDifferencePriceStr = investmentRecommendationItems.path("stck_nday_esdg").asText();
-
-            if (!targetPriceStr.isEmpty() && !stockPriceStr.isEmpty() && !stockDifferencePriceStr.isEmpty()) {
-                try {
-                    double targetPrice = Double.parseDouble(targetPriceStr);
-                    double stockPrice = Double.parseDouble(stockPriceStr);
-                    double stockDifferencePrice = Double.parseDouble(stockDifferencePriceStr);
-
-                    targetPrices.add(targetPrice);
-                    stockPrices.add(stockPrice);
-                    stockDifferencePrices.add(stockDifferencePrice);
-
-                } catch (NumberFormatException e) {
-                }
-            }
+            appendPricesToLists(targetPrices, stockPrices, stockDifferencePrices, investmentRecommendationItems);
         }
 
+        return createRecommendDataDTO(targetPrices, stockPrices, stockDifferencePrices);
+    }
+
+    private void appendPricesToLists(List<Double> targetPrices, List<Double> stockPrices, List<Double> stockDifferencePrices, JsonNode investmentRecommendationItems) {
+        String targetPriceStr = investmentRecommendationItems.path("hts_goal_prc").asText();
+        String stockPriceStr = investmentRecommendationItems.path("stck_prdy_clpr").asText();
+        String stockDifferencePriceStr = investmentRecommendationItems.path("stck_nday_esdg").asText();
+
+        if (areValuesValid(targetPriceStr, stockPriceStr, stockDifferencePriceStr)) {
+            try {
+                double targetPrice = Double.parseDouble(targetPriceStr);
+                double stockPrice = Double.parseDouble(stockPriceStr);
+                double stockDifferencePrice = Double.parseDouble(stockDifferencePriceStr);
+
+                targetPrices.add(targetPrice);
+                stockPrices.add(stockPrice);
+                stockDifferencePrices.add(stockDifferencePrice);
+            } catch (NumberFormatException e) {
+            }
+        }
+    }
+
+    private boolean areValuesValid(String... values) {
+        for (String value : values) {
+            if (value.isEmpty()) return false;
+        }
+        return true;
+    }
+
+    private InvestmentRecommendationDTO createRecommendDataDTO(List<Double> targetPrices, List<Double> stockPrices, List<Double> stockDifferencePrices) {
         String avgTargetPrice = formatDoubleAsString(calculateAverage(targetPrices));
         String avgStockPrice = formatDoubleAsString(calculateAverage(stockPrices));
         String avgStockDifferencePrice = formatDoubleAsString(calculateAverage(stockDifferencePrices));
 
         return new InvestmentRecommendationDTO(avgTargetPrice, avgStockPrice, avgStockDifferencePrice);
     }
-
 
     private double calculateAverage(List<Double> values) {
         if (values.isEmpty()) return 0;

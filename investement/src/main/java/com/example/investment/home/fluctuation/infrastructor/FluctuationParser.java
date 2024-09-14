@@ -16,39 +16,41 @@ import java.util.List;
 public class FluctuationParser {
 
     private final ObjectMapper objectMapper;
+    private static final int LIST_SIZE = 5;
 
     public FluctuationParser(final ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
 
     public List<FluctuationDTO> getFluctuation(String responseBody) throws IOException {
-
         JsonNode rootNode = objectMapper.readTree(responseBody);
         JsonNode items = rootNode.path("output");
 
         List<FluctuationDTO> fluctuationDTOList = new ArrayList<>();
         Iterator<JsonNode> elements = items.elements();
+        buildDataList(fluctuationDTOList, elements);
+        return fluctuationDTOList;
+    }
+
+    private void buildDataList(List<FluctuationDTO> fluctuationDTOList, Iterator<JsonNode> elements) {
         int count = 0;
-
-        while (elements.hasNext() && count < 5) {
-
+        while (isUnderLimit(elements, count)) {
             JsonNode fluctuationItem = elements.next();
 
             String stockName = fluctuationItem.path("hts_kor_isnm").asText();
-
             int rank = Integer.parseInt(fluctuationItem.path("data_rank").asText());
             int currentPrice = Integer.parseInt(fluctuationItem.path("stck_prpr").asText());
             int prevChangePrice = Integer.parseInt(fluctuationItem.path("prdy_vrss").asText());
-
             String prevSign = fluctuationItem.path("prdy_vrss_sign").asText();
             Double prevChangeRate = Double.valueOf(fluctuationItem.path("prdy_ctrt").asText());
 
             fluctuationDTOList.add(new FluctuationDTO(stockName, rank, currentPrice, prevChangePrice, prevSign, prevChangeRate));
             count++;
         }
-
-        return fluctuationDTOList;
     }
 
+    private boolean isUnderLimit(Iterator<JsonNode> elements, int count) {
+        return count < LIST_SIZE && elements.hasNext();
+    }
 }
 
