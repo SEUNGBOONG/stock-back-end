@@ -4,6 +4,7 @@ import com.example.investment.home.tradingVolume.controller.dto.TradingVolumeDTO
 import com.example.investment.home.tradingVolume.infrastructure.TradingVolumeParser;
 import com.example.investment.home.tradingVolume.service.client.TradingVolumeFetcher;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,7 @@ public class TradingVolumeService {
     private final TradingVolumeFetcher tradingVolumeFetcher;
     private final TradingVolumeParser tradingVolumeParser;
 
+    @Autowired
     public TradingVolumeService(TradingVolumeFetcher tradingVolumeFetcher, TradingVolumeParser tradingVolumeParser) {
         this.tradingVolumeFetcher = tradingVolumeFetcher;
         this.tradingVolumeParser = tradingVolumeParser;

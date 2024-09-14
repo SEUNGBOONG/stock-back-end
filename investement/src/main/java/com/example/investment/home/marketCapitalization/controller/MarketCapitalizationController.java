@@ -24,7 +24,7 @@ public class MarketCapitalizationController {
 
     @GetMapping
     public ResponseEntity<List<MarketCapitalizationDTO>> getTradingVolume() throws IOException {
-        List<MarketCapitalizationDTO> marketCapitalizationDTOList = marketCapitalizationService.getTradingVolume();
+        List<MarketCapitalizationDTO> marketCapitalizationDTOList = marketCapitalizationService.getMarketCapitalization();
         return ResponseEntity.ok(marketCapitalizationDTOList);
     }
 }

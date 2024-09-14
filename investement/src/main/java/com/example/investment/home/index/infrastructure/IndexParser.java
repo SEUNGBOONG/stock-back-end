@@ -2,6 +2,7 @@ package com.example.investment.home.index.infrastructure;
 
 import com.example.investment.home.index.controller.dto.KOSDAQResponse;
 import com.example.investment.home.index.controller.dto.KOSPIResponse;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Component;

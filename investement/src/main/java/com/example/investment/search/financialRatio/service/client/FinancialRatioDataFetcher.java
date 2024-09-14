@@ -15,7 +15,7 @@ public class FinancialRatioDataFetcher {
 
     private final RestTemplate restTemplate;
 
-    @Value("${api.tr_id}")
+    @Value("${financialRatio.tr_id}")
     private String trId;
 
     @Value("${api.app_secret}")

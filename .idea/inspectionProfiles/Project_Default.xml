@@ -12,6 +12,8 @@
           <option value="tr_id" />
           <option value="appsecret" />
           <option value="appkey" />
+          <option value="X-Naver-Client-Id" />
+          <option value="X-Naver-Client-Secret" />
         </set>
       </option>
     </inspection_tool>

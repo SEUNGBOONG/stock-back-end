@@ -3,6 +3,8 @@ package com.example.investment.home.marketCapitalization.infrastructure;
 import com.example.investment.home.marketCapitalization.controller.dto.MarketCapitalizationDTO;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -12,33 +14,35 @@ import java.util.List;
 
 @Component
 public class MarketCapitalizationParser {
-    private final ObjectMapper objectMapper;
 
+    private final ObjectMapper objectMapper;
 
     public MarketCapitalizationParser(final ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
 
-    public List<MarketCapitalizationDTO> getTradingVolume(String responseBody) throws IOException {
+    public List<MarketCapitalizationDTO> parse(String responseBody) throws IOException {
         JsonNode rootNode = objectMapper.readTree(responseBody);
         JsonNode items = rootNode.path("output");
-        List<MarketCapitalizationDTO> marketCapitalizationList = new ArrayList<>();
+
+        return extractMarketCapitalizationData(items);
+    }
+
+    private List<MarketCapitalizationDTO> extractMarketCapitalizationData(final JsonNode items) {
+        List<MarketCapitalizationDTO> marketCapitalizationDTOList = new ArrayList<>();
         Iterator<JsonNode> elements = items.elements();
         int count = 0;
-        extractMarketCapitalizationData(elements, count, marketCapitalizationList);
 
-        return marketCapitalizationList;
-    }
-
-    private static void extractMarketCapitalizationData(final Iterator<JsonNode> elements, int count, final List<MarketCapitalizationDTO> marketCapitalizationList) {
         while (elements.hasNext() && count < 5) {
-            JsonNode marketCapitalizationItems = elements.next();
-
-            String stockName = marketCapitalizationItems.path("hts_kor_isnm").asText();
-            String marketCapitalization = marketCapitalizationItems.path("stck_avls").asText();
-
-            marketCapitalizationList.add(new MarketCapitalizationDTO(stockName, marketCapitalization));
+            JsonNode marketCapitalizationOutput = elements.next();
+            String rank = marketCapitalizationOutput.path("data_rank").asText();
+            String stockPrice = marketCapitalizationOutput.path("stck_prpr").asText();
+            String stockName = marketCapitalizationOutput.path("hts_kor_isnm").asText();
+            String marketCapitalization = marketCapitalizationOutput.path("stck_avls").asText();
+            marketCapitalizationDTOList.add(new MarketCapitalizationDTO(rank, stockPrice, stockName, marketCapitalization));
             count++;
         }
+        return marketCapitalizationDTOList;
     }
+
 }
