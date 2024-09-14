@@ -8,6 +8,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.stereotype.Component;
+
 import org.springframework.web.client.RestTemplate;
 
 @Component
@@ -31,8 +32,12 @@ public class FinancialRatioDataFetcher {
         this.restTemplate = restTemplate;
     }
 
-    public ResponseEntity<String> fetchFinancialRatioData(String fid_input_iscd) {
-        String url = "https://openapi.koreainvestment.com:9443/uapi/domestic-stock/v1/finance/financial-ratio?FID_DIV_CLS_CODE=0&fid_cond_mrkt_div_code=J&fid_input_iscd=" + fid_input_iscd;
+    public ResponseEntity<String> fetchFinancialRatioData(String stockInfo) {
+        return setURL(stockInfo);
+    }
+
+    private ResponseEntity<String> setURL(final String stockInfo) {
+        String url = "https://openapi.koreainvestment.com:9443/uapi/domestic-stock/v1/finance/financial-ratio?FID_DIV_CLS_CODE=0&fid_cond_mrkt_div_code=J&fid_input_iscd=" + stockInfo;
 
         HttpHeaders headers = setHeader();
 

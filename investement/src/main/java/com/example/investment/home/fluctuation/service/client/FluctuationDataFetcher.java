@@ -33,7 +33,24 @@ public class FluctuationDataFetcher {
     }
 
     public ResponseEntity<String> fluctuationData() {
-        String url = "https://openapi.koreainvestment.com:9443/uapi/domestic-stock/v1/ranking/fluctuation?"
+        String url = setURL();
+        HttpHeaders headers = new HttpHeaders();
+        setHeader(headers);
+
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+        return restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
+    }
+
+    private void setHeader(final HttpHeaders headers) {
+        headers.set("tr_id", trId);
+        headers.set("appsecret", appSecret);
+        headers.set("appkey", appKey);
+        headers.set("Authorization", "Bearer " + accessToken);
+        headers.set("Content-Type", "application/json");
+    }
+
+    private static String setURL() {
+        return "https://openapi.koreainvestment.com:9443/uapi/domestic-stock/v1/ranking/fluctuation?"
                 + "fid_cond_mrkt_div_code=J&"
                 + "fid_cond_scr_div_code=20170&"
                 + "fid_input_iscd=0000&"
@@ -48,17 +65,5 @@ public class FluctuationDataFetcher {
                 + "fid_div_cls_code=0&"
                 + "fid_rsfl_rate1=&"
                 + "fid_rsfl_rate2=";
-
-        HttpHeaders headers = new HttpHeaders();
-
-        headers.set("tr_id", trId);
-        headers.set("appsecret", appSecret);
-        headers.set("appkey", appKey);
-        headers.set("Authorization", "Bearer " + accessToken);
-        headers.set("Content-Type", "application/json");
-
-        HttpEntity<String> entity = new HttpEntity<>(headers);
-
-        return restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
     }
 }

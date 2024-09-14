@@ -11,13 +11,15 @@ import org.springframework.stereotype.Component;
 public class IndexParser {
 
     public KOSPIResponse parseKOSPIResponse(JSONObject jsonObject) {
-        JSONArray items = jsonObject
-                .getJSONObject("response")
-                .getJSONObject("body")
-                .getJSONObject("items")
-                .getJSONArray("item");
-        JSONObject indexData = items.getJSONObject(0);
+        JSONObject indexData = getJsonObject(jsonObject);
+        return getKospiResponse(indexData);
+    }
 
+    public KOSDAQResponse parseKOSDAQResponse(JSONObject jsonObject) {
+        return getKosdaqResponse(jsonObject);
+    }
+
+    private static KOSPIResponse getKospiResponse(final JSONObject indexData) {
         String indexName = indexData.getString("idxNm");
         String indexValue = indexData.getString("clpr");
         String fluctuationRate = indexData.getString("fltRt");
@@ -25,18 +27,21 @@ public class IndexParser {
         return new KOSPIResponse(indexName, indexValue, fluctuationRate);
     }
 
-    public KOSDAQResponse parseKOSDAQResponse(JSONObject jsonObject) {
-        JSONArray items = jsonObject
-                .getJSONObject("response")
-                .getJSONObject("body")
-                .getJSONObject("items")
-                .getJSONArray("item");
-
-        JSONObject indexData = items.getJSONObject(0);
+    private static KOSDAQResponse getKosdaqResponse(final JSONObject jsonObject) {
+        JSONObject indexData = getJsonObject(jsonObject);
         String indexName = indexData.getString("idxNm");
         String indexValue = indexData.getString("clpr");
         String fluctuationRate = indexData.getString("fltRt");
 
         return new KOSDAQResponse(indexName, indexValue, fluctuationRate);
+    }
+
+    private static JSONObject getJsonObject(final JSONObject jsonObject) {
+        JSONArray items = jsonObject
+                .getJSONObject("response")
+                .getJSONObject("body")
+                .getJSONObject("items")
+                .getJSONArray("item");
+        return items.getJSONObject(0);
     }
 }

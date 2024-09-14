@@ -24,8 +24,12 @@ public class FinancialRatioController {
     }
 
     @GetMapping
-    public ResponseEntity<List<FinancialRatioDTO>> getFinancialRatio(@RequestParam String fid_input_iscd) throws IOException {
-        List<FinancialRatioDTO> financialRatioDTOS = financialRatioService.getFinancialRatio(fid_input_iscd);
+    public ResponseEntity<List<FinancialRatioDTO>> getFinancialRatio(@RequestParam String stockInfo) throws IOException {
+        return getListResponseEntity(stockInfo);
+    }
+
+    private ResponseEntity<List<FinancialRatioDTO>> getListResponseEntity(final String stockInfo) throws IOException {
+        List<FinancialRatioDTO> financialRatioDTOS = financialRatioService.getFinancialRatio(stockInfo);
         return ResponseEntity.ok(financialRatioDTOS);
     }
 }

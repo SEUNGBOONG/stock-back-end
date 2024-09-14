@@ -1,6 +1,7 @@
 package com.example.investment.search.news.infrastructure;
 
 import com.example.investment.search.news.controller.dto.NewsResponse;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;
@@ -21,6 +22,10 @@ public class NewsParser {
     }
 
     public List<NewsResponse> parseNews(String responseBody) throws IOException {
+        return setJsonNode(responseBody);
+    }
+
+    private List<NewsResponse> setJsonNode(final String responseBody) throws JsonProcessingException {
         JsonNode rootNode = objectMapper.readTree(responseBody);
         JsonNode items = rootNode.path("items");
 
@@ -28,7 +33,6 @@ public class NewsParser {
         Iterator<JsonNode> elements = items.elements();
 
         extractNews(elements, newsList);
-
         return newsList;
     }
 

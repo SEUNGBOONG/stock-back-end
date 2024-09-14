@@ -1,6 +1,7 @@
 package com.example.investment.search.news.service.client;
 
 import com.example.investment.common.RestTemplateClient;
+
 import org.json.JSONException;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -25,6 +26,10 @@ public class NewsFetcher {
     }
 
     public ResponseEntity<String> fetch(String keyword) throws JSONException {
+        return setURL(keyword);
+    }
+
+    private ResponseEntity<String> setURL(final String keyword) {
         String url = "https://openapi.naver.com/v1/search/news.json?query=" + keyword;
         HttpHeaders headers = setHeader();
         return get(url, headers);
@@ -41,5 +46,4 @@ public class NewsFetcher {
         headers.set("X-Naver-Client-Secret", clientSecret);
         return headers;
     }
-
 }

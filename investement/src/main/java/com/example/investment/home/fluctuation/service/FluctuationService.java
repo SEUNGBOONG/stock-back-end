@@ -28,6 +28,10 @@ public class FluctuationService {
     }
 
     public List<FluctuationDTO> getFluctuation() throws IOException {
+        return getFluctuationDTOS();
+    }
+
+    private List<FluctuationDTO> getFluctuationDTOS() throws IOException {
         ResponseEntity<String> response = fluctuationDataFetcher.fluctuationData();
         return fluctuationParser.getFluctuation(response.getBody());
     }

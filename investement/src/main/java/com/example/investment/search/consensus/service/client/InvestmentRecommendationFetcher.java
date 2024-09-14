@@ -30,6 +30,10 @@ public class InvestmentRecommendationFetcher {
     }
 
     public ResponseEntity<String> investmentRecommendationData(String fid_input_iscd) {
+        return getStringResponseEntity(fid_input_iscd);
+    }
+
+    private ResponseEntity<String> getStringResponseEntity(final String fid_input_iscd) {
         String url = "https://openapi.koreainvestment.com:9443/uapi/domestic-stock/v1/quotations/invest-opinion?"
                 + "FID_COND_MRKT_DIV_CODE=J&FID_COND_SCR_DIV_CODE=16633"
                 + "&FID_INPUT_DATE_1=20231113&FID_INPUT_DATE_2=20240513"
@@ -40,6 +44,7 @@ public class InvestmentRecommendationFetcher {
         HttpEntity<String> entity = new HttpEntity<>(headers);
         return restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
     }
+
     private HttpHeaders setHeader() {
         HttpHeaders headers = new HttpHeaders();
         headers.set("tr_id", trId);
@@ -48,5 +53,4 @@ public class InvestmentRecommendationFetcher {
         headers.set("Authorization", "Bearer " + accessToken);
         return headers;
     }
-
 }

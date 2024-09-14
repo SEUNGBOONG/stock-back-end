@@ -24,6 +24,10 @@ public class InvestmentRecommendationParser {
     }
 
     public InvestmentRecommendationDTO parseInvestmentRecommendation(String responseBody) throws IOException {
+        return getInvestmentRecommendationDTO(responseBody);
+    }
+
+    private InvestmentRecommendationDTO getInvestmentRecommendationDTO(final String responseBody) throws JsonProcessingException {
         Iterator<JsonNode> elements = getJsonNodeElements(responseBody);
         return extractInvestmentRecommendationData(elements);
     }
@@ -31,8 +35,7 @@ public class InvestmentRecommendationParser {
     private Iterator<JsonNode> getJsonNodeElements(final String responseBody) throws JsonProcessingException {
         JsonNode rootNode = objectMapper.readTree(responseBody);
         JsonNode items = rootNode.path("output");
-        Iterator<JsonNode> elements = items.elements();
-        return elements;
+        return items.elements();
     }
 
     private InvestmentRecommendationDTO extractInvestmentRecommendationData(final Iterator<JsonNode> elements) {
@@ -62,7 +65,7 @@ public class InvestmentRecommendationParser {
                 targetPrices.add(targetPrice);
                 stockPrices.add(stockPrice);
                 stockDifferencePrices.add(stockDifferencePrice);
-            } catch (NumberFormatException e) {
+            } catch (NumberFormatException ignored) {
             }
         }
     }
