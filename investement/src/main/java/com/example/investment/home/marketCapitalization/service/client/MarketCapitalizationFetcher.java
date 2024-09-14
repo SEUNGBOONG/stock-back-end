@@ -1,22 +1,20 @@
-package com.example.investment.home.tradingVolume.service.client;
+package com.example.investment.home.marketCapitalization.service.client;
 
 import org.springframework.beans.factory.annotation.Value;
-
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.stereotype.Component;
-
 import org.springframework.web.client.RestTemplate;
 
 @Component
-public class TradingVolumeFetcher {
+public class MarketCapitalizationFetcher {
 
     private final RestTemplate restTemplate;
 
-    public TradingVolumeFetcher(final RestTemplate restTemplate) {
+    public MarketCapitalizationFetcher(final RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
@@ -29,20 +27,33 @@ public class TradingVolumeFetcher {
     @Value("${api.access_token}")
     private String accessToken;
 
-    @Value("${api.tr_id}")
+    @Value("${marketCapitalization.tr_id}")
     private String trId;
 
-
-
-    public ResponseEntity<String> fetchTradingVolumeData() {
-        String url = "https://openapi.koreainvestment.com:9443/uapi/domestic-stock/v1/quotations/volume-rank?FID_COND_MRKT_DIV_CODE=J&FID_COND_SCR_DIV_CODE=20171&FID_INPUT_ISCD=0000&FID_DIV_CLS_CODE=0&FID_BLNG_CLS_CODE=0&FID_TRGT_CLS_CODE=111111111&FID_TRGT_EXLS_CLS_CODE=0000000000&FID_INPUT_PRICE_1=0&FID_INPUT_PRICE_2=0&FID_VOL_CNT=0&FID_INPUT_DATE_1=0";
+    private HttpHeaders setHeader() {
         HttpHeaders headers = new HttpHeaders();
         headers.set("tr_id", trId);
         headers.set("appsecret", appSecret);
         headers.set("appkey", appKey);
         headers.set("Authorization", "Bearer " + accessToken);
-        HttpEntity<String> entity = new HttpEntity<>(headers);
-        return restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        return headers;
     }
 
+    public ResponseEntity<String> marketCapitalizationData() {
+        String url = "https://openapi.koreainvestment.com:9443/uapi/domestic-stock/v1/ranking/market-cap?" +
+                "fid_cond_mrkt_div_code=J&" +
+                "fid_cond_scr_div_code=20174&" +
+                "fid_div_cls_code=0&" +
+                "fid_input_iscd=0000&" +
+                "fid_trgt_cls_code=0&" +
+                "fid_trgt_exls_cls_code=0&" +
+                "fid_input_price_1=&" +
+                "fid_input_price_2=&" +
+                "fid_vol_cnt=";
+        HttpHeaders headers = setHeader();
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+
+        return restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
+    }
 }
