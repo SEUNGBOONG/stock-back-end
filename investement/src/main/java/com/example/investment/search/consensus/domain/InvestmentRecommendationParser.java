@@ -2,8 +2,6 @@ package com.example.investment.search.consensus.domain;
 
 import com.example.investment.search.consensus.controller.dto.InvestmentRecommendationDTO;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -27,12 +25,12 @@ public class InvestmentRecommendationParser {
         return getInvestmentRecommendationDTO(responseBody);
     }
 
-    private InvestmentRecommendationDTO getInvestmentRecommendationDTO(final String responseBody) throws JsonProcessingException {
+    private InvestmentRecommendationDTO getInvestmentRecommendationDTO(final String responseBody) throws IOException {
         Iterator<JsonNode> elements = getJsonNodeElements(responseBody);
         return extractInvestmentRecommendationData(elements);
     }
 
-    private Iterator<JsonNode> getJsonNodeElements(final String responseBody) throws JsonProcessingException {
+    private Iterator<JsonNode> getJsonNodeElements(final String responseBody) throws IOException {
         JsonNode rootNode = objectMapper.readTree(responseBody);
         JsonNode items = rootNode.path("output");
         return items.elements();
@@ -48,7 +46,11 @@ public class InvestmentRecommendationParser {
             appendPricesToLists(targetPrices, stockPrices, stockDifferencePrices, investmentRecommendationItems);
         }
 
-        return createRecommendDataDTO(targetPrices, stockPrices, stockDifferencePrices);
+        String latestTargetPrice = targetPrices.isEmpty() ? "0.00" : formatDoubleAsString(targetPrices.get(targetPrices.size() - 1));
+        String avgStockPrice = formatDoubleAsString(calculateAverage(stockPrices));
+        String avgStockDifferencePrice = formatDoubleAsString(calculateAverage(stockDifferencePrices));
+
+        return new InvestmentRecommendationDTO(latestTargetPrice, avgStockPrice, avgStockDifferencePrice);
     }
 
     private void appendPricesToLists(List<Double> targetPrices, List<Double> stockPrices, List<Double> stockDifferencePrices, JsonNode investmentRecommendationItems) {
@@ -75,14 +77,6 @@ public class InvestmentRecommendationParser {
             if (value.isEmpty()) return false;
         }
         return true;
-    }
-
-    private InvestmentRecommendationDTO createRecommendDataDTO(List<Double> targetPrices, List<Double> stockPrices, List<Double> stockDifferencePrices) {
-        String avgTargetPrice = formatDoubleAsString(calculateAverage(targetPrices));
-        String avgStockPrice = formatDoubleAsString(calculateAverage(stockPrices));
-        String avgStockDifferencePrice = formatDoubleAsString(calculateAverage(stockDifferencePrices));
-
-        return new InvestmentRecommendationDTO(avgTargetPrice, avgStockPrice, avgStockDifferencePrice);
     }
 
     private double calculateAverage(List<Double> values) {
