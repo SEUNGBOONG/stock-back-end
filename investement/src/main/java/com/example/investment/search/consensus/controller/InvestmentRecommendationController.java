@@ -23,12 +23,12 @@ public class InvestmentRecommendationController {
     }
 
     @GetMapping
-    public ResponseEntity<InvestmentRecommendationDTO> getFinancialRatio(@RequestParam String fid_input_iscd) throws IOException {
-        return getInvestmentRecommendationDTOResponseEntity(fid_input_iscd);
+    public ResponseEntity<InvestmentRecommendationDTO> getFinancialRatio(@RequestParam String stockInfo) throws IOException {
+        return getInvestmentRecommendationDTOResponseEntity(stockInfo);
     }
 
-    private ResponseEntity<InvestmentRecommendationDTO> getInvestmentRecommendationDTOResponseEntity(final String fid_input_iscd) throws IOException {
-        InvestmentRecommendationDTO investmentRecommendationDTO = investmentRecommendationService.getInvestmentRecommendation(fid_input_iscd);
+    private ResponseEntity<InvestmentRecommendationDTO> getInvestmentRecommendationDTOResponseEntity(final String stockInfo) throws IOException {
+        InvestmentRecommendationDTO investmentRecommendationDTO = investmentRecommendationService.getInvestmentRecommendation(stockInfo);
         return ResponseEntity.ok(investmentRecommendationDTO);
     }
 }
