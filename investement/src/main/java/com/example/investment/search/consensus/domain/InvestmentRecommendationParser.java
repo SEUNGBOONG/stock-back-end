@@ -1,4 +1,4 @@
-package com.example.investment.search.consensus.infrastructure;
+package com.example.investment.search.consensus.domain;
 
 import com.example.investment.search.consensus.controller.dto.InvestmentRecommendationDTO;
 
