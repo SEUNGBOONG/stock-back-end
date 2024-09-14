@@ -21,8 +21,12 @@ public class InvestmentRecommendationService {
         this.investmentRecommendationParser = investmentRecommendationParser;
         this.investmentRecommendationFetcher = investmentRecommendationFetcher;
     }
-    public InvestmentRecommendationDTO getInvestmentRecommendation(String fidInputIscd) throws IOException {
-        ResponseEntity<String> response = investmentRecommendationFetcher.investmentRecommendationData(fidInputIscd);
+    public InvestmentRecommendationDTO getInvestmentRecommendation(String stockInfo) throws IOException {
+        return getInvestmentRecommendationDTO(stockInfo);
+    }
+
+    private InvestmentRecommendationDTO getInvestmentRecommendationDTO(final String stockInfo) throws IOException {
+        ResponseEntity<String> response = investmentRecommendationFetcher.investmentRecommendationData(stockInfo);
         return investmentRecommendationParser.parseInvestmentRecommendation(response.getBody());
     }
 
