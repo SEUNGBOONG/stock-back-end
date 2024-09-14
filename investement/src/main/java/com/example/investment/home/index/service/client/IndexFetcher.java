@@ -28,7 +28,11 @@ public class IndexFetcher {
         String url = "https://apis.data.go.kr/1160100/service/GetMarketIndexInfoService/getStockMarketIndex?serviceKey="
                 + serviceKey + "&resultType=json&pageNo=1&numOfRows=1&idxNm=코스피";
         HttpHeaders headers = new HttpHeaders();
-        return restTemplateClient.exchange(url, HttpMethod.GET, headers, null);
+        setKOSPI result = new setKOSPI(url, headers);
+        return restTemplateClient.exchange(result.url(), HttpMethod.GET, result.headers(), null);
+    }
+
+    private record setKOSPI(String url, HttpHeaders headers) {
     }
 
     public ResponseEntity<String> getKOSDAQIndexData() {
