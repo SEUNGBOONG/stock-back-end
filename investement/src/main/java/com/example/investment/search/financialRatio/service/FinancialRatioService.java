@@ -25,8 +25,12 @@ public class FinancialRatioService {
         this.financialRatioParser = financialRatioParser;
     }
 
-    public List<FinancialRatioDTO> getFinancialRatio(String fidInputIscd) throws IOException {
-        ResponseEntity<String> response = financialRatioDataFetcher.fetchFinancialRatioData(fidInputIscd);
+    public List<FinancialRatioDTO> getFinancialRatio(String stockInfo) throws IOException {
+        return getFinancialRatioDTOS(stockInfo);
+    }
+
+    private List<FinancialRatioDTO> getFinancialRatioDTOS(final String stockInfo) throws IOException {
+        ResponseEntity<String> response = financialRatioDataFetcher.fetchFinancialRatioData(stockInfo);
         return financialRatioParser.parseFinancialRatio(response.getBody());
     }
 }

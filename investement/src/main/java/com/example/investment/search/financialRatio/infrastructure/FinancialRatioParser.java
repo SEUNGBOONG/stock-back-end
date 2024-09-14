@@ -2,8 +2,10 @@ package com.example.investment.search.financialRatio.infrastructure;
 
 import com.example.investment.search.financialRatio.controller.dto.FinancialRatioDTO;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -22,6 +24,10 @@ public class FinancialRatioParser {
     }
 
     public List<FinancialRatioDTO> parseFinancialRatio(String responseBody) throws IOException {
+        return setJsonNode(responseBody);
+    }
+
+    private List<FinancialRatioDTO> setJsonNode(final String responseBody) throws JsonProcessingException {
         JsonNode rootNode = objectMapper.readTree(responseBody);
         JsonNode items = rootNode.path("output");
 
@@ -29,7 +35,6 @@ public class FinancialRatioParser {
         Iterator<JsonNode> elements = items.elements();
 
         extractFinancialRatioData(elements, financialRatioList);
-
         return financialRatioList;
     }
 
