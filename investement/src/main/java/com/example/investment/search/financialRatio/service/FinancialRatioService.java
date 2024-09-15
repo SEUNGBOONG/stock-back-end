@@ -6,6 +6,7 @@ import com.example.investment.search.financialRatio.infrastructure.FinancialRati
 
 import com.example.investment.search.financialRatio.service.client.FinancialRatioDataFetcher;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,7 @@ public class FinancialRatioService {
     private final FinancialRatioDataFetcher financialRatioDataFetcher;
     private final FinancialRatioParser financialRatioParser;
 
+    @Autowired
     public FinancialRatioService(FinancialRatioDataFetcher financialRatioDataFetcher, FinancialRatioParser financialRatioParser) {
         this.financialRatioDataFetcher = financialRatioDataFetcher;
         this.financialRatioParser = financialRatioParser;

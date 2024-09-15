@@ -5,6 +5,7 @@ import com.example.investment.search.consensus.domain.InvestmentRecommendationPa
 import com.example.investment.search.consensus.service.client.InvestmentRecommendationFetcher;
 
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,7 @@ public class InvestmentRecommendationService {
     private final InvestmentRecommendationParser investmentRecommendationParser;
     private final InvestmentRecommendationFetcher investmentRecommendationFetcher;
 
+    @Autowired
     public InvestmentRecommendationService(final InvestmentRecommendationParser investmentRecommendationParser, final InvestmentRecommendationFetcher investmentRecommendationFetcher) {
         this.investmentRecommendationParser = investmentRecommendationParser;
         this.investmentRecommendationFetcher = investmentRecommendationFetcher;
