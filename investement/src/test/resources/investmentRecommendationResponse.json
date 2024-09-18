@@ -1,0 +1,32 @@
+{
+  "output": [
+    {
+      "stck_bsop_date": "20240502",
+      "invt_opnn": "BUY",
+      "invt_opnn_cls_code": "2",
+      "rgbf_invt_opnn": "BUY",
+      "rgbf_invt_opnn_cls_code": "3",
+      "mbcr_name": "다올투자",
+      "hts_goal_prc": "105000",
+      "stck_prdy_clpr": "77500",
+      "stck_nday_esdg": "-27500",
+      "nday_dprt": "-26.19",
+      "stft_esdg": "-40600",
+      "dprt": "-38.67"
+    },
+    {
+      "stck_bsop_date": "20240502",
+      "invt_opnn": "BUY",
+      "invt_opnn_cls_code": "2",
+      "rgbf_invt_opnn": "BUY",
+      "rgbf_invt_opnn_cls_code": "3",
+      "mbcr_name": "하이투자",
+      "hts_goal_prc": "95000",
+      "stck_prdy_clpr": "77500",
+      "stck_nday_esdg": "-17500",
+      "nday_dprt": "-18.42",
+      "stft_esdg": "-30600",
+      "dprt": "-32.21"
+    }
+    ]
+  }
