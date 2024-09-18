@@ -4,6 +4,7 @@ import com.example.investment.home.index.controller.dto.KOSDAQResponse;
 import com.example.investment.home.index.controller.dto.KOSPIResponse;
 
 import com.example.investment.home.index.infrastructure.IndexParser;
+
 import com.example.investment.home.index.service.client.IndexFetcher;
 
 import jakarta.transaction.Transactional;

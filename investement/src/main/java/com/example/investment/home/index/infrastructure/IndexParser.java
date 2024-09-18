@@ -1,10 +1,12 @@
 package com.example.investment.home.index.infrastructure;
 
 import com.example.investment.home.index.controller.dto.KOSDAQResponse;
+
 import com.example.investment.home.index.controller.dto.KOSPIResponse;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import org.springframework.stereotype.Component;
 
 @Component
@@ -19,7 +21,7 @@ public class IndexParser {
         return getKosdaqResponse(jsonObject);
     }
 
-    private static KOSPIResponse getKospiResponse(final JSONObject indexData) {
+    private KOSPIResponse getKospiResponse(final JSONObject indexData) {
         String indexName = indexData.getString("idxNm");
         String indexValue = indexData.getString("clpr");
         String fluctuationRate = indexData.getString("fltRt");
@@ -27,7 +29,7 @@ public class IndexParser {
         return new KOSPIResponse(indexName, indexValue, fluctuationRate);
     }
 
-    private static KOSDAQResponse getKosdaqResponse(final JSONObject jsonObject) {
+    private KOSDAQResponse getKosdaqResponse(final JSONObject jsonObject) {
         JSONObject indexData = getJsonObject(jsonObject);
         String indexName = indexData.getString("idxNm");
         String indexValue = indexData.getString("clpr");
@@ -36,7 +38,7 @@ public class IndexParser {
         return new KOSDAQResponse(indexName, indexValue, fluctuationRate);
     }
 
-    private static JSONObject getJsonObject(final JSONObject jsonObject) {
+    private JSONObject getJsonObject(final JSONObject jsonObject) {
         JSONArray items = jsonObject
                 .getJSONObject("response")
                 .getJSONObject("body")

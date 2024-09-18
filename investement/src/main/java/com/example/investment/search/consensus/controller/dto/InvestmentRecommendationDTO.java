@@ -5,15 +5,4 @@ public record InvestmentRecommendationDTO(
         String avgStockPrice, //현재가
         String avgStockDifferencePrice //목표가 대비 현재가 차이
 ) {
-    public String avgTargetPrice() {
-        return avgTargetPrice;
-    }
-
-    public String avgStockPrice() {
-        return avgStockPrice;
-    }
-
-    public String avgStockDifferencePrice() {
-        return avgStockDifferencePrice;
-    }
 }

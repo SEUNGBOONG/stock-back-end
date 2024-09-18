@@ -1,6 +1,7 @@
 package com.example.investment.search.consensus.controller;
 
 import com.example.investment.search.consensus.controller.dto.InvestmentRecommendationDTO;
+
 import com.example.investment.search.consensus.service.InvestmentRecommendationService;
 
 import org.springframework.http.ResponseEntity;

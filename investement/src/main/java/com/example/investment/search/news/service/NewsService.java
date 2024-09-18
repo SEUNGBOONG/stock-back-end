@@ -1,12 +1,15 @@
 package com.example.investment.search.news.service;
 
 import com.example.investment.search.news.controller.dto.NewsResponse;
+
 import com.example.investment.search.news.infrastructure.NewsParser;
+
 import com.example.investment.search.news.service.client.NewsFetcher;
 
 import jakarta.transaction.Transactional;
 
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;

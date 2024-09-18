@@ -1,7 +1,9 @@
 package com.example.investment.search.consensus.service;
 
 import com.example.investment.search.consensus.controller.dto.InvestmentRecommendationDTO;
+
 import com.example.investment.search.consensus.domain.InvestmentRecommendationParser;
+
 import com.example.investment.search.consensus.service.client.InvestmentRecommendationFetcher;
 
 import jakarta.transaction.Transactional;

@@ -5,21 +5,23 @@ import com.example.investment.common.RestTemplateClient;
 import org.json.JSONException;
 
 import org.springframework.beans.factory.annotation.Value;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.stereotype.Component;
 
 @Component
 public class NewsFetcher {
-
-    private final RestTemplateClient restTemplateClient;
 
     @Value("${naver.api.clientId}")
     private String clientId;
 
     @Value("${naver.api.clientSecret}")
     private String clientSecret;
+
+    private final RestTemplateClient restTemplateClient;
 
     public NewsFetcher(final RestTemplateClient restTemplateClient) {
         this.restTemplateClient = restTemplateClient;
