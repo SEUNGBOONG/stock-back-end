@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import static java.lang.Double.parseDouble;
+
 @Component
 public class InvestmentRecommendationParser {
 
@@ -31,8 +33,7 @@ public class InvestmentRecommendationParser {
     }
 
     private Iterator<JsonNode> getJsonNodeElements(final String responseBody) throws IOException {
-        JsonNode rootNode = objectMapper.readTree(responseBody);
-        JsonNode items = rootNode.path("output");
+        JsonNode items = objectMapper.readTree(responseBody).path("output");
         return items.elements();
     }
 
@@ -46,11 +47,11 @@ public class InvestmentRecommendationParser {
             appendPricesToLists(targetPrices, stockPrices, stockDifferencePrices, investmentRecommendationItems);
         }
 
-        String latestTargetPrice = targetPrices.isEmpty() ? "0.00" : formatDoubleAsString(targetPrices.get(targetPrices.size() - 1));
-        String avgStockPrice = formatDoubleAsString(calculateAverage(stockPrices));
+        String latestTargetPrice = formatDoubleAsString(targetPrices.get(targetPrices.size() - 1));
+        String stockPrice = formatDoubleAsString(stockPrices.get(0));
         String avgStockDifferencePrice = formatDoubleAsString(calculateAverage(stockDifferencePrices));
 
-        return new InvestmentRecommendationDTO(latestTargetPrice, avgStockPrice, avgStockDifferencePrice);
+        return new InvestmentRecommendationDTO(latestTargetPrice, stockPrice, avgStockDifferencePrice);
     }
 
     private void appendPricesToLists(List<Double> targetPrices, List<Double> stockPrices, List<Double> stockDifferencePrices, JsonNode investmentRecommendationItems) {
@@ -60,9 +61,9 @@ public class InvestmentRecommendationParser {
 
         if (areValuesValid(targetPriceStr, stockPriceStr, stockDifferencePriceStr)) {
             try {
-                double targetPrice = Double.parseDouble(targetPriceStr);
-                double stockPrice = Double.parseDouble(stockPriceStr);
-                double stockDifferencePrice = Double.parseDouble(stockDifferencePriceStr);
+                double targetPrice = parseDouble(targetPriceStr);
+                double stockPrice = parseDouble(stockPriceStr);
+                double stockDifferencePrice = parseDouble(stockDifferencePriceStr);
 
                 targetPrices.add(targetPrice);
                 stockPrices.add(stockPrice);
