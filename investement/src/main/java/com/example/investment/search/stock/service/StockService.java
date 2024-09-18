@@ -1,12 +1,15 @@
 package com.example.investment.search.stock.service;
 
 import com.example.investment.search.stock.controller.dto.StockResponse;
+
 import com.example.investment.search.stock.infrastructure.StockParser;
 
 import com.example.investment.search.stock.service.client.StockDataFetcher;
 
 import jakarta.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 

@@ -14,7 +14,7 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class FluctuationDataFetcher {
 
-    private RestTemplate restTemplate;
+    private final RestTemplate restTemplate;
 
     @Value("${api.app_key}")
     private String appKey;
@@ -49,7 +49,7 @@ public class FluctuationDataFetcher {
         headers.set("Content-Type", "application/json");
     }
 
-    private static String setURL() {
+    private String setURL() {
         return "https://openapi.koreainvestment.com:9443/uapi/domestic-stock/v1/ranking/fluctuation?"
                 + "fid_cond_mrkt_div_code=J&"
                 + "fid_cond_scr_div_code=20170&"

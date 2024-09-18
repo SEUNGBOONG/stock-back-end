@@ -3,6 +3,7 @@ package com.example.investment.home.tradingVolume.infrastructure;
 import com.example.investment.home.tradingVolume.controller.dto.TradingVolumeDTO;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -17,6 +18,7 @@ import java.util.List;
 public class TradingVolumeParser {
 
     private static final int LIST_SIZE = 5;
+
     private final ObjectMapper objectMapper;
 
     public TradingVolumeParser(final ObjectMapper objectMapper) {

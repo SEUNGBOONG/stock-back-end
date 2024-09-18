@@ -1,6 +1,7 @@
 package com.example.investment.search.stock.controller;
 
 import com.example.investment.search.stock.controller.dto.StockResponse;
+
 import com.example.investment.search.stock.service.StockService;
 
 import org.springframework.http.ResponseEntity;
