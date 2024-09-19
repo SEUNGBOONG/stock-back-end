@@ -29,8 +29,7 @@ public class NewsParser {
     }
 
     private List<NewsResponse> setJsonNode(final String responseBody) throws JsonProcessingException {
-        JsonNode rootNode = objectMapper.readTree(responseBody);
-        JsonNode items = rootNode.path("items");
+        JsonNode items = objectMapper.readTree(responseBody).path("items");
 
         List<NewsResponse> newsList = new ArrayList<>();
         Iterator<JsonNode> elements = items.elements();

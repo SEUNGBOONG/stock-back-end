@@ -1,0 +1,16 @@
+{
+  "output": [
+    {
+      "data_rank": "1",
+      "stck_prpr": "150000",
+      "hts_kor_isnm": "Stock Name 1",
+      "stck_avls": "5000000000"
+    },
+    {
+      "data_rank": "2",
+      "stck_prpr": "250000",
+      "hts_kor_isnm": "Stock Name 2",
+      "stck_avls": "10000000000"
+    }
+  ]
+}

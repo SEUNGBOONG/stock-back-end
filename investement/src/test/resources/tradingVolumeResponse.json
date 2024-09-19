@@ -1,0 +1,20 @@
+{
+  "output": [
+    {
+      "hts_kor_isnm": "Stock Name 1",
+      "data_rank": "1",
+      "stck_prpr": "10000",
+      "acml_vol": "1000000",
+      "prdy_vol": "20000",
+      "vol_inrt": "10.0"
+    },
+    {
+      "hts_kor_isnm": "Stock Name 2",
+      "data_rank": "2",
+      "stck_prpr": "20000",
+      "acml_vol": "2000000",
+      "prdy_vol": "30000",
+      "vol_inrt": "20.0"
+    }
+  ]
+}

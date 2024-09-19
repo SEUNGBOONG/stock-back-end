@@ -1,0 +1,15 @@
+{
+  "response": {
+    "body": {
+      "items": {
+        "item": [
+          {
+            "idxNm": "KOSDAQ",
+            "clpr": "900",
+            "fltRt": "0.3"
+          }
+        ]
+      }
+    }
+  }
+}

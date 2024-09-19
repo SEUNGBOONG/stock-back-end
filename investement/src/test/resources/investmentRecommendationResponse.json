@@ -1,0 +1,14 @@
+{
+  "output": [
+    {
+      "hts_goal_prc": "105000",
+      "stck_prdy_clpr": "77500",
+      "stck_nday_esdg": "-27500"
+    },
+    {
+      "hts_goal_prc": "95000",
+      "stck_prdy_clpr": "77500",
+      "stck_nday_esdg": "-17500"
+    }
+  ]
+}

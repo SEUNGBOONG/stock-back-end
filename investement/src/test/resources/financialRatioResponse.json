@@ -1,0 +1,16 @@
+{
+  "output": [
+    {
+      "stac_yymm": "202406",
+      "grs": "100.0",
+      "bsop_prfi_inrt": "1.0",
+      "ntin_inrt": "2.0",
+      "roe_val": "3.0",
+      "eps": "1000.00",
+      "sps": "2000",
+      "bps": "4.00",
+      "rsrv_rate": "3000.0",
+      "lblt_rate": "4000.0"
+    }
+  ]
+}

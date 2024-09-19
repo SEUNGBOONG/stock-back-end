@@ -29,8 +29,7 @@ public class FinancialRatioParser {
     }
 
     private List<FinancialRatioDTO> setJsonNode(final String responseBody) throws JsonProcessingException {
-        JsonNode rootNode = objectMapper.readTree(responseBody);
-        JsonNode items = rootNode.path("output");
+        JsonNode items = objectMapper.readTree(responseBody).path("output");
 
         List<FinancialRatioDTO> financialRatioList = new ArrayList<>();
         Iterator<JsonNode> elements = items.elements();
