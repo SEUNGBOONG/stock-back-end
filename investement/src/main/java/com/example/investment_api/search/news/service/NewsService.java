@@ -8,6 +8,7 @@ import com.example.investment_api.search.news.service.client.NewsFetcher;
 
 import jakarta.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ public class NewsService {
     private final NewsFetcher newsFetcher;
     private final NewsParser newsParser;
 
+    @Autowired
     public NewsService(final NewsFetcher newsFetcher, final NewsParser newsParser) {
         this.newsFetcher = newsFetcher;
         this.newsParser = newsParser;
