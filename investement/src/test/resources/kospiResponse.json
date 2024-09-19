@@ -1,0 +1,15 @@
+{
+  "response": {
+    "body": {
+      "items": {
+        "item": [
+          {
+            "idxNm": "KOSPI",
+            "clpr": "3000",
+            "fltRt": "-0.5"
+          }
+        ]
+      }
+    }
+  }
+}

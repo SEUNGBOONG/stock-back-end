@@ -24,7 +24,7 @@ public class ConsensusDomainTest {
     }
 
     @Test
-    void 컨센서스_반환값_테스트 () throws IOException {
+    void 컨센서스_dto_반환값_테스트 () throws IOException {
         String jsonResponse= new String(Files.readAllBytes(Paths.get("src/test/resources/InvestmentRecommendationResponse.json")));
 
         InvestmentRecommendationDTO dto = parser.parseInvestmentRecommendation(jsonResponse);

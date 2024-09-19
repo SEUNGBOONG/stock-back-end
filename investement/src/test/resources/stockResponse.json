@@ -1,0 +1,10 @@
+{
+  "output": {
+    "bstp_kor_isnm": "name",
+    "stck_prpr": "1000",
+    "prdy_vrss": "2000",
+    "prdy_ctrt": "1.00",
+    "stck_hgpr": "3000",
+    "stck_lwpr": "4000"
+  }
+}
