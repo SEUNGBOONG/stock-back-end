@@ -26,8 +26,7 @@ public class StockParser {
     }
 
     private JsonNode setJson(final String responseBody) throws JsonProcessingException {
-        JsonNode items = objectMapper.readTree(responseBody).path("output");
-        return items;
+        return objectMapper.readTree(responseBody).path("output");
     }
 
     private StockResponse toDTO(final JsonNode stockItem) {
