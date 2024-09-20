@@ -1,9 +1,11 @@
 package com.example.investment_api.home.marketCapitalization.infrastructure;
 
 import com.example.investment_api.home.marketCapitalization.controller.dto.MarketCapitalizationDTO;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -15,6 +17,7 @@ import java.util.List;
 public class MarketCapitalizationParser {
 
     private static final int LIST_SIZE = 5;
+
     private final ObjectMapper objectMapper;
 
     public MarketCapitalizationParser(final ObjectMapper objectMapper) {
