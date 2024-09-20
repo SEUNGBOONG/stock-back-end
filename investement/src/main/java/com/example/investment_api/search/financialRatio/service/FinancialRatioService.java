@@ -23,15 +23,17 @@ public class FinancialRatioService {
     private final StockRepository stockRepository;
 
     @Autowired
-    public FinancialRatioService(FinancialRatioDataFetcher financialRatioDataFetcher,
-                                 FinancialRatioParser financialRatioParser,
-                                 StockRepository stockRepository) {
+    public FinancialRatioService(FinancialRatioDataFetcher financialRatioDataFetcher, FinancialRatioParser financialRatioParser, StockRepository stockRepository) {
         this.financialRatioDataFetcher = financialRatioDataFetcher;
         this.financialRatioParser = financialRatioParser;
         this.stockRepository = stockRepository;
     }
 
     public List<FinancialRatioDTO> getFinancialRatio(String stockName) throws IOException {
+        return getFinancialRatioDTOS(stockName);
+    }
+
+    private List<FinancialRatioDTO> getFinancialRatioDTOS(final String stockName) throws IOException {
         Stock stock = stockRepository.findByStockName(stockName)
                 .orElseThrow(() -> new RuntimeException("주식명: " + stockName + "을(를) 찾을 수 없습니다."));
         ResponseEntity<String> response = financialRatioDataFetcher.fetchFinancialRatioData(stock.getStockCode());
