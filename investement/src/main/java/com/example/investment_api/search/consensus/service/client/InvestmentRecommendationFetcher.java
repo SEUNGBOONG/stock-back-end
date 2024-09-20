@@ -14,8 +14,6 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class InvestmentRecommendationFetcher {
 
-    private final RestTemplate restTemplate;
-
     @Value("${consensus.tr_id}")
     private String trId;
 
@@ -27,6 +25,8 @@ public class InvestmentRecommendationFetcher {
 
     @Value("${api.access_token}")
     private String accessToken;
+
+    private final RestTemplate restTemplate;
 
     public InvestmentRecommendationFetcher(final RestTemplate restTemplate) {
         this.restTemplate = restTemplate;

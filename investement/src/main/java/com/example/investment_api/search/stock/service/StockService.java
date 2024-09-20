@@ -2,13 +2,19 @@ package com.example.investment_api.search.stock.service;
 
 import com.example.investment_api.common.stockData.Stock;
 import com.example.investment_api.common.stockData.StockRepository;
+
 import com.example.investment_api.search.stock.controller.dto.StockResponse;
+
 import com.example.investment_api.search.stock.infrastructure.StockParser;
+
 import com.example.investment_api.search.stock.service.client.StockDataFetcher;
+
 import jakarta.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.http.ResponseEntity;
+
 
 import java.io.IOException;
 
@@ -17,7 +23,9 @@ import java.io.IOException;
 public class StockService {
 
     private final StockRepository stockRepository;
+
     private final StockDataFetcher stockDataFetcher;
+
     private final StockParser stockParser;
 
     @Autowired
@@ -28,6 +36,10 @@ public class StockService {
     }
 
     public StockResponse getStockResponse(final String stockName) throws IOException {
+        return getResponse(stockName);
+    }
+
+    private StockResponse getResponse(final String stockName) throws IOException {
         Stock stock = stockRepository.findByStockName(stockName)
                 .orElseThrow(() -> new RuntimeException("주식명: " + stockName + "을(를) 찾을 수 없습니다."));
         ResponseEntity<String> response = stockDataFetcher.fetchStockData(stock.getStockCode());
