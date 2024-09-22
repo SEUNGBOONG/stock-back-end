@@ -5,7 +5,7 @@ public record TradingVolumeDTO(
         String rank, //순위
         String currentPrice, //현재가
         String totalVolume,//전체
-        String prevVolume,
-        String volumeChangeRate
+        String prevVolume, //이전 거래량
+        String volumeChangeRate //거래량
 ) {
 }

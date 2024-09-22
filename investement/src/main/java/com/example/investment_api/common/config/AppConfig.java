@@ -1,4 +1,4 @@
-package com.example.investment_api.common;
+package com.example.investment_api.common.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

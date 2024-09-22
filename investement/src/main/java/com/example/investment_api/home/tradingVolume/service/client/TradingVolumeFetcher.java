@@ -14,12 +14,6 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class TradingVolumeFetcher {
 
-    private final RestTemplate restTemplate;
-
-    public TradingVolumeFetcher(final RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
-    }
-
     @Value("${api.app_secret}")
     private String appSecret;
 
@@ -31,6 +25,12 @@ public class TradingVolumeFetcher {
 
     @Value("${api.tr_id}")
     private String trId;
+
+    private final RestTemplate restTemplate;
+
+    public TradingVolumeFetcher(final RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
 
     public ResponseEntity<String> fetchTradingVolumeData() {
         return getStringResponseEntity();

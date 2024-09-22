@@ -1,5 +1,7 @@
 package com.example.investment_api.search.consensus.service;
 
+import com.example.investment_api.common.stockData.Stock;
+import com.example.investment_api.common.stockData.StockRepository;
 import com.example.investment_api.search.consensus.controller.dto.InvestmentRecommendationDTO;
 
 import com.example.investment_api.search.consensus.domain.InvestmentRecommendationParser;
@@ -18,20 +20,35 @@ import java.io.IOException;
 public class InvestmentRecommendationService {
 
     private final InvestmentRecommendationParser investmentRecommendationParser;
+
     private final InvestmentRecommendationFetcher investmentRecommendationFetcher;
 
+    private final StockRepository stockRepository;
+
     @Autowired
-    public InvestmentRecommendationService(final InvestmentRecommendationParser investmentRecommendationParser, final InvestmentRecommendationFetcher investmentRecommendationFetcher) {
+    public InvestmentRecommendationService(final InvestmentRecommendationParser investmentRecommendationParser, final InvestmentRecommendationFetcher investmentRecommendationFetcher, final StockRepository stockRepository) {
         this.investmentRecommendationParser = investmentRecommendationParser;
         this.investmentRecommendationFetcher = investmentRecommendationFetcher;
-    }
-    public InvestmentRecommendationDTO getInvestmentRecommendation(String stockInfo) throws IOException {
-        return getInvestmentRecommendationDTO(stockInfo);
+        this.stockRepository = stockRepository;
     }
 
-    private InvestmentRecommendationDTO getInvestmentRecommendationDTO(final String stockInfo) throws IOException {
-        ResponseEntity<String> response = investmentRecommendationFetcher.investmentRecommendationData(stockInfo);
+    public InvestmentRecommendationDTO getInvestmentRecommendation(String stockName) throws IOException {
+        return getInvestmentRecommendationDTO(stockName);
+    }
+
+    private InvestmentRecommendationDTO getInvestmentRecommendationDTO(final String stockName) throws IOException {
+        String stockCode = getStockCodeByName(stockName);
+        ResponseEntity<String> response = investmentRecommendationFetcher.investmentRecommendationData(stockCode);
         return investmentRecommendationParser.parseInvestmentRecommendation(response.getBody());
+    }
+
+    private String getStockCodeByName(String stockName) {
+        return stockRepository.findByStockName(stockName)
+                .map(Stock::getStockCode)
+                .orElseThrow(() -> {
+                    System.out.println("주식명: " + stockName + "을(를) 찾을 수 없습니다.");
+                    return new RuntimeException("해당 주식명을 찾을 수 없습니다: " + stockName);
+                });
     }
 
 }

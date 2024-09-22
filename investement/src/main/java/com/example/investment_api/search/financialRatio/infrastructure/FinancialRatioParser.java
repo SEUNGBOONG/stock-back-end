@@ -18,6 +18,7 @@ import java.util.List;
 public class FinancialRatioParser {
 
     private static final int LIST_SIZE = 3;
+
     private final ObjectMapper objectMapper;
 
     public FinancialRatioParser(final ObjectMapper objectMapper) {

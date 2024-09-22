@@ -14,8 +14,6 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class FinancialRatioDataFetcher {
 
-    private final RestTemplate restTemplate;
-
     @Value("${financialRatio.tr_id}")
     private String trId;
 
@@ -27,6 +25,8 @@ public class FinancialRatioDataFetcher {
 
     @Value("${api.access_token}")
     private String accessToken;
+
+    private final RestTemplate restTemplate;
 
     public FinancialRatioDataFetcher(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;

@@ -22,6 +22,7 @@ import java.util.List;
 public class TradingVolumeService {
 
     private final TradingVolumeFetcher tradingVolumeFetcher;
+
     private final TradingVolumeParser tradingVolumeParser;
 
     @Autowired

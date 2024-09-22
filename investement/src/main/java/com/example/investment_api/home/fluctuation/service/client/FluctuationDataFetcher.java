@@ -33,6 +33,10 @@ public class FluctuationDataFetcher {
     }
 
     public ResponseEntity<String> fluctuationData() {
+        return getStringResponseEntity();
+    }
+
+    private ResponseEntity<String> getStringResponseEntity() {
         String url = setURL();
         HttpHeaders headers = new HttpHeaders();
         setHeader(headers);

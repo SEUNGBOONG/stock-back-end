@@ -21,6 +21,7 @@ import java.util.List;
 public class NewsService {
 
     private final NewsFetcher newsFetcher;
+
     private final NewsParser newsParser;
 
     @Autowired

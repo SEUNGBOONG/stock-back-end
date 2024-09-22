@@ -1,6 +1,6 @@
 package com.example.investment_api.search.news.service.client;
 
-import com.example.investment_api.common.RestTemplateClient;
+import com.example.investment_api.common.config.RestTemplateClient;
 
 import org.json.JSONException;
 
