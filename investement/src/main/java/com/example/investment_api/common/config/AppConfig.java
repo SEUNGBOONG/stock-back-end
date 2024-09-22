@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 
 import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 
 @Configuration
 public class AppConfig {
@@ -17,5 +18,10 @@ public class AppConfig {
     @Bean
     public ObjectMapper objectMapper() {
         return new ObjectMapper();
+    }
+
+    @Bean
+    public ServerEndpointExporter serverEndpointExporter() {
+        return new ServerEndpointExporter();
     }
 }
