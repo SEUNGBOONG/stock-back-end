@@ -10,6 +10,8 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import java.io.IOException;
+
 @Component
 public class IndexWebSocketHandler extends TextWebSocketHandler {
 
@@ -21,6 +23,10 @@ public class IndexWebSocketHandler extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+        webSocketSession(session);
+    }
+
+    private void webSocketSession(final WebSocketSession session) throws IOException, InterruptedException {
         while (session.isOpen()) {
             KOSPIResponse kospi = indexService.getKOSPIIndex();
             KOSDAQResponse kosdaq = indexService.getKOSDAQIndex();
