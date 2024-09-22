@@ -1,14 +1,13 @@
 package com.example.investment_api.member.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@AllArgsConstructor
 public class Member {
 
     @Id
@@ -25,8 +24,16 @@ public class Member {
     private String memberPassword;
 
     @Column(nullable = false)
-    private String memberNickname;
+    private String memberNickName;
 
     @Column(nullable = false)
     private int annualIncome;
+
+    public Member(String memberEmail, String memberName, String memberPassword, String memberNickName, int annualIncome) {
+        this.memberEmail = memberEmail;
+        this.memberName = memberName;
+        this.memberPassword = memberPassword;
+        this.memberNickName = memberNickName;
+        this.annualIncome = annualIncome;
+    }
 }
