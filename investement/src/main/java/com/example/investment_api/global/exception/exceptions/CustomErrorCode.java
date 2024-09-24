@@ -1,7 +1,9 @@
 package com.example.investment_api.global.exception.exceptions;
 
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
+@Getter
 public enum CustomErrorCode {
 
     ALREADY_EXIST_MEMBER_EMAIL(HttpStatus.BAD_REQUEST, "A001", "유저 이메일 이미 존재합니다.");
@@ -16,15 +18,4 @@ public enum CustomErrorCode {
         this.message = message;
     }
 
-    public HttpStatus getHttpStatus() {
-        return httpStatus;
-    }
-
-    public String getCustomCode() {
-        return customCode;
-    }
-
-    public String getMessage() {
-        return message;
-    }
 }

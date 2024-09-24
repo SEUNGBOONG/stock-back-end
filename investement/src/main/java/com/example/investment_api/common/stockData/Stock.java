@@ -4,8 +4,14 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+
 import jakarta.validation.constraints.NotNull;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 @Entity
 @Table(name="STOCK_INFO")
 public class Stock {
@@ -17,19 +23,4 @@ public class Stock {
     @Column
     private String stockName;
 
-    public String getStockCode() {
-        return stockCode;
-    }
-
-    public String getStockName() {
-        return stockName;
-    }
-
-    public void setStockCode(String stockCode) {
-        this.stockCode = stockCode;
-    }
-
-    public void setStockName(String stockName) {
-        this.stockName = stockName;
-    }
 }

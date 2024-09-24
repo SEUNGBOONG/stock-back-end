@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.example.investement.main.iml" filepath="$PROJECT_DIR$/.idea/modules/com.example.investement.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/investement/investement.iml" filepath="$PROJECT_DIR$/investement/investement.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/stock-back-end.iml" filepath="$PROJECT_DIR$/.idea/stock-back-end.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/stock-back-end.investement.main.iml" filepath="$PROJECT_DIR$/.idea/modules/stock-back-end.investement.main.iml" />
     </modules>
   </component>
 </project>
