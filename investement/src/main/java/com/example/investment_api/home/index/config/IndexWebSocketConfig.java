@@ -1,18 +1,19 @@
-package com.example.investment_api.common.config;
+package com.example.investment_api.home.index.config;
 
-import com.example.investment_api.home.index.infrastructure.IndexWebSocketHandler;
 import org.springframework.context.annotation.Configuration;
+
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
+
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 
 @Configuration
 @EnableWebSocket
-public class WebSocketConfig implements WebSocketConfigurer {
+public class IndexWebSocketConfig implements WebSocketConfigurer {
 
     private final IndexWebSocketHandler indexWebSocketHandler;
 
-    public WebSocketConfig(final IndexWebSocketHandler indexWebSocketHandler) {
+    public IndexWebSocketConfig(final IndexWebSocketHandler indexWebSocketHandler) {
         this.indexWebSocketHandler = indexWebSocketHandler;
     }
 

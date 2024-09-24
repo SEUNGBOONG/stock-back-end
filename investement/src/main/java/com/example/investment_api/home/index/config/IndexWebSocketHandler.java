@@ -1,4 +1,4 @@
-package com.example.investment_api.home.index.infrastructure;
+package com.example.investment_api.home.index.config;
 
 import com.example.investment_api.home.index.controller.dto.KOSDAQResponse;
 import com.example.investment_api.home.index.controller.dto.KOSPIResponse;
@@ -6,6 +6,7 @@ import com.example.investment_api.home.index.controller.dto.KOSPIResponse;
 import com.example.investment_api.home.index.service.IndexService;
 
 import org.springframework.stereotype.Component;
+
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
@@ -28,10 +29,10 @@ public class IndexWebSocketHandler extends TextWebSocketHandler {
 
     private void webSocketSession(final WebSocketSession session) throws IOException, InterruptedException {
         while (session.isOpen()) {
-            KOSPIResponse kospi = indexService.getKOSPIIndex();
+            KOSPIResponse KOSPI = indexService.getKOSPIIndex();
             KOSDAQResponse kosdaq = indexService.getKOSDAQIndex();
             String message = String.format("{\"kospi\": %s, \"kosdaq\": %s}",
-                    kospi.toString(),
+                    KOSPI.toString(),
                     kosdaq.toString());
             if (session.isOpen()) {
                 session.sendMessage(new TextMessage(message));

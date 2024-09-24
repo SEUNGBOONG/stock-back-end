@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>시가총액 데이터</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+    <script>
+        let webSocket;
+
+        function connectWebSocket() {
+            webSocket = new WebSocket("ws://localhost:8080/ws/marketCapitalization?approval_key=1de731cd-c41d-457f-bff8-1e5b0fa95327");
+
+            webSocket.onmessage = function(event) {
+                const data = JSON.parse(event.data);
+                updateTable(data);
+            };
+
+            webSocket.onclose = function() {
+                console.log("WebSocket 연결이 종료되었습니다.");
+                setTimeout(connectWebSocket, 1000); // 1초 후 재연결 시도
+            };
+
+            webSocket.onerror = function(error) {
+                console.error("WebSocket 에러:", error);
+            };
+        }
+
+        function updateTable(data) {
+            const tableBody = document.getElementById("market-capitalization-body");
+            tableBody.innerHTML = ""; // 이전 데이터 초기화
+
+            data.forEach((item, index) => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${item.stockName}</td>
+                    <td>${item.stockPrice}</td>
+                    <td>${item.marketCapitalization}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        window.onload = connectWebSocket;
+    </script>
+</head>
+<body>
+
+<h1>시가총액 데이터</h1>
+<table>
+    <thead>
+    <tr>
+        <th>순위</th>
+        <th>주식 이름</th>
+        <th>주식 가격</th>
+        <th>시가총액</th>
+    </tr>
+    </thead>
+    <tbody id="market-capitalization-body">
+    <!-- 실시간 데이터가 여기에 삽입됩니다. -->
+    </tbody>
+</table>
+
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>WebSocket Test</title>
+</head>
+<body>
+<h1>KOSPI 및 KOSDAQ 데이터</h1>
+<pre id="output"></pre>
+<script>
+    const socket = new WebSocket('ws://localhost:8080/ws/index');
+
+    socket.onopen = function() {
+        console.log('WebSocket 연결됨');
+    };
+
+    socket.onmessage = function(event) {
+        const data = JSON.parse(event.data);
+        document.getElementById('output').textContent += `KOSPI: ${JSON.stringify(data.kospi)}\n`;
+        document.getElementById('output').textContent += `KOSDAQ: ${JSON.stringify(data.kosdaq)}\n`;
+    };
+
+    socket.onclose = function() {
+        console.log('WebSocket 연결이 종료됨');
+    };
+
+    socket.onerror = function(error) {
+        console.error('WebSocket 오류:', error);
+    };
+</script>
+</body>
+</html>
