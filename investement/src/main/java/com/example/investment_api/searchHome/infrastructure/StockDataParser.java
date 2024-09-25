@@ -43,12 +43,11 @@ public class StockDataParser {
             String stockPrice = marketCapitalizationOutput.path("stck_prpr").asText();
             String stockName = marketCapitalizationOutput.path("hts_kor_isnm").asText();
             String prevChangePrice = marketCapitalizationOutput.path("prdy_vrss").asText();
-            String prevSign = marketCapitalizationOutput.path("prdy_vrss_sign").asText();
             String prevChangeRate = marketCapitalizationOutput.path("prdy_ctrt").asText();
             String tradingVolume = marketCapitalizationOutput.path("acml_vol").asText();
             String marketCapitalization = marketCapitalizationOutput.path("stck_avls").asText();
 
-            marketCapitalizationDTOList.add(new StockDataDTO(rank, stockName, stockPrice, prevChangePrice, prevSign, prevChangeRate, marketCapitalization, tradingVolume));
+            marketCapitalizationDTOList.add(new StockDataDTO(rank, stockName, stockPrice, prevChangePrice, prevChangeRate, marketCapitalization, tradingVolume));
             count++;
         }
     }
