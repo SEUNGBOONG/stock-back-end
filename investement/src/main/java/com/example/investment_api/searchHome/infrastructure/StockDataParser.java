@@ -13,8 +13,6 @@ import java.util.List;
 
 @Component
 public class StockDataParser {
-
-    private static final int LIST_SIZE = 10;
     private final ObjectMapper objectMapper;
 
     public StockDataParser(final ObjectMapper objectMapper) {
@@ -35,9 +33,7 @@ public class StockDataParser {
     }
 
     private void buildDataList(List<StockDataDTO> marketCapitalizationDTOList, Iterator<JsonNode> elements) {
-        int count = 0;
-
-        while (isUnderLimit(elements, count)) {
+        while (elements.hasNext()) {
             JsonNode marketCapitalizationOutput = elements.next();
             String rank = marketCapitalizationOutput.path("data_rank").asText();
             String stockPrice = marketCapitalizationOutput.path("stck_prpr").asText();
@@ -48,16 +44,11 @@ public class StockDataParser {
             String marketCapitalization = marketCapitalizationOutput.path("stck_avls").asText();
 
             marketCapitalizationDTOList.add(new StockDataDTO(rank, stockName, stockPrice, prevChangePrice, prevChangeRate, marketCapitalization, tradingVolume));
-            count++;
         }
     }
 
     private JsonNode getJsonNode(final String responseBody) throws JsonProcessingException {
         JsonNode rootNode = objectMapper.readTree(responseBody);
         return rootNode.path("output");
-    }
-
-    private boolean isUnderLimit(Iterator<JsonNode> elements, int count) {
-        return elements.hasNext() && count < LIST_SIZE;
     }
 }

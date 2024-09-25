@@ -23,13 +23,14 @@ public class StockDataService {
         this.stockDataParser = stockDataParser;
     }
 
-    public List<StockDataDTO> getStockData() throws IOException {
-        return getStockDataDTOS();
-    }
-
-    private List<StockDataDTO> getStockDataDTOS() throws IOException {
+    public List<StockDataDTO> getStockDataDTO(int page, int size) throws IOException {
         ResponseEntity<String> response = getStringResponseEntity();
-        return stockDataParser.parse(response.getBody());
+        List<StockDataDTO> allStockData = stockDataParser.parse(response.getBody());
+
+        int start = (page - 1) * size;
+        int end = Math.min(start + size, allStockData.size());
+
+        return allStockData.subList(start, end);
     }
 
     private ResponseEntity<String> getStringResponseEntity() {
