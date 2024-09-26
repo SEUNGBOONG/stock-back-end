@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fluctuation WebSocket Test</title>
+</head>
+<body>
+<h1>Stock Fluctuation Data</h1>
+<div id="fluctuation-data"></div>
+
+<script>
+    const socket = new WebSocket("ws://localhost:8080/ws/fluctuation?approval_key=1de731cd-c41d-457f-bff8-1e5b0fa95327");
+
+    socket.onopen = function(event) {
+        console.log("WebSocket connection established.");
+    };
+
+    socket.onmessage = function(event) {
+        const fluctuationData = JSON.parse(event.data);
+        const displayDiv = document.getElementById("fluctuation-data");
+
+        displayDiv.innerHTML = '';
+        fluctuationData.forEach(stock => {
+            const stockInfo = `
+                    <p>
+                        <strong>주식 이름:</strong> ${stock.stockName}<br>
+                        <strong>순위:</strong> ${stock.rank}<br>
+                        <strong>현재가:</strong> ${stock.currentPrice}<br>
+                        <strong>전일대비:</strong> ${stock.prevChangePrice}<br>
+                        <strong>전일 대비 부호:</strong> ${stock.prevSign}<br>
+                        <strong>전일 대비율:</strong> ${stock.prevChangeRate}%<br>
+                    </p>
+                `;
+            displayDiv.innerHTML += stockInfo;
+        });
+    };
+
+    socket.onclose = function(event) {
+        console.log("WebSocket connection closed.");
+    };
+
+    socket.onerror = function(error) {
+        console.error("WebSocket error observed:", error);
+    };
+</script>
+</body>
+</html>

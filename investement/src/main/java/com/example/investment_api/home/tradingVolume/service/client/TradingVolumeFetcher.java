@@ -23,6 +23,7 @@ public class TradingVolumeFetcher {
     @Value("${api.access_token}")
     private String accessToken;
 
+
     @Value("${api.tr_id}")
     private String trId;
 

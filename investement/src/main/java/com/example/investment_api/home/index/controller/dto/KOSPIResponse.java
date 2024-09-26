@@ -5,4 +5,10 @@ public record KOSPIResponse(
         String indexValue,
         String fluctuationRate
 ) {
+    @Override
+    public String toString() {
+        return String.format("{\"indexName\":\"%s\", \"indexValue\":\"%s\", \"fluctuationRate\":\"%s\"}",
+                indexName, indexValue, fluctuationRate);
+    }
+
 }
