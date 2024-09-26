@@ -1,6 +1,6 @@
-package com.example.investment_api.login.infrastructure;
+package com.example.investment_api.member.infrastructure.auth;
 
-import com.example.investment_api.login.auth.TokenProvider;
+import com.example.investment_api.member.domain.auth.TokenProvider;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

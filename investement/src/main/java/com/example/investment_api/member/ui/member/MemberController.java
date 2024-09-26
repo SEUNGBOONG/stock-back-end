@@ -1,9 +1,9 @@
-package com.example.investment_api.member.controller;
+package com.example.investment_api.member.ui.member;
 
-import com.example.investment_api.member.controller.dto.SignUpRequest;
-import com.example.investment_api.member.controller.dto.SignUpResponse;
-import com.example.investment_api.member.mapper.MemberMapper;
-import com.example.investment_api.member.service.MemberService;
+import com.example.investment_api.member.ui.member.dto.SignUpRequest;
+import com.example.investment_api.member.ui.member.dto.SignUpResponse;
+import com.example.investment_api.member.mapper.member.MemberMapper;
+import com.example.investment_api.member.application.member.MemberService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

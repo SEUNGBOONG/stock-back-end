@@ -1,9 +1,9 @@
-package com.example.investment_api.member.mapper;
+package com.example.investment_api.member.mapper.member;
 
-import com.example.investment_api.member.controller.dto.SignUpRequest;
-import com.example.investment_api.member.controller.dto.SignUpResponse;
+import com.example.investment_api.member.ui.member.dto.SignUpRequest;
+import com.example.investment_api.member.ui.member.dto.SignUpResponse;
 
-import com.example.investment_api.member.domain.Member;
+import com.example.investment_api.member.domain.member.Member;
 
 public class MemberMapper {
 

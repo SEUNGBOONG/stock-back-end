@@ -1,9 +1,9 @@
-package com.example.investment_api.login.service;
+package com.example.investment_api.member.application.auth;
 
-import com.example.investment_api.login.controller.dto.LoginRequest;
-import com.example.investment_api.login.infrastructure.JwtTokenProvider;
-import com.example.investment_api.member.domain.Member;
-import com.example.investment_api.member.repository.MemberRepository;
+import com.example.investment_api.member.ui.auth.dto.LoginRequest;
+import com.example.investment_api.member.infrastructure.auth.JwtTokenProvider;
+import com.example.investment_api.member.domain.member.Member;
+import com.example.investment_api.member.infrastructure.member.MemberJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class AuthService {
 
-    private final MemberRepository memberRepository;
+    private final MemberJpaRepository memberJpaRepository;
     private final JwtTokenProvider jwtTokenProvider;
 
     @Transactional(readOnly = true)
@@ -23,7 +23,7 @@ public class AuthService {
     }
 
     private Member findMemberByEmail(String email) {
-        return memberRepository.findMemberByMemberEmail(email)
+        return memberJpaRepository.findMemberByMemberEmail(email)
                 .orElseThrow(() -> new RuntimeException("Member not found"));
     }
 }

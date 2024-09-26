@@ -1,6 +1,6 @@
-package com.example.investment_api.member.domain;
+package com.example.investment_api.member.domain.member;
 
-import com.example.investment_api.member.domain.exception.NotSamePasswordException;
+import com.example.investment_api.member.exception.exceptions.member.NotSamePasswordException;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;

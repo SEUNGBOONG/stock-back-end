@@ -1,7 +1,6 @@
-package com.example.investment_api.member.repository;
+package com.example.investment_api.member.infrastructure.member;
 
-import com.example.investment_api.member.domain.Member;
-
+import com.example.investment_api.member.domain.member.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import org.springframework.stereotype.Repository;
@@ -9,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface MemberRepository extends JpaRepository<Member, Long> {
+public interface MemberJpaRepository extends JpaRepository<Member, Long> {
 
     boolean existsByMemberNickName(String memberNickName);
 

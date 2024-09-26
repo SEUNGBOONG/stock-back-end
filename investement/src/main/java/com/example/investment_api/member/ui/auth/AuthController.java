@@ -1,8 +1,8 @@
-package com.example.investment_api.login.controller;
+package com.example.investment_api.member.ui.auth;
 
-import com.example.investment_api.login.controller.dto.LoginRequest;
-import com.example.investment_api.login.controller.dto.LoginResponse;
-import com.example.investment_api.login.service.AuthService;
+import com.example.investment_api.member.ui.auth.dto.LoginRequest;
+import com.example.investment_api.member.ui.auth.dto.LoginResponse;
+import com.example.investment_api.member.application.auth.AuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

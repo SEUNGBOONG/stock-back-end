@@ -1,4 +1,4 @@
-package com.example.investment_api.member.domain.exception;
+package com.example.investment_api.member.exception.exceptions.member;
 
 import com.example.investment_api.global.exception.exceptions.CustomErrorCode;
 import com.example.investment_api.global.exception.exceptions.CustomException;

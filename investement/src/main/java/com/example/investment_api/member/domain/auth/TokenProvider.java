@@ -1,4 +1,4 @@
-package com.example.investment_api.login.auth;
+package com.example.investment_api.member.domain.auth;
 
 public interface TokenProvider {
 

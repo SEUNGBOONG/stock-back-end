@@ -1,4 +1,4 @@
-package com.example.investment_api.login.controller.dto;
+package com.example.investment_api.member.ui.auth.dto;
 
 public record LoginResponse(
         String token
