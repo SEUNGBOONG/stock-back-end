@@ -4,13 +4,21 @@
       "data_rank": "1",
       "stck_prpr": "150000",
       "hts_kor_isnm": "Stock Name 1",
-      "stck_avls": "5000000000"
+      "stck_avls": "5000000000",
+      "prdy_vrss": "-200",
+      "prdy_ctrt": "-3",
+      "acml_vol": "60000000000"
+
     },
     {
       "data_rank": "2",
       "stck_prpr": "250000",
       "hts_kor_isnm": "Stock Name 2",
-      "stck_avls": "10000000000"
+      "stck_avls": "10000000000",
+      "prdy_vrss": "100",
+      "prdy_ctrt": "1",
+      "acml_vol": "5000000000"
     }
   ]
 }
+

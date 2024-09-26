@@ -1,4 +1,4 @@
-package com.example.investment_api.home.fluctuation.infrastructor;
+package com.example.investment_api.home.fluctuation.infrastructure;
 
 import com.example.investment_api.home.fluctuation.controller.dto.response.FluctuationDTO;
 
