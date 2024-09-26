@@ -17,12 +17,12 @@ import java.net.URI;
 @RestController
 @AllArgsConstructor
 @Slf4j
-@RequestMapping("/members")
+@RequestMapping("/api")
 public class MemberController {
 
     private final MemberService memberService;
 
-    @PostMapping
+    @PostMapping("/members")
     public ResponseEntity<Void> createMember(@RequestBody SignUpRequest signUpRequest) {
         SignUpResponse signUpResponse = MemberMapper.toSignUpResponse(memberService.signUp(signUpRequest));
         URI location = URI.create("/members/" + signUpResponse.id());

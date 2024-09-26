@@ -1,9 +1,12 @@
 package com.example.investment_api.member.domain;
 
+import com.example.investment_api.member.domain.exception.NotSamePasswordException;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.Objects;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -35,5 +38,11 @@ public class Member {
         this.memberPassword = memberPassword;
         this.memberNickName = memberNickName;
         this.annualIncome = annualIncome;
+    }
+
+    public void checkPassword(String requestPassword) {
+        if (!Objects.equals(memberPassword, requestPassword)) {
+            throw new NotSamePasswordException();
+        }
     }
 }
