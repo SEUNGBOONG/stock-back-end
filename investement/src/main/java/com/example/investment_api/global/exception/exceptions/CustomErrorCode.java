@@ -18,5 +18,4 @@ public enum CustomErrorCode {
         this.customCode = customCode;
         this.message = message;
     }
-
 }
