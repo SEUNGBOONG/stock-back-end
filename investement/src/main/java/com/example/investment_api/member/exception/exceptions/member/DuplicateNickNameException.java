@@ -3,9 +3,9 @@ package com.example.investment_api.member.exception.exceptions.member;
 import com.example.investment_api.member.exception.exceptions.MemberErrorCode;
 import com.example.investment_api.member.exception.exceptions.MemberException;
 
-public class NotSamePasswordException extends MemberException {
+public class DuplicateNickNameException extends MemberException {
 
-    public NotSamePasswordException() {
-        super(MemberErrorCode.NOT_SAME_PASSWORD);
+    public DuplicateNickNameException() {
+        super(MemberErrorCode.DUPLICATED_NICK_NAME);
     }
 }
