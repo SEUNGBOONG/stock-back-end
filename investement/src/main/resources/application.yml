@@ -1,0 +1,3 @@
+jwt:
+  secret: secretkeysecretkeysecretkeysecretkeysecretkeysecretkeysecretkeysecretkeysecretkey
+  expiration-period: 1800
