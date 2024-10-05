@@ -2,6 +2,7 @@ package com.example.investment_api.search.consensus.service;
 
 import com.example.investment_api.common.stockData.Stock;
 import com.example.investment_api.common.stockData.StockRepository;
+
 import com.example.investment_api.search.consensus.controller.dto.InvestmentRecommendationDTO;
 
 import com.example.investment_api.search.consensus.domain.InvestmentRecommendationParser;

@@ -28,7 +28,7 @@
         let webSocket;
 
         function connectWebSocket() {
-            webSocket = new WebSocket("ws://localhost:8080/ws/marketCapitalization?approval_key=1de731cd-c41d-457f-bff8-1e5b0fa95327");
+            webSocket = new WebSocket("ws://ec2-52-79-230-107.ap-northeast-2.compute.amazonaws.com/ws/marketCapitalization?approval_key=1de731cd-c41d-457f-bff8-1e5b0fa95327");
 
             webSocket.onmessage = function(event) {
                 const data = JSON.parse(event.data);

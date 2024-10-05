@@ -13,12 +13,12 @@ public class TradingVolumeWebSocketConfig implements WebSocketConfigurer {
 
     private final TradingVolumeWebSocketHandler tradingVolumeWebSocketHandler;
 
-  public TradingVolumeWebSocketConfig(final TradingVolumeWebSocketHandler tradingVolumeWebSocketHandler) {
-    this.tradingVolumeWebSocketHandler = tradingVolumeWebSocketHandler;
-  }
+    public TradingVolumeWebSocketConfig(final TradingVolumeWebSocketHandler tradingVolumeWebSocketHandler) {
+        this.tradingVolumeWebSocketHandler = tradingVolumeWebSocketHandler;
+    }
 
-  @Override
-  public void registerWebSocketHandlers(final WebSocketHandlerRegistry registry) {
-    registry.addHandler(tradingVolumeWebSocketHandler,"/ws/tradingVolume").setAllowedOrigins("*");
-  }
+    @Override
+    public void registerWebSocketHandlers(final WebSocketHandlerRegistry registry) {
+        registry.addHandler(tradingVolumeWebSocketHandler, "/ws/tradingVolume").setAllowedOrigins("*");
+    }
 }
