@@ -10,14 +10,14 @@
 <div id="fluctuation-data"></div>
 
 <script>
-    const socket = new WebSocket("ws://ec2-52-79-230-107.ap-northeast-2.compute.amazonaws.com/ws/fluctuation?approval_key=1de731cd-c41d-457f-bff8-1e5b0fa95327");
+    const socket = new WebSocket("ws://13.125.255.37/ws/fluctuation?approval_key=1de731cd-c41d-457f-bff8-1e5b0fa95327");
+
     socket.onopen = function(event) {
         console.log("WebSocket connection established.");
     };
 
     socket.onmessage = function(event) {
         const fluctuationData = JSON.parse(event.data);
-
         const displayDiv = document.getElementById("fluctuation-data");
 
         displayDiv.innerHTML = '';
