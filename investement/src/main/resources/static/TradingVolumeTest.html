@@ -43,7 +43,8 @@
 
 <script>
     const approvalKey = "1de731cd-c41d-457f-bff8-1e5b0fa95327"; // 승인 키 추가
-    const socket = new WebSocket(`ws://localhost:8080/ws/tradingVolume?approval_key=${approvalKey}`);
+    const socket = new WebSocket(`ws://ec2-52-79-230-107.ap-northeast-2.compute.amazonaws.com/ws/tradingVolume?approval_key=${approvalKey}`);
+
 
     socket.onmessage = function(event) {
         const tradingVolumeData = JSON.parse(event.data);

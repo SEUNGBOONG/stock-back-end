@@ -19,6 +19,7 @@ import java.util.List;
 public class TradingVolumeWebSocketHandler extends TextWebSocketHandler {
 
     private final TradingVolumeService tradingVolumeService;
+
     private final ObjectMapper objectMapper;
 
     public TradingVolumeWebSocketHandler(final TradingVolumeService tradingVolumeService, ObjectMapper objectMapper) {

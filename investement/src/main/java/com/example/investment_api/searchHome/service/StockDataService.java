@@ -15,6 +15,7 @@ import java.util.List;
 public class StockDataService {
 
     private final MarketCapitalizationFetcher marketCapitalizationFetcher;
+
     private final StockDataParser stockDataParser;
 
     @Autowired

@@ -10,7 +10,7 @@
 <div id="fluctuation-data"></div>
 
 <script>
-    const socket = new WebSocket("ws://localhost:8080/ws/fluctuation?approval_key=1de731cd-c41d-457f-bff8-1e5b0fa95327");
+    const socket = new WebSocket("ws://13.125.255.37/ws/fluctuation?approval_key=1de731cd-c41d-457f-bff8-1e5b0fa95327");
 
     socket.onopen = function(event) {
         console.log("WebSocket connection established.");

@@ -2,9 +2,11 @@ package com.example.investment_api.home.fluctuation.config;
 
 import com.example.investment_api.home.fluctuation.controller.dto.response.FluctuationDTO;
 import com.example.investment_api.home.fluctuation.service.FluctuationService;
-import com.example.investment_api.home.tradingVolume.controller.dto.TradingVolumeDTO;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.springframework.stereotype.Component;
+
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
@@ -51,7 +53,7 @@ public class FluctuationWebSocketHandler extends TextWebSocketHandler {
     }
 
     private boolean isValidApprovalKey(String approvalKey) {
-        return "1de731cd-c41d-457f-bff8-1e5b0fa95327".equals(approvalKey);
+        return "85337d24-1d88-4793-acbd-3202ae289251".equals(approvalKey);
     }
 
     private void webSocketSession(final WebSocketSession socketSource) throws IOException, InterruptedException {

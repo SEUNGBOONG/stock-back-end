@@ -20,6 +20,10 @@ public class StockDataParser {
     }
 
     public List<StockDataDTO> parse(String responseBody) throws IOException {
+        return getStockDataDTOS(responseBody);
+    }
+
+    private List<StockDataDTO> getStockDataDTOS(final String responseBody) throws JsonProcessingException {
         JsonNode items = getJsonNode(responseBody);
         return extractStockData(items);
     }
