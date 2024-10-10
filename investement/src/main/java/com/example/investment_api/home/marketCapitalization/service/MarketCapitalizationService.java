@@ -1,12 +1,12 @@
 package com.example.investment_api.home.marketCapitalization.service;
 
+import jakarta.transaction.Transactional;
+
 import com.example.investment_api.home.marketCapitalization.controller.dto.MarketCapitalizationDTO;
 
 import com.example.investment_api.home.marketCapitalization.infrastructure.MarketCapitalizationParser;
 
 import com.example.investment_api.home.marketCapitalization.service.client.MarketCapitalizationFetcher;
-
-import jakarta.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
