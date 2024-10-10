@@ -6,12 +6,11 @@
     <title>Fluctuation WebSocket Test</title>
 </head>
 <body>
-<h1>Stock Fluctuation Data</h1>
+<h1>주식 등락률 테스트를 위한 html </h1>
 <div id="fluctuation-data"></div>
 
 <script>
-    const socket = new WebSocket("ws://13.125.255.37/ws/fluctuation?approval_key=1de731cd-c41d-457f-bff8-1e5b0fa95327");
-
+    const socket = new WebSocket("ws://15.164.230.222:8080/ws/fluctuation?approval_key=99d567ad-bf6a-4ab9-8f65-3abfdac757e8");
     socket.onopen = function(event) {
         console.log("WebSocket connection established.");
     };
