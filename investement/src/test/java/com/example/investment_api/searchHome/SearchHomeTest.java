@@ -40,4 +40,5 @@ public class SearchHomeTest {
         Assertions.assertEquals("5000000000", dto.marketCapitalization());
         Assertions.assertEquals("60000000000", dto.tradingVolume());
     }
+
 }
