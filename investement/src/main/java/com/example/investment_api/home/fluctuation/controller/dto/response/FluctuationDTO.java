@@ -9,3 +9,4 @@ public record FluctuationDTO(
         Double prevChangeRate //전일 대비율
 ) {
 }
+

@@ -2,6 +2,7 @@ package com.example.investment_api.search.financialRatio.service;
 
 import com.example.investment_api.common.stockData.Stock;
 import com.example.investment_api.common.stockData.StockRepository;
+
 import com.example.investment_api.search.financialRatio.controller.dto.FinancialRatioDTO;
 import com.example.investment_api.search.financialRatio.service.client.FinancialRatioDataFetcher;
 import com.example.investment_api.search.financialRatio.infrastructure.FinancialRatioParser;
