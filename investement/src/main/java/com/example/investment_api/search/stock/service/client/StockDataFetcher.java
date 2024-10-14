@@ -20,16 +20,16 @@ public class StockDataFetcher {
         this.restTemplate = restTemplate;
     }
 
-    @Value("${stock.tr_id}")
+    @Value("${STOCK_TR_ID}")
     private String trId;
 
-    @Value("${api.app_secret}")
+    @Value("${API_APP_SECRET}")
     private String appSecret;
 
-    @Value("${api.app_key}")
+    @Value("${API_APP_KEY}")
     private String appKey;
 
-    @Value("${api.access_token}")
+    @Value("${API_ACCESS_TOKEN}")
     private String accessToken;
 
     public ResponseEntity<String> fetchStockData(String stockInfo) {

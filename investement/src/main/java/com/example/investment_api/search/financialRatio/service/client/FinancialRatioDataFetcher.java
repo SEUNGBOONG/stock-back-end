@@ -14,16 +14,16 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class FinancialRatioDataFetcher {
 
-    @Value("${financialRatio.tr_id}")
+    @Value("${FINANCIAL_TR_ID}")
     private String trId;
 
-    @Value("${api.app_secret}")
+    @Value("${API_APP_SECRET}")
     private String appSecret;
 
-    @Value("${api.app_key}")
+    @Value("${API_APP_KEY}")
     private String appKey;
 
-    @Value("${api.access_token}")
+    @Value("${API_ACCESS_TOKEN}")
     private String accessToken;
 
     private final RestTemplate restTemplate;

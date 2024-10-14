@@ -9,7 +9,7 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class TokenService {
 
-    @Value("${api.access_token}")
+    @Value("${API_ACCESS_TOKEN}")
     private String accessToken;
 
     @Value("${api.appkey}")

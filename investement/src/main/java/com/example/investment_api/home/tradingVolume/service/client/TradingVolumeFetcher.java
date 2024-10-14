@@ -14,16 +14,16 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class TradingVolumeFetcher {
 
-    @Value("${api.app_secret}")
+    @Value("${API_APP_SECRET}")
     private String appSecret;
 
-    @Value("${api.app_key}")
+    @Value("${API_APP_KEY}")
     private String appKey;
 
-    @Value("${api.access_token}")
+    @Value("${API_ACCESS_TOKEN}")
     private String accessToken;
 
-    @Value("${api.tr_id}")
+    @Value("${API_TRID}")
     private String trId;
 
     private final RestTemplate restTemplate;
