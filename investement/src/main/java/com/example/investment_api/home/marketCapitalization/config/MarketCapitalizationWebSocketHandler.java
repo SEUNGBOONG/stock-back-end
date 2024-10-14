@@ -68,7 +68,7 @@ public class MarketCapitalizationWebSocketHandler extends TextWebSocketHandler {
             if (socketSource.isOpen()) {
                 socketSource.sendMessage(new TextMessage(message));
             }
-            Thread.sleep(1000);
+            Thread.sleep(3000);
         }
     }
 }
