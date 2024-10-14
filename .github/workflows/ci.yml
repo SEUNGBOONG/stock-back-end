@@ -16,6 +16,7 @@ jobs:
       - name: Set up JDK 17
         uses: actions/setup-java@v2
         with:
+          distribution: 'temurin'  # 여기에서 Java 배포판을 설정합니다.
           java-version: '17'
 
       - name: Build with Gradle
@@ -26,7 +27,7 @@ jobs:
           docker build -t seungboong/stockservice .
 
       - name: Log in to Amazon ECR
-        uses: aws-actions/amazon-ecr-login@v1
+        uses: aws-actions/amazon-ecr-login@v1.4.0
 
       - name: Tag and push to ECR
         run: |
@@ -43,13 +44,9 @@ jobs:
         with:
           host: 13.209.73.178
           username: ec2-user
-          key: ${{ secrets.EC2_SSH_KEY }} # GitHub Secrets에 SSH 키 저장
+          key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            # Stop and remove the existing container
             docker stop stockservice || true
             docker rm stockservice || true
-            # Pull the latest image from ECR
             docker pull 864899864038.dkr.ecr.ap-northeast-2.amazonaws.com/stockrepo:latest
-            # Run the new container
             docker run -d --name stockservice -p 8080:8080 864899864038.dkr.ecr.ap-northeast-2.amazonaws.com/stockrepo:latest
-
