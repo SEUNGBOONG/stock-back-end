@@ -23,7 +23,7 @@ jobs:
 
       # Gradle Wrapper 파일에 실행 권한 부여
       - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
+        run: chmod +x ./gradlew  # ./로 경로를 명확히
 
       # Gradle 빌드 실행
       - name: Build with Gradle
@@ -63,5 +63,5 @@ jobs:
             docker rm stockservice || true
             # 최신 이미지 ECR에서 풀
             docker pull 864899864038.dkr.ecr.ap-northeast-2.amazonaws.com/stockrepo:latest
-            # 새 컨테이너 실행 (옵션 수정)
+            # 새 컨테이너 실행
             docker run -d --name stockservice -p 8080:8080 864899864038.dkr.ecr.ap-northeast-2.amazonaws.com/stockrepo:latest
