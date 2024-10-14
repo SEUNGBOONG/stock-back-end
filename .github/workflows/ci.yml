@@ -52,3 +52,4 @@ jobs:
             docker pull 864899864038.dkr.ecr.ap-northeast-2.amazonaws.com/stockrepo:latest
             # Run the new container
             docker run -d --name stockservice -p 8080:8080 864899864038.dkr.ecr.ap-northeast-2.amazonaws.com/stockrepo:latest
+
