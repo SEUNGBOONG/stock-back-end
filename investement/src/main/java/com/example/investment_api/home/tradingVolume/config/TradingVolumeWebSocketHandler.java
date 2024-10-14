@@ -5,6 +5,7 @@ import com.example.investment_api.home.tradingVolume.controller.dto.TradingVolum
 import com.example.investment_api.home.tradingVolume.service.TradingVolumeService;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import org.springframework.web.socket.TextMessage;
@@ -21,6 +22,9 @@ public class TradingVolumeWebSocketHandler extends TextWebSocketHandler {
     private final TradingVolumeService tradingVolumeService;
 
     private final ObjectMapper objectMapper;
+
+    @Value("${WEBSOCKET_KEY}")
+    private String socketKey;
 
     public TradingVolumeWebSocketHandler(final TradingVolumeService tradingVolumeService, ObjectMapper objectMapper) {
         this.tradingVolumeService = tradingVolumeService;
@@ -55,7 +59,7 @@ public class TradingVolumeWebSocketHandler extends TextWebSocketHandler {
     }
 
     private boolean isValidApprovalKey(String approvalKey) {
-        return "1de731cd-c41d-457f-bff8-1e5b0fa95327".equals(approvalKey);
+        return socketKey.equals(approvalKey);
     }
 
     private void webSocketSession(final WebSocketSession socketSource) throws IOException, InterruptedException {

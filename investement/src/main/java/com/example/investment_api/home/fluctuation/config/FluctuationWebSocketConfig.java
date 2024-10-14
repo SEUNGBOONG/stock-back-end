@@ -18,7 +18,7 @@ public class FluctuationWebSocketConfig implements WebSocketConfigurer {
     @Override
     public void registerWebSocketHandlers(final WebSocketHandlerRegistry registry) {
         registry.addHandler(fluctuationWebSocketHandler, "/ws/marketCapitalization")
-                .setAllowedOrigins("http://13.209.4.56:8080")
+                .setAllowedOrigins("http://13.209.73.178")
                 .setAllowedOrigins("http://localhost:3000");
     }
 }

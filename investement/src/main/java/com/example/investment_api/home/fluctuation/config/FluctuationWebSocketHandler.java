@@ -5,6 +5,7 @@ import com.example.investment_api.home.fluctuation.service.FluctuationService;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import org.springframework.web.socket.TextMessage;
@@ -19,6 +20,9 @@ public class FluctuationWebSocketHandler extends TextWebSocketHandler {
 
     private final ObjectMapper objectMapper;
     private final FluctuationService fluctuationService;
+
+    @Value("${WEBSOCKET_KEY}")
+    private String socketKey;
 
     public FluctuationWebSocketHandler(final ObjectMapper objectMapper, final FluctuationService fluctuationService) {
         this.objectMapper = objectMapper;
@@ -53,7 +57,7 @@ public class FluctuationWebSocketHandler extends TextWebSocketHandler {
     }
 
     private boolean isValidApprovalKey(String approvalKey) {
-        return "85337d24-1d88-4793-acbd-3202ae289251".equals(approvalKey);
+        return socketKey.equals(approvalKey);
     }
 
     private void webSocketSession(final WebSocketSession socketSource) throws IOException, InterruptedException {

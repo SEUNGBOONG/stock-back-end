@@ -25,7 +25,7 @@ public class TradingVolumeController {
     }
 
     @GetMapping
-    @CrossOrigin(origins = {"http://13.209.4.56:8080", "http://localhost:3000"})
+    @CrossOrigin(origins = {"http://13.209.73.178", "http://localhost:3000"})
     public ResponseEntity<List<TradingVolumeDTO>> getTradingVolume() throws IOException {
         return getListResponseEntity();
     }
