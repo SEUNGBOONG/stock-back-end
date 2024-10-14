@@ -5,7 +5,6 @@ on:
     branches:
       - main
 
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -26,17 +25,15 @@ jobs:
         run: chmod +x ./gradlew
         working-directory: ./investement
 
-      # 4. Gradle 빌드 실행 (investement 디렉토리)
+      # 4. application.properties에서 API_ACCESS_TOKEN 덮어쓰기
+      - name: Update API_ACCESS_TOKEN in application.properties
+        run: |
+          sed -i 's/^api.access_token=.*/api.access_token=${{ secrets.API_ACCESS_TOKEN }}/' ./investement/src/main/resources/application.properties
+
+      # 5. Gradle 빌드 실행 (investement 디렉토리)
       - name: Build with Gradle
         run: ./gradlew build -x test
         working-directory: ./investement
-
-      # 5. secure.properties 파일 생성
-      - name: Create secure.properties file
-        run: |
-          echo "API_APP_KEY=${{ secrets.API_APP_KEY }}" >> ./investement/src/main/resources/secure.properties
-          echo "API_APP_SECRET=${{ secrets.API_APP_SECRET }}" >> ./investement/src/main/resources/secure.properties
-          echo "API_ACCESS_TOKEN=${{ secrets.API_ACCESS_TOKEN }}" >> ./investement/src/main/resources/secure.properties
 
       # 6. Docker 이미지 빌드 (investement 디렉토리에서 실행)
       - name: Build Docker image
@@ -72,5 +69,4 @@ jobs:
             docker stop stockservice || true
             docker rm stockservice || true
             docker pull 864899864038.dkr.ecr.ap-northeast-2.amazonaws.com/stockrepo:latest
-            docker run -d --name stockservice -p 8080:8080 864899864038.dkr.ecr.ap-northeast-2.amazonaws.com/stockrepo:latest
-
+            docker run -d —name stockservice -p 8080:8080 864899864038.dkr.ecr.ap-northeast-2.amazonaws.com/stockrepo:latest
