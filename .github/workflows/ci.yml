@@ -39,6 +39,8 @@ jobs:
       # AWS ECR에 로그인
       - name: Log in to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v1.4.0
+        with:
+          region: ap-northeast-2  # AWS 리전 설정 (서울 리전)
 
       # Docker 이미지 태그 및 ECR로 푸시
       - name: Tag and push to ECR
