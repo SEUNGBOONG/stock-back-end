@@ -53,7 +53,7 @@ public class FluctuationWebSocketHandler extends TextWebSocketHandler {
     }
 
     private boolean isValidApprovalKey(String approvalKey) {
-        return "85337d24-1d88-4793-acbd-3202ae289251".equals(approvalKey);
+        return "48121c9e-dcbc-47f3-89c7-0282fecc077d".equals(approvalKey);
     }
 
     private void webSocketSession(final WebSocketSession socketSource) throws IOException, InterruptedException {

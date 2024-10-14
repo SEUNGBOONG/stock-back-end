@@ -29,9 +29,7 @@ public class TokenService {
 
     public void renewAccessToken() {
         String url = "https://openapi.koreainvestment.com:9443/oauth2/tokenP";
-
         String requestBody = String.format("{\"grant_type\":\"client_credentials\",\"appkey\":\"%s\",\"appsecret\":\"%s\"}", appKey, appSecret);
-
         this.accessToken = restTemplate.postForObject(url, requestBody, String.class);
     }
 

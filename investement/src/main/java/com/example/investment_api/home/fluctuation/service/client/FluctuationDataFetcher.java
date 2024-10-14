@@ -22,7 +22,7 @@ public class FluctuationDataFetcher {
     @Value("${API_APP_SECRET}")
     private String appSecret;
 
-    @Value("${Fluctuation_tr_id}")
+    @Value("${FINANCIAL_TR_ID}")
     private String trId;
 
     @Value("${API_ACCESS_TOKEN}")

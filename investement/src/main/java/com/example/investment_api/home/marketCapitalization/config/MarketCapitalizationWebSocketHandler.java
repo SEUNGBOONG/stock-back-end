@@ -54,7 +54,7 @@ public class MarketCapitalizationWebSocketHandler extends TextWebSocketHandler {
     }
 
     private boolean isValidApprovalKey(String approvalKey) {
-        return "1de731cd-c41d-457f-bff8-1e5b0fa95327".equals(approvalKey);
+        return "48121c9e-dcbc-47f3-89c7-0282fecc077d".equals(approvalKey);
     }
 
     private void webSocketSession(final WebSocketSession socketSource) throws IOException, InterruptedException {
