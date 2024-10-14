@@ -1,9 +1,7 @@
 package com.example.investment_api.home.tradingVolume.config;
 
 import org.springframework.context.annotation.Configuration;
-
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
-
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 
@@ -19,6 +17,8 @@ public class TradingVolumeWebSocketConfig implements WebSocketConfigurer {
 
     @Override
     public void registerWebSocketHandlers(final WebSocketHandlerRegistry registry) {
-        registry.addHandler(tradingVolumeWebSocketHandler, "/ws/tradingVolume").setAllowedOrigins("*");
+        registry.addHandler(tradingVolumeWebSocketHandler, "/ws/tradingVolume")
+                .setAllowedOrigins("http://13.209.4.56:8080")
+                .setAllowedOrigins("http://localhost:3000");
     }
 }

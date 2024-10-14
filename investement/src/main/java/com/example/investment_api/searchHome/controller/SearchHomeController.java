@@ -3,6 +3,7 @@ package com.example.investment_api.searchHome.controller;
 import com.example.investment_api.searchHome.dto.StockDataDTO;
 import com.example.investment_api.searchHome.service.StockDataService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,6 +23,7 @@ public class SearchHomeController {
     }
 
     @GetMapping("/stock-data")
+    @CrossOrigin(origins = {"http://13.209.4.56:8080", "http://localhost:3000"})
     public ResponseEntity<List<StockDataDTO>> getStockData(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size) {
         try {
             List<StockDataDTO> stockDataList = stockDataService.getStockDataDTO(page, size);

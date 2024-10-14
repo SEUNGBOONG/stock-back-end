@@ -3,12 +3,15 @@ package com.example.investment_api.member.application.auth;
 import com.example.investment_api.member.exception.exceptions.auth.DuplicateEmailException;
 import com.example.investment_api.member.exception.exceptions.auth.DuplicateNickNameException;
 import com.example.investment_api.member.exception.exceptions.auth.NotFoundMemberByEmailException;
+
 import com.example.investment_api.member.mapper.auth.AuthMapper;
 import com.example.investment_api.member.ui.auth.dto.LoginRequest;
+
 import com.example.investment_api.member.infrastructure.auth.JwtTokenProvider;
 import com.example.investment_api.member.domain.member.Member;
 import com.example.investment_api.member.infrastructure.member.MemberJpaRepository;
 import com.example.investment_api.member.ui.auth.dto.SignUpRequest;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

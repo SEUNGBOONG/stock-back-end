@@ -15,6 +15,7 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping("/members")
+    @CrossOrigin(origins = {"http://13.209.4.56:8080", "http://localhost:3000"})
     public ResponseEntity<Void> showMember() {
         return ResponseEntity.ok().build();
     }

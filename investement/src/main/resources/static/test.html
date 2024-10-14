@@ -8,23 +8,22 @@
 <h1>KOSPI 및 KOSDAQ 데이터</h1>
 <pre id="output"></pre>
 <script>
-    const socket = new WebSocket("ws://13.125.255.37/ws/fluctuation?approval_key=1de731cd-c41d-457f-bff8-1e5b0fa95327");
-
-    socket.onopen = function() {
+    const socket = new WebSocket("ws://13.209.4.56/ws/fluctuation?approval_key=48121c9e-dcbc-47f3-89c7-0282fecc077d");
+    socket.onopen = function () {
         console.log('WebSocket 연결됨');
     };
 
-    socket.onmessage = function(event) {
+    socket.onmessage = function (event) {
         const data = JSON.parse(event.data);
         document.getElementById('output').textContent += `KOSPI: ${JSON.stringify(data.kospi)}\n`;
         document.getElementById('output').textContent += `KOSDAQ: ${JSON.stringify(data.kosdaq)}\n`;
     };
 
-    socket.onclose = function() {
+    socket.onclose = function () {
         console.log('WebSocket 연결이 종료됨');
     };
 
-    socket.onerror = function(error) {
+    socket.onerror = function (error) {
         console.error('WebSocket 오류:', error);
     };
 </script>

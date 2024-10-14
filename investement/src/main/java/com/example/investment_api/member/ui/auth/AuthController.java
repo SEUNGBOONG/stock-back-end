@@ -22,6 +22,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/members")
+    @CrossOrigin(origins = {"http://13.209.4.56:8080", "http://localhost:3000"})
     public ResponseEntity<Void> signUp(@RequestBody SignUpRequest signUpRequest) {
         SignUpResponse signUpResponse = AuthMapper.toSignUpResponse(authService.signUp(signUpRequest));
         URI location = URI.create("/members/" + signUpResponse.id());
@@ -31,6 +32,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
+    @CrossOrigin(origins = {"http://13.209.4.56:8080", "http://localhost:3000"})
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
         LoginResponse loginResponse = new LoginResponse(authService.login(loginRequest));
         log.info("로그인 성공");
