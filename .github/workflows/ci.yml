@@ -14,6 +14,13 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
 
+      # JDK 17 설정
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'  # Java 배포판 설정 (Temurin 사용)
+          java-version: '17'  # Java 17 사용
+
       # Gradle Wrapper 파일에 실행 권한 부여 (investement 디렉토리)
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
@@ -23,6 +30,8 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build -x test
         working-directory: ./investement  # investement 디렉토리에서 실행
+        env:
+          JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.12-7/x64  # JAVA_HOME을 명시적으로 설정
 
       # Docker 이미지 빌드
       - name: Build Docker image
