@@ -15,10 +15,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class NewsFetcher {
 
-    @Value("${naver.api.clientId}")
+    @Value("${NAVER_API_KEY}")
     private String clientId;
 
-    @Value("${naver.api.clientSecret}")
+    @Value("${NAVER_API_CLIENTID}")
     private String clientSecret;
 
     private final RestTemplateClient restTemplateClient;

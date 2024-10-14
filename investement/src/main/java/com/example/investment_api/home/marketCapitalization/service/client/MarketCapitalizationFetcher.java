@@ -21,16 +21,16 @@ public class MarketCapitalizationFetcher {
         this.restTemplate = restTemplate;
     }
 
-    @Value("${api.app_secret}")
+    @Value("${API_APP_SECRET}")
     private String appSecret;
 
-    @Value("${api.app_key}")
+    @Value("${API_APP_KEY}")
     private String appKey;
 
-    @Value("${api.access_token}")
+    @Value("${API_ACCESS_TOKEN}")
     private String accessToken;
 
-    @Value("${marketCapitalization.tr_id}")
+    @Value("${MARKET_TR_ID}")
     private String trId;
 
     public ResponseEntity<String> marketCapitalizationData() {

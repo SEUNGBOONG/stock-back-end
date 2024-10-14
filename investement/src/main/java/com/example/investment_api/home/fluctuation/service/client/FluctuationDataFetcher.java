@@ -16,16 +16,16 @@ public class FluctuationDataFetcher {
 
     private final RestTemplate restTemplate;
 
-    @Value("${api.app_key}")
+    @Value("${API_APP_KEY}")
     private String appKey;
 
-    @Value("${api.app_secret}")
+    @Value("${API_APP_SECRET}")
     private String appSecret;
 
-    @Value("${fluctuation.tr_id}")
+    @Value("${Fluctuation_tr_id}")
     private String trId;
 
-    @Value("${api.access_token}")
+    @Value("${API_ACCESS_TOKEN}")
     private String accessToken;
 
     public FluctuationDataFetcher(RestTemplate restTemplate) {

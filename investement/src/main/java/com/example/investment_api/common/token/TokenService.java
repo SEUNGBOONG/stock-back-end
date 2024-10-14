@@ -9,24 +9,30 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class TokenService {
 
-    @Value("${api.access_token}")
+    @Value("${API_ACCESS_TOKEN}")
     private String accessToken;
 
-    @Value("${api.appkey}")
+    @Value("${API_APP_KEY}")
     private String appKey;
 
-    @Value("${api.appsecret}")
+    @Value("${API_APP_SECRET}")
     private String appSecret;
 
     private final RestTemplate restTemplate = new RestTemplate();
 
-    @Scheduled(fixedRate = 86400000)
+    public String getAccessToken() {
+        if (accessToken == null || accessToken.isEmpty()) {
+            renewAccessToken();
+        }
+        return accessToken;
+    }
+
     public void renewAccessToken() {
         String url = "https://openapi.koreainvestment.com:9443/oauth2/tokenP";
 
         String requestBody = String.format("{\"grant_type\":\"client_credentials\",\"appkey\":\"%s\",\"appsecret\":\"%s\"}", appKey, appSecret);
 
         this.accessToken = restTemplate.postForObject(url, requestBody, String.class);
-
     }
+
 }
