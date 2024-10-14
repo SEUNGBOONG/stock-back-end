@@ -10,13 +10,12 @@
 <div id="fluctuation-data"></div>
 
 <script>
-    const socket = new WebSocket("ws://13.125.255.37/ws/fluctuation?approval_key=1de731cd-c41d-457f-bff8-1e5b0fa95327");
-
-    socket.onopen = function(event) {
+    const socket = new WebSocket("ws://13.209.4.56/ws/fluctuation?approval_key=48121c9e-dcbc-47f3-89c7-0282fecc077d");
+    socket.onopen = function (event) {
         console.log("WebSocket connection established.");
     };
 
-    socket.onmessage = function(event) {
+    socket.onmessage = function (event) {
         const fluctuationData = JSON.parse(event.data);
         const displayDiv = document.getElementById("fluctuation-data");
 
@@ -36,11 +35,11 @@
         });
     };
 
-    socket.onclose = function(event) {
+    socket.onclose = function (event) {
         console.log("WebSocket connection closed.");
     };
 
-    socket.onerror = function(error) {
+    socket.onerror = function (error) {
         console.error("WebSocket error observed:", error);
     };
 </script>

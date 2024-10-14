@@ -9,15 +9,18 @@
             font-family: Arial, sans-serif;
             margin: 20px;
         }
+
         table {
             border-collapse: collapse;
             width: 100%;
         }
+
         th, td {
             border: 1px solid #ddd;
             padding: 8px;
             text-align: center;
         }
+
         th {
             background-color: #f2f2f2;
         }
@@ -42,11 +45,10 @@
 </table>
 
 <script>
-    const approvalKey = "1de731cd-c41d-457f-bff8-1e5b0fa95327"; // 승인 키 추가
-    const socket = new WebSocket(`ws://ec2-52-79-230-107.ap-northeast-2.compute.amazonaws.com/ws/tradingVolume?approval_key=${approvalKey}`);
+    const approvalKey = "48121c9e-dcbc-47f3-89c7-0282fecc077d"; // 승인 키 추가
+    const socket = new WebSocket(`ws://13.209.4.56/ws/tradingVolume?approval_key=${approvalKey}`);
 
-
-    socket.onmessage = function(event) {
+    socket.onmessage = function (event) {
         const tradingVolumeData = JSON.parse(event.data);
         const tableBody = document.getElementById('tradingVolumeTable');
         tableBody.innerHTML = ''; // 이전 데이터 지우기

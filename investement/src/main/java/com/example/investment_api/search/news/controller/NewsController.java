@@ -6,6 +6,7 @@ import com.example.investment_api.search.news.service.NewsService;
 
 import org.json.JSONException;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,6 +26,7 @@ public class NewsController {
     }
 
     @GetMapping
+    @CrossOrigin(origins = {"http://13.209.4.56:8080", "http://localhost:3000"})
     public List<NewsResponse> getNews(@RequestParam String keyword) throws JSONException, IOException {
         return newsService.getNews(keyword);
     }

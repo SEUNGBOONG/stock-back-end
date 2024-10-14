@@ -17,6 +17,8 @@ public class MarketCapitalizationWebSocketConfig implements WebSocketConfigurer 
 
     @Override
     public void registerWebSocketHandlers(final WebSocketHandlerRegistry registry) {
-        registry.addHandler(marketCapitalizationWebSocketHandler,"/ws/marketCapitalization").setAllowedOrigins("*");
+        registry.addHandler(marketCapitalizationWebSocketHandler, "/ws/marketCapitalization")
+                .setAllowedOrigins("http://13.209.4.56:8080")
+                .setAllowedOrigins("http://localhost:3000");
     }
 }

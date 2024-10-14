@@ -26,26 +26,26 @@
     </style>
     <script>
         let webSocket;
-        const url = "ws://13.125.255.37/ws/marketCapitalization?approval_key=1de731cd-c41d-457f-bff8-1e5b0fa95327";
+        const url = "ws://13.209.4.56/ws/marketCapitalization?approval_key=48121c9e-dcbc-47f3-89c7-0282fecc077d";
 
         function connectWebSocket() {
             webSocket = new WebSocket(url);
 
-            webSocket.onopen = function() {
+            webSocket.onopen = function () {
                 console.log("WebSocket 연결이 성공적으로 이루어졌습니다.");
             };
 
-            webSocket.onmessage = function(event) {
+            webSocket.onmessage = function (event) {
                 const data = JSON.parse(event.data);
                 updateTable(data);
             };
 
-            webSocket.onclose = function() {
+            webSocket.onclose = function () {
                 console.log("WebSocket 연결이 종료되었습니다. 1초 후 재연결을 시도합니다.");
                 setTimeout(connectWebSocket, 1000); // 1초 후 재연결 시도
             };
 
-            webSocket.onerror = function(error) {
+            webSocket.onerror = function (error) {
                 console.error("WebSocket 에러:", error);
             };
         }
