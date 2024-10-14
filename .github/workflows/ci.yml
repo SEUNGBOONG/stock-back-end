@@ -1,5 +1,3 @@
-# GitHub Actions Workflow
-
 name: CI/CD Pipeline
 
 on:
@@ -27,28 +25,28 @@ jobs:
         run: chmod +x ./gradlew
         working-directory: ./investement
 
-      # 4. 환경 변수를 설정하고 Gradle 실행
+      # 4. API 액세스 토큰을 동적으로 발급받음
       - name: Get API Access Token
         run: |
-          echo "API_ACCESS_TOKEN=${{ secrets.API_ACCESS_TOKEN }}" >> $GITHUB_ENV
-          echo "API_APP_KEY=${{ secrets.API_APP_KEY }}" >> $GITHUB_ENV
-          echo "API_APP_SECRET=${{ secrets.API_APP_SECRET }}" >> $GITHUB_ENV
-          ./gradlew run -Dspring.profiles.active=prod \
+          ACCESS_TOKEN=$(curl -X POST https://openapi.koreainvestment.com:9443/oauth2/tokenP \
+            -d "appkey=${{ secrets.API_APP_KEY }}" \
+            -d "appsecret=${{ secrets.API_APP_SECRET }}" \
+            -d "grant_type=client_credentials" | jq -r '.access_token')
+          echo "ACCESS_TOKEN=$ACCESS_TOKEN" >> $GITHUB_ENV
+
+      # 5. Gradle 빌드 실행 (동적으로 발급받은 Access Token 사용)
+      - name: Build with Gradle
+        run: ./gradlew build -x test -Dspring.profiles.active=prod \
               -DAPI_APP_KEY=${{ secrets.API_APP_KEY }} \
               -DAPI_APP_SECRET=${{ secrets.API_APP_SECRET }} \
-              -DAPI_ACCESS_TOKEN=${{ secrets.API_ACCESS_TOKEN }}
+              -DAPI_ACCESS_TOKEN=$ACCESS_TOKEN
         working-directory: ./investement
 
-      # 5. Gradle 빌드 실행 (investement 디렉토리)
-      - name: Build with Gradle
-        run: ./gradlew build -x test
-        working-directory: ./investement
-
-      # 6. Docker 이미지 빌드 (investement 디렉토리에서 실행)
+      # 6. Docker 이미지 빌드
       - name: Build Docker image
         run: docker build -t seungboong/stockservice ./investement
 
-      # 7. AWS ECR에 로그인 (AWS CLI 사용)
+      # 7. AWS ECR 로그인
       - name: Log in to Amazon ECR
         run: |
           aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -56,7 +54,7 @@ jobs:
           aws configure set region ap-northeast-2
           aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin 864899864038.dkr.ecr.ap-northeast-2.amazonaws.com
 
-      # 8. Docker 이미지 태그 및 ECR로 푸시
+      # 8. Docker 이미지 푸시
       - name: Tag and push to ECR
         run: |
           IMAGE_REPO=864899864038.dkr.ecr.ap-northeast-2.amazonaws.com/stockrepo
@@ -66,6 +64,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: build
+
     steps:
       # EC2 서버에 SSH로 접속하여 배포
       - name: SSH into EC2 and Deploy
@@ -73,7 +72,7 @@ jobs:
         with:
           host: 13.209.73.178
           username: ec2-user
-          key: ${{ secrets.EC2_SSH_KEY }}
+          key: ${{ secrets.EC2_SSH_KEY }}  # GitHub Secrets에 저장된 SSH 키 사용
           script: |
             docker stop stockservice || true
             docker rm stockservice || true
