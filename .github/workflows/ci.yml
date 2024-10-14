@@ -4,49 +4,37 @@ on:
   push:
     branches:
       - main
-
+      
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      # 1. 코드 체크아웃
+      # 코드 체크아웃
       - name: Check out code
         uses: actions/checkout@v2
-      
-      # 2. JDK 17 설정
+      # JDK 17 설정
       - name: Set up JDK 17
         uses: actions/setup-java@v2
         with:
           distribution: 'temurin'
           java-version: '17'
 
-      # 3. Gradle Wrapper 파일에 실행 권한 부여 (investement 디렉토리)
+      # Gradle Wrapper 파일에 실행 권한 부여 (investement 디렉토리)
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
-        working-directory: ./investement
+        working-directory: ./investement  # investement 디렉토리에서 실행
 
-      # 4. API 액세스 토큰을 동적으로 발급받음
-      - name: Get API Access Token
-        run: |
-          ACCESS_TOKEN=$(curl -X POST https://openapi.koreainvestment.com:9443/oauth2/tokenP \
-            -d "appkey=${{ secrets.API_APP_KEY }}" \
-            -d "appsecret=${{ secrets.API_APP_SECRET }}" \
-            -d "grant_type=client_credentials" | jq -r '.access_token')
-          echo "ACCESS_TOKEN=$ACCESS_TOKEN" >> $GITHUB_ENV
-
-      # 5. Gradle 빌드 실행 (동적으로 발급받은 Access Token 사용)
+      # Gradle 빌드 실행 (investement 디렉토리)
       - name: Build with Gradle
-        run: ./gradlew build -x test -Dspring.profiles.active=prod \
-              -DAPI_APP_KEY=${{ secrets.API_APP_KEY }} \
-              -DAPI_APP_SECRET=${{ secrets.API_APP_SECRET }} \
-              -DAPI_ACCESS_TOKEN=$ACCESS_TOKEN
-        working-directory: ./investement
+        run: ./gradlew build -x test
+        working-directory: ./investement  # investement 디렉토리에서 실행
 
-      # 6. Docker 이미지 빌드
+      # Docker 이미지 빌드 (investement 디렉토리에서 실행)
       - name: Build Docker image
-        run: docker build -t seungboong/stockservice ./investement
+        run: |
+          docker build -t seungboong/stockservice ./investement  # Dockerfile이 있는 디렉토리 지정
 
-      # 7. AWS ECR 로그인
+      # AWS ECR에 로그인 (AWS CLI 사용)
       - name: Log in to Amazon ECR
         run: |
           aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -54,7 +42,7 @@ jobs:
           aws configure set region ap-northeast-2
           aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin 864899864038.dkr.ecr.ap-northeast-2.amazonaws.com
 
-      # 8. Docker 이미지 푸시
+      # Docker 이미지 태그 및 ECR로 푸시
       - name: Tag and push to ECR
         run: |
           IMAGE_REPO=864899864038.dkr.ecr.ap-northeast-2.amazonaws.com/stockrepo
