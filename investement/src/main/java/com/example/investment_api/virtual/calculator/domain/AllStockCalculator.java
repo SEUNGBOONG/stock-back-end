@@ -4,8 +4,8 @@ import com.example.investment_api.virtual.calculator.dto.StockCalculationDTO;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-@Component
 
+@Component
 public class AllStockCalculator {
 
     private final StockCalculator stockCalculator;
