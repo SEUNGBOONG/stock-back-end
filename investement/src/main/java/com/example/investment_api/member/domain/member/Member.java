@@ -36,6 +36,9 @@ public class Member {
     @Column(nullable = false)
     private int annualIncome;
 
+    @Column
+    private int testmoney;
+
     public Member(String memberEmail, String memberName, String memberPassword, String memberNickName, int annualIncome) {
         this.memberEmail = memberEmail;
         this.memberName = memberName;
