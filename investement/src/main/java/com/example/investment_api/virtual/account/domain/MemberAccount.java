@@ -1,4 +1,4 @@
-package com.example.investment_api.virtual.account;
+package com.example.investment_api.virtual.account.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

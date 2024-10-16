@@ -1,6 +1,6 @@
 package com.example.investment_api.virtual.calculator.domain;
 
-import com.example.investment_api.virtual.calculator.dto.StockCalculationDTO;
+import com.example.investment_api.virtual.account.dto.StockCalculationDTO;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

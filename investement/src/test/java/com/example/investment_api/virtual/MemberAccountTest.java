@@ -1,10 +1,9 @@
 package com.example.investment_api.virtual;
 
-import com.example.investment_api.virtual.account.MemberAccount;
-import com.example.investment_api.virtual.account.MemberAccountRepository;
-import com.example.investment_api.virtual.account.MemberAccountService;
-import com.example.investment_api.virtual.calculator.dto.StockCalculationDTO;
-import org.junit.jupiter.api.Assertions;
+import com.example.investment_api.virtual.account.domain.MemberAccount;
+import com.example.investment_api.virtual.account.domain.MemberAccountRepository;
+import com.example.investment_api.virtual.account.service.MemberAccountService;
+import com.example.investment_api.virtual.account.dto.StockCalculationDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

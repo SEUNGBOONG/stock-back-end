@@ -1,4 +1,4 @@
-package com.example.investment_api.virtual.calculator.dto;
+package com.example.investment_api.virtual.account.dto;
 
 public record StockCalculationDTO(
         String stockName,

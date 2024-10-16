@@ -1,8 +1,8 @@
 package com.example.investment_api.virtual.calculator.controller;
 
-import com.example.investment_api.virtual.account.MemberAccountService;
+import com.example.investment_api.virtual.account.service.MemberAccountService;
 import com.example.investment_api.virtual.calculator.domain.AllStockCalculator;
-import com.example.investment_api.virtual.calculator.dto.StockCalculationDTO;
+import com.example.investment_api.virtual.account.dto.StockCalculationDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/calculator")
+@RequestMapping("api/calculator/all")
 public class AllStockCalculatorController {
 
     private final MemberAccountService memberAccountService;

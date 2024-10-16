@@ -1,15 +1,12 @@
 package com.example.investment_api.virtual.calculator.controller;
 
 
-import com.example.investment_api.virtual.account.MemberAccountService;
+import com.example.investment_api.virtual.account.service.MemberAccountService;
 import com.example.investment_api.virtual.calculator.domain.StockCalculator;
-import com.example.investment_api.virtual.calculator.dto.StockCalculationDTO;
+import com.example.investment_api.virtual.account.dto.StockCalculationDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/calculator")
@@ -48,6 +45,12 @@ public class StockCalculatorController {
     public ResponseEntity<Integer> getEvaluationAmount(@RequestParam Long memberId, @RequestParam String stockName) {
         StockCalculationDTO dto = memberAccountService.getStockCalculationDTOList(memberId, stockName);
         int result = stockCalculator.calculateEvaluationAmount(dto.currentPrice(), dto.stockCount());
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @GetMapping("/fluctuation-rate")
+    public ResponseEntity<Double> getFluctuationRate(@RequestParam String stockName) {
+        double result = memberAccountService.getFluctuationData(stockName);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }
