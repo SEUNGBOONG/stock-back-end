@@ -1,7 +1,6 @@
 package com.example.investment_api.common.token;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import org.springframework.web.client.RestTemplate;
@@ -18,7 +17,11 @@ public class TokenService {
     @Value("${API_APP_SECRET}")
     private String appSecret;
 
-    private final RestTemplate restTemplate = new RestTemplate();
+    private RestTemplate restTemplate = new RestTemplate();
+
+    public TokenService(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
 
     public String getAccessToken() {
         if (accessToken == null || accessToken.isEmpty()) {
@@ -29,10 +32,7 @@ public class TokenService {
 
     public void renewAccessToken() {
         String url = "https://openapi.koreainvestment.com:9443/oauth2/tokenP";
-
         String requestBody = String.format("{\"grant_type\":\"client_credentials\",\"appkey\":\"%s\",\"appsecret\":\"%s\"}", appKey, appSecret);
-
         this.accessToken = restTemplate.postForObject(url, requestBody, String.class);
     }
-
 }
