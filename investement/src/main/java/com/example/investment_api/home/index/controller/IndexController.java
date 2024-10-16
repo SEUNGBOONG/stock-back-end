@@ -21,13 +21,13 @@ public class IndexController {
     }
 
     @GetMapping("/kospi")
-    @CrossOrigin(origins = {"http://13.209.4.56:8080", "http://localhost:3000"})
+    @CrossOrigin(origins = {"http://13.209.73.178:80", "http://localhost:3000"})
     public KOSPIResponse getKOSPIIndex() {
         return indexService.getKOSPIIndex();
     }
 
     @GetMapping("/kosdaq")
-    @CrossOrigin(origins = {"http://13.209.4.56:8080", "http://localhost:3000"})
+    @CrossOrigin(origins = {"http://13.209.73.178:80", "http://localhost:3000"})
     public KOSDAQResponse getKOSDAQIndex() {
         return indexService.getKOSDAQIndex();
     }

@@ -25,7 +25,7 @@ public class InvestmentRecommendationController {
     }
 
     @GetMapping
-    @CrossOrigin(origins = {"http://13.209.4.56:8080", "http://localhost:3000"})
+    @CrossOrigin(origins = {"http://13.209.73.178:80", "http://localhost:3000"})
     public ResponseEntity<InvestmentRecommendationDTO> getFinancialRatio(@RequestParam String stockInfo) throws IOException {
         return getInvestmentRecommendationDTOResponseEntity(stockInfo);
     }

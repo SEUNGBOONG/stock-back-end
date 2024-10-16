@@ -25,7 +25,7 @@ public class StockController {
     }
 
     @GetMapping
-    @CrossOrigin(origins = "http://13.209.4.56:8080")
+    @CrossOrigin(origins = "http://13.209.73.178:80")
     public ResponseEntity<StockResponse> getFinancialRatio(@RequestParam String stockInfo) throws IOException {
         StockResponse stockResponse = stockService.getStockResponse(stockInfo);
         return ResponseEntity.ok(stockResponse);

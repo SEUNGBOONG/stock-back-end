@@ -23,7 +23,7 @@ public class FluctuationController {
     }
 
     @GetMapping
-    @CrossOrigin(origins = {"http://13.209.4.56:8080", "http://localhost:3000"})
+    @CrossOrigin(origins = {"http://13.209.73.178:80", "http://localhost:3000"})
     public List<FluctuationDTO> getFluctuation() throws IOException {
         return fluctuationService.getFluctuation();
     }
