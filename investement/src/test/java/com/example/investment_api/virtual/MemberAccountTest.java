@@ -4,6 +4,7 @@ import com.example.investment_api.virtual.account.MemberAccount;
 import com.example.investment_api.virtual.account.MemberAccountRepository;
 import com.example.investment_api.virtual.account.MemberAccountService;
 import com.example.investment_api.virtual.calculator.dto.StockCalculationDTO;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -14,6 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
@@ -44,10 +46,12 @@ public class MemberAccountTest {
         StockCalculationDTO result = memberAccountService.getStockCalculationDTOList(memberId, stockName);
 
         assertNotNull(result);
-        assertEquals("TestStock", result.stockName());
-        assertEquals(1000, result.buyPrice());
-        assertEquals(10, result.stockCount());
-        assertEquals(0, result.currentPrice());
+        assertAll(
+                () -> assertEquals("TestStock", result.stockName()),
+                () -> assertEquals(1000, result.buyPrice()),
+                () -> assertEquals(10, result.stockCount()),
+                () -> assertEquals(0, result.currentPrice())
+        );
     }
 
     @Test
@@ -61,8 +65,10 @@ public class MemberAccountTest {
         MemberAccount result = memberAccountService.getMemberAccount(memberId, stockName);
 
         assertNotNull(result);
-        assertEquals(memberId, result.getMemberId());
-        assertEquals(stockName, result.getStockName());
+        assertAll(
+                () -> assertEquals(memberId, result.getMemberId()),
+                () -> assertEquals(stockName, result.getStockName())
+        );
     }
 
     @Test
@@ -75,7 +81,9 @@ public class MemberAccountTest {
         List<MemberAccount> result = memberAccountService.getMemberAccounts(memberId);
 
         assertNotNull(result);
-        assertEquals(1, result.size());
-        assertEquals("TestStock", result.get(0).getStockName());
+        assertAll(
+                () -> assertEquals(1, result.size()),
+                () -> assertEquals("TestStock", result.get(0).getStockName())
+        );
     }
 }

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/calculator/all")
+@RequestMapping("api/calculator")
 public class AllStockCalculatorController {
 
     private final MemberAccountService memberAccountService;
@@ -22,7 +22,7 @@ public class AllStockCalculatorController {
         this.memberAccountService = memberAccountService;
     }
 
-    @GetMapping("/total-return-rate")
+    @GetMapping("/evaluation-profit")
     public ResponseEntity<Double> getTotalEvaluationProfit(@RequestParam Long memberId) {
         List<StockCalculationDTO> dtoList = memberAccountService.getStockCalculationDtoList(memberId);
         AllStockCalculator calculator = new AllStockCalculator();
@@ -30,7 +30,7 @@ public class AllStockCalculatorController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @GetMapping("/total-evaluation-amount")
+    @GetMapping("/evaluation-amount")
     public ResponseEntity<Integer> getTotalEvaluationAmount(@RequestParam Long memberId) {
         List<StockCalculationDTO> dtoList = memberAccountService.getStockCalculationDtoList(memberId);
         AllStockCalculator calculator = new AllStockCalculator();
@@ -38,7 +38,7 @@ public class AllStockCalculatorController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @GetMapping("/total-profit")
+    @GetMapping("/profit")
     public ResponseEntity<Double> getTotalProfit(@RequestParam Long memberId) {
         List<StockCalculationDTO> dtoList = memberAccountService.getStockCalculationDtoList(memberId);
         AllStockCalculator calculator = new AllStockCalculator();
@@ -46,7 +46,7 @@ public class AllStockCalculatorController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @GetMapping("/total-purchase-amount")
+    @GetMapping("/purchase-amount")
     public ResponseEntity<Double> getTotalPurchaseAmount(@RequestParam Long memberId) {
         List<StockCalculationDTO> dtoList = memberAccountService.getStockCalculationDtoList(memberId);
         AllStockCalculator calculator = new AllStockCalculator();

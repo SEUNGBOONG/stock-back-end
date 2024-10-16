@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("api/calculator/stock")
+@RequestMapping("api/calculator")
 public class StockCalculatorController {
 
     private final StockCalculator stockCalculator;
@@ -50,6 +50,4 @@ public class StockCalculatorController {
         int result = stockCalculator.calculateEvaluationAmount(dto.currentPrice(), dto.stockCount());
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
-
-
 }
