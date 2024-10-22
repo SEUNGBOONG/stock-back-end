@@ -14,7 +14,7 @@ import org.springframework.http.ResponseEntity;
 @Component
 public class IndexFetcher {
 
-    @Value("${serviceKey}")
+    @Value("${SERVICEKEY}")
     private String serviceKey;
 
     private final RestTemplateClient restTemplateClient;

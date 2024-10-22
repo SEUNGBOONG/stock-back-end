@@ -6,6 +6,7 @@ import com.example.investment_api.home.marketCapitalization.service.MarketCapita
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -20,6 +21,9 @@ public class MarketCapitalizationWebSocketHandler extends TextWebSocketHandler {
     private final ObjectMapper objectMapper;
 
     private final MarketCapitalizationService marketCapitalizationService;
+
+    @Value("${WEBSOCKET_KEY}")
+    private String socketKey;
 
     public MarketCapitalizationWebSocketHandler(final ObjectMapper objectMapper, final MarketCapitalizationService marketCapitalizationService) {
         this.objectMapper = objectMapper;
@@ -54,7 +58,7 @@ public class MarketCapitalizationWebSocketHandler extends TextWebSocketHandler {
     }
 
     private boolean isValidApprovalKey(String approvalKey) {
-        return "1de731cd-c41d-457f-bff8-1e5b0fa95327".equals(approvalKey);
+        return socketKey.equals(approvalKey);
     }
 
     private void webSocketSession(final WebSocketSession socketSource) throws IOException, InterruptedException {
@@ -64,7 +68,7 @@ public class MarketCapitalizationWebSocketHandler extends TextWebSocketHandler {
             if (socketSource.isOpen()) {
                 socketSource.sendMessage(new TextMessage(message));
             }
-            Thread.sleep(1000);
+            Thread.sleep(3000);
         }
     }
 }
