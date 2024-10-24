@@ -17,8 +17,6 @@ public class IndexWebSocketConfig implements WebSocketConfigurer {
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(indexWebSocketHandler, "/ws/index")
-                .setAllowedOrigins("http://13.209.73.178")
-                .setAllowedOrigins("http://localhost:3000");
+        registry.addHandler(indexWebSocketHandler, "/ws/index");
     }
 }
