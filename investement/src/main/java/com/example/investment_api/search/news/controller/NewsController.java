@@ -26,7 +26,6 @@ public class NewsController {
     }
 
     @GetMapping
-    @CrossOrigin(origins = {"http://13.209.73.178", "http://localhost:3000"})
     public List<NewsResponse> getNews(@RequestParam String keyword) throws JSONException, IOException {
         return newsService.getNews(keyword);
     }

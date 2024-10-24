@@ -17,8 +17,6 @@ public class TradingVolumeWebSocketConfig implements WebSocketConfigurer {
 
     @Override
     public void registerWebSocketHandlers(final WebSocketHandlerRegistry registry) {
-        registry.addHandler(tradingVolumeWebSocketHandler, "/ws/tradingVolume")
-                .setAllowedOrigins("http://13.209.73.178")
-                .setAllowedOrigins("http://localhost:3000");
+        registry.addHandler(tradingVolumeWebSocketHandler, "/ws/tradingVolume");
     }
 }
