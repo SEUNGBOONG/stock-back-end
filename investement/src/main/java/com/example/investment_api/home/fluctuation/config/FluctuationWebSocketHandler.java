@@ -62,13 +62,16 @@ public class FluctuationWebSocketHandler extends TextWebSocketHandler {
 
     private void webSocketSession(final WebSocketSession socketSource) throws IOException, InterruptedException {
         while (socketSource.isOpen()) {
-            List<FluctuationDTO> fluctuationDTO = fluctuationService.getFluctuation();
-            String message = objectMapper.writeValueAsString(fluctuationDTO);
-            if (socketSource.isOpen()) {
+            try {
+                List<FluctuationDTO> fluctuationDTO = fluctuationService.getFluctuation();
+                String message = objectMapper.writeValueAsString(fluctuationDTO);
                 socketSource.sendMessage(new TextMessage(message));
+                Thread.sleep(1000);
+            } catch (IOException e) {
+                break;
             }
-            Thread.sleep(1000);
         }
+
     }
 
 }
