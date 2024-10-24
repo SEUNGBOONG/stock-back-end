@@ -21,12 +21,15 @@ jobs:
           java-version: '17'
 
       # 3. application.properties 파일 생성 및 환경 변수 적용
-      - name: Create and update application.properties
+      - name: Create application.properties
         run: |
-          touch ./src/main/resources/application.properties
-          echo "${{ secrets.APPLICATION }}" > ./src/main/resources/application.properties
+          mkdir -p ./src/main/resources  # 디렉토리가 없을 경우 생성
+          touch ./src/main/resources/application.properties  # 파일 생성
+          echo "api.access_token=***
+          api.app_key=***
+          api.app_secret=***
+          " > ./src/main/resources/application.properties
           cat ./src/main/resources/application.properties
-
       # 4. Gradle Wrapper 파일에 실행 권한 부여 (investement 디렉토리)
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
