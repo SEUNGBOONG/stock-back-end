@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -37,7 +37,7 @@ jobs:
           echo "marketCapitalization.tr_id=${{ secrets.MARKET_TR_ID }}" >> ./src/main/resources/application.properties
           echo "fluctuation.tr_id=${{ secrets.FLUCTUATION_TR_ID }}" >> ./src/main/resources/application.properties
           echo "financialRatio.tr_id=${{ secrets.FINANCIAL_TR_ID }}" >> ./src/main/resources/application.properties
-          echo "consensus.tr_id=${{ secrets.CONSENSUS_TR_ID }}" >> ./src/main/resources.application.properties
+          echo "consensus.tr_id=${{ secrets.CONSENSUS_TR_ID }}" >> ./src/main/resources/application.properties
           echo "stock.tr_id=${{ secrets.STOCK_TR_ID }}" >> ./src/main/resources/application.properties
           echo "websocket.key=${{ secrets.WEBSOCKET_KEY }}" >> ./src/main/resources/application.properties
           echo "spring.datasource.url=${{ secrets.SPRING_DATASOURCE_URL }}" >> ./src/main/resources/application.properties
