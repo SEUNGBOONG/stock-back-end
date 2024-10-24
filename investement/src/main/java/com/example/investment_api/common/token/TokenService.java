@@ -62,7 +62,6 @@ public class TokenService {
             // 새로운 access token 설정
             properties.setProperty("api.access_token", newAccessToken);
 
-            // 파일에 저장
             try (OutputStream out = new FileOutputStream(propertiesFilePath)) {
                 properties.store(out, null);
             }
