@@ -23,7 +23,6 @@ public class SearchHomeController {
     }
 
     @GetMapping("/stock-data")
-    @CrossOrigin(origins = {"http://13.209.4.56:8080", "http://localhost:3000"})
     public ResponseEntity<List<StockDataDTO>> getStockData(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size) {
         try {
             List<StockDataDTO> stockDataList = stockDataService.getStockDataDTO(page, size);
