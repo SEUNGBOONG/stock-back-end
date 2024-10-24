@@ -20,31 +20,11 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-            # 3. application.properties 파일 생성 및 GitHub Secrets 값 적용
-      - name: Create application.properties and set values from secrets
+      # 3. application.properties 파일 생성 및 환경 변수 적용
+      - name: Create and update application.properties
         run: |
-          mkdir -p ./src/main/resources  # 디렉토리가 없을 경우 생성
-          touch ./src/main/resources/application.properties  # 파일 생성
-          echo "spring.application.name=${{ secrets.SPRING_APPLICATION_NAME }}" >> ./src/main/resources/application.properties
-          echo "naver.api.clientId=${{ secrets.NAVER_API_CLIENTID }}" >> ./src/main/resources/application.properties
-          echo "naver.api.clientSecret=${{ secrets.NAVER_API_KEY }}" >> ./src/main/resources/application.properties
-          echo "serviceKey=${{ secrets.SERVICE_KEY }}" >> ./src/main/resources/application.properties
-          echo "api.tr_id=${{ secrets.API_TR_ID }}" >> ./src/main/resources/application.properties
-          echo "api.app_secret=${{ secrets.API_APP_SECRET }}" >> ./src/main/resources/application.properties
-          echo "api.app_key=${{ secrets.API_APP_KEY }}" >> ./src/main/resources/application.properties
-          echo "api.access_token=${{ secrets.API_ACCESS_TOKEN }}" >> ./src/main/resources/application.properties
-          echo "api.approval_key=${{ secrets.API_APPROVAL_KEY }}" >> ./src/main/resources/application.properties
-          echo "marketCapitalization.tr_id=${{ secrets.MARKET_TR_ID }}" >> ./src/main/resources/application.properties
-          echo "fluctuation.tr_id=${{ secrets.FLUCTUATION_TR_ID }}" >> ./src/main/resources/application.properties
-          echo "financialRatio.tr_id=${{ secrets.FINANCIAL_TR_ID }}" >> ./src/main/resources/application.properties
-          echo "consensus.tr_id=${{ secrets.CONSENSUS_TR_ID }}" >> ./src/main/resources/application.properties
-          echo "stock.tr_id=${{ secrets.STOCK_TR_ID }}" >> ./src/main/resources/application.properties
-          echo "websocket.key=${{ secrets.WEBSOCKET_KEY }}" >> ./src/main/resources/application.properties
-          echo "spring.datasource.url=${{ secrets.SPRING_DATASOURCE_URL }}" >> ./src/main/resources/application.properties
-          echo "spring.datasource.username=${{ secrets.SPRING_DATASOURCE_USERNAME }}" >> ./src/main/resources/application.properties
-          echo "spring.datasource.password=${{ secrets.SPRING_DATASOURCE_PASSWORD }}" >> ./src/main/resources/application.properties
-          echo "spring.jpa.hibernate.ddl-auto=${{ secrets.SPRING_JPA_HIBERNATE_DDL_AUTO }}" >> ./src/main/resources/application.properties
-          echo "spring.jpa.show-sql=${{ secrets.SPRING_JPA_SHOW_SQL }}" >> ./src/main/resources/application.properties
+          touch ./src/main/resources/application.properties
+          echo "${{ secrets.APPLICATION }}" > ./src/main/resources/application.properties
           cat ./src/main/resources/application.properties
 
       # 4. Gradle Wrapper 파일에 실행 권한 부여 (investement 디렉토리)
@@ -52,16 +32,21 @@ jobs:
         run: chmod +x ./gradlew
         working-directory: ./investement
 
-      # 5. Gradle 빌드 실행 (investement 디렉토리)
+      # 5. application.properties에서 API_ACCESS_TOKEN 덮어쓰기
+      - name: Update API_ACCESS_TOKEN in application.properties
+        run: |
+          sed -i 's/^api.access_token=.*/api.access_token=${{ secrets.API_ACCESS_TOKEN }}/' ./investement/src/main/resources/application.properties
+
+      # 6. Gradle 빌드 실행 (investement 디렉토리)
       - name: Build with Gradle
         run: ./gradlew build -x test
         working-directory: ./investement
 
-      # 6. Docker 이미지 빌드 (investement 디렉토리에서 실행)
+      # 7. Docker 이미지 빌드 (investement 디렉토리에서 실행)
       - name: Build Docker image
         run: docker build -t seungboong/stockservice ./investement
 
-      # 7. AWS ECR에 로그인 (AWS CLI 사용)
+      # 8. AWS ECR에 로그인 (AWS CLI 사용)
       - name: Log in to Amazon ECR
         run: |
           aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -69,7 +54,7 @@ jobs:
           aws configure set region ap-northeast-2
           aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin 864899864038.dkr.ecr.ap-northeast-2.amazonaws.com
 
-      # 8. Docker 이미지 태그 및 ECR로 푸시
+      # 9. Docker 이미지 태그 및 ECR로 푸시
       - name: Tag and push to ECR
         run: |
           IMAGE_REPO=864899864038.dkr.ecr.ap-northeast-2.amazonaws.com/stockrepo
@@ -80,7 +65,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      # 9. EC2 서버에 SSH로 접속하여 배포
+      # 10. EC2 서버에 SSH로 접속하여 배포
       - name: SSH into EC2 and Deploy
         uses: appleboy/ssh-action@v0.1.7
         with:
@@ -91,5 +76,4 @@ jobs:
            docker stop stockservice || true
            docker rm stockservice || true
            docker pull 864899864038.dkr.ecr.ap-northeast-2.amazonaws.com/stockrepo:latest
-           docker run -d —name stockservice -p 8080:8080 864899864038.dkr.ecr.ap-northeast-2.amazonaws.com/stockrepo:latest
-           
+           docker run -d --name stockservice -p 8080:8080 864899864038.dkr.ecr.ap-northeast-2.amazonaws.com/stockrepo:latest
