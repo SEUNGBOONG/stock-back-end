@@ -1,31 +1,31 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <title>WebSocket Test</title>
-</head>
-<body>
-<h1>KOSPI 및 KOSDAQ 데이터</h1>
-<pre id="output"></pre>
-<script>
-    const socket = new WebSocket("ws://13.209.4.56/ws/fluctuation?approval_key=48121c9e-dcbc-47f3-89c7-0282fecc077d");
-    socket.onopen = function () {
-        console.log('WebSocket 연결됨');
-    };
+<!--<!DOCTYPE html>-->
+<!--<html lang="ko">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>WebSocket Test</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<h1>KOSPI 및 KOSDAQ 데이터</h1>-->
+<!--<pre id="output"></pre>-->
+<!--<script>-->
+<!--    const socket = new WebSocket("ws://13.209.73.178/ws/fluctuation?approval_key=92cd1571-4ab4-4f29-8bec-a7c443194abc");-->
+<!--    socket.onopen = function () {-->
+<!--        console.log('WebSocket 연결됨');-->
+<!--    };-->
 
-    socket.onmessage = function (event) {
-        const data = JSON.parse(event.data);
-        document.getElementById('output').textContent += `KOSPI: ${JSON.stringify(data.kospi)}\n`;
-        document.getElementById('output').textContent += `KOSDAQ: ${JSON.stringify(data.kosdaq)}\n`;
-    };
+<!--    socket.onmessage = function (event) {-->
+<!--        const data = JSON.parse(event.data);-->
+<!--        document.getElementById('output').textContent += `KOSPI: ${JSON.stringify(data.kospi)}\n`;-->
+<!--        document.getElementById('output').textContent += `KOSDAQ: ${JSON.stringify(data.kosdaq)}\n`;-->
+<!--    };-->
 
-    socket.onclose = function () {
-        console.log('WebSocket 연결이 종료됨');
-    };
+<!--    socket.onclose = function () {-->
+<!--        console.log('WebSocket 연결이 종료됨');-->
+<!--    };-->
 
-    socket.onerror = function (error) {
-        console.error('WebSocket 오류:', error);
-    };
-</script>
-</body>
-</html>
+<!--    socket.onerror = function (error) {-->
+<!--        console.error('WebSocket 오류:', error);-->
+<!--    };-->
+<!--</script>-->
+<!--</body>-->
+<!--</html>-->
