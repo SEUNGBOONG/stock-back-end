@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -88,7 +88,9 @@ jobs:
           username: ec2-user
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
+           # AWS ECR 로그인 갱신
+           aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin 864899864038.dkr.ecr.ap-northeast-2.amazonaws.com
            docker stop stockservice || true
            docker rm stockservice || true
            docker pull 864899864038.dkr.ecr.ap-northeast-2.amazonaws.com/stockrepo:latest
-           docker run -d —name stockservice -p 8080:8080 864899864038.dkr.ecr.ap-northeast-2.amazonaws.com/stockrepo:latest
+           docker run -d --name stockservice -p 8080:8080 864899864038.dkr.ecr.ap-northeast-2.amazonaws.com/stockrepo:latest
