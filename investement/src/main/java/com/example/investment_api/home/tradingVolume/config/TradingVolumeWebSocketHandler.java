@@ -5,6 +5,7 @@ import com.example.investment_api.home.tradingVolume.controller.dto.TradingVolum
 import com.example.investment_api.home.tradingVolume.service.TradingVolumeService;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -26,6 +27,7 @@ public class TradingVolumeWebSocketHandler extends TextWebSocketHandler {
     @Value("${WEBSOCKET_KEY}")
     private String socketKey;
 
+    @Autowired
     public TradingVolumeWebSocketHandler(final TradingVolumeService tradingVolumeService, ObjectMapper objectMapper) {
         this.tradingVolumeService = tradingVolumeService;
         this.objectMapper = objectMapper;

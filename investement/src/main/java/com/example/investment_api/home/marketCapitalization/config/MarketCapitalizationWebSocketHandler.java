@@ -6,6 +6,7 @@ import com.example.investment_api.home.marketCapitalization.service.MarketCapita
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.TextMessage;
@@ -25,6 +26,7 @@ public class MarketCapitalizationWebSocketHandler extends TextWebSocketHandler {
     @Value("${WEBSOCKET_KEY}")
     private String socketKey;
 
+    @Autowired
     public MarketCapitalizationWebSocketHandler(final ObjectMapper objectMapper, final MarketCapitalizationService marketCapitalizationService) {
         this.objectMapper = objectMapper;
         this.marketCapitalizationService = marketCapitalizationService;

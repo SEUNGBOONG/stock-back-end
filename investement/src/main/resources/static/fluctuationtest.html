@@ -1,47 +1,47 @@
-<!--<!DOCTYPE html>-->
-<!--<html lang="en">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
-<!--    <title>Fluctuation WebSocket Test</title>-->
-<!--</head>-->
-<!--<body>-->
-<!--<h1>Stock Fluctuation Data</h1>-->
-<!--<div id="fluctuation-data"></div>-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fluctuation WebSocket Test</title>
+</head>
+<body>
+<h1>Stock Fluctuation Data</h1>
+<div id="fluctuation-data"></div>
 
-<!--<script>-->
-<!--    const socket = new WebSocket("ws://13.209.73.178/ws/fluctuation?approval_key=48121c9e-dcbc-47f3-89c7-0282fecc077d");-->
-<!--    socket.onopen = function (event) {-->
-<!--        console.log("WebSocket connection established.");-->
-<!--    };-->
+<script>
+    const socket = new WebSocket("ws://13.209.73.178/ws/fluctuation?approval_key=48121c9e-dcbc-47f3-89c7-0282fecc077d");
+    socket.onopen = function (event) {
+        console.log("WebSocket connection established.");
+    };
 
-<!--    socket.onmessage = function (event) {-->
-<!--        const fluctuationData = JSON.parse(event.data);-->
-<!--        const displayDiv = document.getElementById("fluctuation-data");-->
+    socket.onmessage = function (event) {
+        const fluctuationData = JSON.parse(event.data);
+        const displayDiv = document.getElementById("fluctuation-data");
 
-<!--        displayDiv.innerHTML = '';-->
-<!--        fluctuationData.forEach(stock => {-->
-<!--            const stockInfo = `-->
-<!--                    <p>-->
-<!--                        <strong>주식 이름:</strong> ${stock.stockName}<br>-->
-<!--                        <strong>순위:</strong> ${stock.rank}<br>-->
-<!--                        <strong>현재가:</strong> ${stock.currentPrice}<br>-->
-<!--                        <strong>전일대비:</strong> ${stock.prevChangePrice}<br>-->
-<!--                        <strong>전일 대비 부호:</strong> ${stock.prevSign}<br>-->
-<!--                        <strong>전일 대비율:</strong> ${stock.prevChangeRate}%<br>-->
-<!--                    </p>-->
-<!--                `;-->
-<!--            displayDiv.innerHTML += stockInfo;-->
-<!--        });-->
-<!--    };-->
+        displayDiv.innerHTML = '';
+        fluctuationData.forEach(stock => {
+            const stockInfo = `
+                    <p>
+                        <strong>주식 이름:</strong> ${stock.stockName}<br>
+                        <strong>순위:</strong> ${stock.rank}<br>
+                        <strong>현재가:</strong> ${stock.currentPrice}<br>
+                        <strong>전일대비:</strong> ${stock.prevChangePrice}<br>
+                        <strong>전일 대비 부호:</strong> ${stock.prevSign}<br>
+                        <strong>전일 대비율:</strong> ${stock.prevChangeRate}%<br>
+                    </p>
+                `;
+            displayDiv.innerHTML += stockInfo;
+        });
+    };
 
-<!--    socket.onclose = function (event) {-->
-<!--        console.log("WebSocket connection closed.");-->
-<!--    };-->
+    socket.onclose = function (event) {
+        console.log("WebSocket connection closed.");
+    };
 
-<!--    socket.onerror = function (error) {-->
-<!--        console.error("WebSocket error observed:", error);-->
-<!--    };-->
-<!--</script>-->
-<!--</body>-->
-<!--</html>-->
+    socket.onerror = function (error) {
+        console.error("WebSocket error observed:", error);
+    };
+</script>
+</body>
+</html>
