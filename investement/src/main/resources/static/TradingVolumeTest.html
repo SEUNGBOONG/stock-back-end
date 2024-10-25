@@ -1,71 +1,71 @@
-<!--<!DOCTYPE html>-->
-<!--<html lang="ko">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
-<!--    <title>거래량 실시간 정보</title>-->
-<!--    <style>-->
-<!--        body {-->
-<!--            font-family: Arial, sans-serif;-->
-<!--            margin: 20px;-->
-<!--        }-->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>거래량 실시간 정보</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
 
-<!--        table {-->
-<!--            border-collapse: collapse;-->
-<!--            width: 100%;-->
-<!--        }-->
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
 
-<!--        th, td {-->
-<!--            border: 1px solid #ddd;-->
-<!--            padding: 8px;-->
-<!--            text-align: center;-->
-<!--        }-->
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
 
-<!--        th {-->
-<!--            background-color: #f2f2f2;-->
-<!--        }-->
-<!--    </style>-->
-<!--</head>-->
-<!--<body>-->
-<!--<h1>거래량 실시간 정보</h1>-->
-<!--<table>-->
-<!--    <thead>-->
-<!--    <tr>-->
-<!--        <th>주식 이름</th>-->
-<!--        <th>순위</th>-->
-<!--        <th>현재가</th>-->
-<!--        <th>전체 거래량</th>-->
-<!--        <th>이전 거래량</th>-->
-<!--        <th>거래량 변화율</th>-->
-<!--    </tr>-->
-<!--    </thead>-->
-<!--    <tbody id="tradingVolumeTable">-->
-<!--    &lt;!&ndash; 데이터가 여기에 추가됩니다 &ndash;&gt;-->
-<!--    </tbody>-->
-<!--</table>-->
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+<h1>거래량 실시간 정보</h1>
+<table>
+    <thead>
+    <tr>
+        <th>주식 이름</th>
+        <th>순위</th>
+        <th>현재가</th>
+        <th>전체 거래량</th>
+        <th>이전 거래량</th>
+        <th>거래량 변화율</th>
+    </tr>
+    </thead>
+    <tbody id="tradingVolumeTable">
+    <!-- 데이터가 여기에 추가됩니다 -->
+    </tbody>
+</table>
 
-<!--<script>-->
-<!--    const approvalKey = "48121c9e-dcbc-47f3-89c7-0282fecc077d"; // 승인 키 추가-->
-<!--    const socket = new WebSocket(`ws://13.209.73.178/ws/tradingVolume?approval_key=${approvalKey}`);-->
+<script>
+    const approvalKey = "48121c9e-dcbc-47f3-89c7-0282fecc077d"; // 승인 키 추가
+    const socket = new WebSocket(`ws://13.209.73.178/ws/tradingVolume?approval_key=${approvalKey}`);
 
-<!--    socket.onmessage = function (event) {-->
-<!--        const tradingVolumeData = JSON.parse(event.data);-->
-<!--        const tableBody = document.getElementById('tradingVolumeTable');-->
-<!--        tableBody.innerHTML = ''; // 이전 데이터 지우기-->
+    socket.onmessage = function (event) {
+        const tradingVolumeData = JSON.parse(event.data);
+        const tableBody = document.getElementById('tradingVolumeTable');
+        tableBody.innerHTML = ''; // 이전 데이터 지우기
 
-<!--        tradingVolumeData.forEach(item => {-->
-<!--            const row = `<tr>-->
-<!--                    <td>${item.stockName}</td>-->
-<!--                    <td>${item.rank}</td>-->
-<!--                    <td>${item.currentPrice}</td>-->
-<!--                    <td>${item.totalVolume}</td>-->
-<!--                    <td>${item.prevVolume}</td>-->
-<!--                    <td>${item.volumeChangeRate}</td>-->
-<!--                </tr>`;-->
-<!--            tableBody.innerHTML += row;-->
-<!--        });-->
-<!--    };-->
-<!--</script>-->
+        tradingVolumeData.forEach(item => {
+            const row = `<tr>
+                    <td>${item.stockName}</td>
+                    <td>${item.rank}</td>
+                    <td>${item.currentPrice}</td>
+                    <td>${item.totalVolume}</td>
+                    <td>${item.prevVolume}</td>
+                    <td>${item.volumeChangeRate}</td>
+                </tr>`;
+            tableBody.innerHTML += row;
+        });
+    };
+</script>
 
-<!--</body>-->
-<!--</html>-->
+</body>
+</html>
