@@ -10,6 +10,7 @@ import com.example.investment_api.member.ui.auth.dto.LoginRequest;
 import com.example.investment_api.member.infrastructure.auth.JwtTokenProvider;
 import com.example.investment_api.member.domain.member.Member;
 import com.example.investment_api.member.infrastructure.member.MemberJpaRepository;
+import com.example.investment_api.member.ui.auth.dto.LoginResponse;
 import com.example.investment_api.member.ui.auth.dto.SignUpRequest;
 
 import lombok.RequiredArgsConstructor;
@@ -28,8 +29,8 @@ public class AuthService {
         Member member = AuthMapper.toMember(signUpRequest);
         checkDuplicateMemberNickName(member.getMemberNickName());
         checkDuplicateMemberEmail(member.getMemberEmail());
-        memberJpaRepository.save(member);
-        return member;
+
+        return memberJpaRepository.save(member);
     }
 
     private void checkDuplicateMemberNickName(String nickName) {
@@ -45,10 +46,12 @@ public class AuthService {
     }
 
     @Transactional(readOnly = true)
-    public String login(LoginRequest loginRequest) {
+    public LoginResponse login(LoginRequest loginRequest) {
         Member member = findMemberByEmail(loginRequest.memberEmail());
         member.checkPassword(loginRequest.memberPassword());
-        return jwtTokenProvider.create(member.getId());
+        String token = jwtTokenProvider.create(member.getId());
+
+        return new LoginResponse(token, member.getMemberName(), member.getMemberNickName());
     }
 
     private Member findMemberByEmail(String email) {
