@@ -22,5 +22,4 @@ public class Stock {
 
     @Column
     private String stockName;
-
 }
