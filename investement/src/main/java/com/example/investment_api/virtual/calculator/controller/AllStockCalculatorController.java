@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("account/all")
+@RequestMapping("account/all-stocks")
 public class AllStockCalculatorController {
 
     private final MemberAccountService memberAccountService;
