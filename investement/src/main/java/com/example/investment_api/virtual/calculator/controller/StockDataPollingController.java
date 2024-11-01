@@ -1,7 +1,7 @@
 package com.example.investment_api.virtual.calculator.controller;
 
 
-import com.example.investment_api.virtual.account.dto.AccountDataDTO;
+import com.example.investment_api.virtual.account.dto.StockData;
 import com.example.investment_api.virtual.calculator.infrastructure.scheduler.AccountDataPollingService;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +17,7 @@ public class StockDataPollingController {
     }
 
     @GetMapping("/api/polling/stocks")
-    public AccountDataDTO getLatestStockData(@RequestParam String stockName) {
+    public StockData getLatestStockData(@RequestParam String stockName) {
         return stockDataPollingService.getLatestStockData(stockName);
     }
 }

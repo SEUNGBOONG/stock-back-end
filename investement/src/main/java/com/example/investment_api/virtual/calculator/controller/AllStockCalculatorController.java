@@ -1,9 +1,9 @@
 package com.example.investment_api.virtual.calculator.controller;
 
 import com.example.investment_api.virtual.account.dto.AllResultDTO;
-import com.example.investment_api.virtual.account.service.MemberAccountService;
-import com.example.investment_api.virtual.calculator.domain.AllStockCalculator;
-import com.example.investment_api.virtual.account.dto.StockCalculationDTO;
+import com.example.investment_api.virtual.account.dto.AccountStockData;
+import com.example.investment_api.virtual.account.service.StockDataService;
+import com.example.investment_api.virtual.calculator.mapper.StockCalculationMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,24 +17,21 @@ import java.util.List;
 @RequestMapping("account/all-stocks")
 public class AllStockCalculatorController {
 
-    private final MemberAccountService memberAccountService;
-    private final AllStockCalculator allStockCalculator;
+    private final StockDataService stockDataService;
+    private final StockCalculationMapper stockCalculationMapper;
 
-    public AllStockCalculatorController(MemberAccountService memberAccountService, AllStockCalculator allStockCalculator) {
-        this.memberAccountService = memberAccountService;
-        this.allStockCalculator = allStockCalculator;
+    public AllStockCalculatorController(StockDataService stockDataService, StockCalculationMapper stockCalculationMapper) {
+        this.stockDataService = stockDataService;
+        this.stockCalculationMapper = stockCalculationMapper;
     }
 
     @GetMapping()
     public ResponseEntity<AllResultDTO> getAllCalculations(@RequestParam Long memberId) {
-        List<StockCalculationDTO> dtoList = memberAccountService.getStockCalculationDtoList(memberId);
-
-        double totalEvaluationProfit = allStockCalculator.calculateTotalEvaluationProfit(dtoList);
-        double totalPurchaseAmount = allStockCalculator.calculateTotalPurchaseAmount(dtoList);
-        double totalProfit = allStockCalculator.calculateTotalProfit(dtoList);
-        int totalEvaluationAmount = allStockCalculator.calculateTotalEvaluationAmount(dtoList);
-
-        AllResultDTO result = new AllResultDTO(totalEvaluationProfit, totalPurchaseAmount, totalProfit, totalEvaluationAmount);
+        List<AccountStockData> dtoList = stockDataService.getAccountStockDataList(memberId);
+        if (dtoList.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        AllResultDTO result = stockCalculationMapper.toAllResultDTO(dtoList);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }
