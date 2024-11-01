@@ -1,6 +1,7 @@
 package com.example.investment_api.virtual.calculator.controller;
 
 
+import com.example.investment_api.virtual.account.dto.resultDTO;
 import com.example.investment_api.virtual.account.service.MemberAccountService;
 import com.example.investment_api.virtual.calculator.domain.StockCalculator;
 import com.example.investment_api.virtual.account.dto.StockCalculationDTO;
@@ -20,37 +21,19 @@ public class StockCalculatorController {
         this.memberAccountService = memberAccountService;
     }
 
-    @GetMapping("/evaluation-profit")
-    public ResponseEntity<Double> getEvaluationProfit(@RequestParam Long memberId, @RequestParam String stockName) {
+    @GetMapping()
+    public ResponseEntity<resultDTO> getAllCalculations(@RequestParam Long memberId, @RequestParam String stockName) {
         StockCalculationDTO dto = memberAccountService.getStockCalculationDTOList(memberId, stockName);
-        double result = stockCalculator.calculateEvaluationProfit(dto.currentPrice(), dto.buyPrice(), dto.stockCount());
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
 
-    @GetMapping("/profit-rate")
-    public ResponseEntity<Double> getProfitRate(@RequestParam Long memberId, @RequestParam String stockName) {
-        StockCalculationDTO dto = memberAccountService.getStockCalculationDTOList(memberId, stockName);
-        double result = stockCalculator.calculateProfitRate(dto.currentPrice(), dto.buyPrice());
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
+        String name = stockName;
+        int currentPrice = dto.currentPrice();
+        int stockCount= dto.stockCount();
+        double evaluationProfit = stockCalculator.calculateEvaluationProfit(dto.buyPrice(), dto.currentPrice(), dto.stockCount());
+        double profitRate = stockCalculator.calculateProfitRate(dto.buyPrice(), dto.currentPrice());
+        int purchaseAmount = stockCalculator.calculatePurchaseAmount(dto.buyPrice(), dto.stockCount());
+        int evaluationAmount = stockCalculator.calculateEvaluationAmount(dto.currentPrice(), dto.stockCount());
 
-    @GetMapping("/purchase-amount")
-    public ResponseEntity<Double> getPurchaseAmount(@RequestParam Long memberId, @RequestParam String stockName) {
-        StockCalculationDTO dto = memberAccountService.getStockCalculationDTOList(memberId, stockName);
-        double result = stockCalculator.calculatePurchaseAmount(dto.buyPrice(), dto.stockCount());
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
-
-    @GetMapping("/evaluation-amount")
-    public ResponseEntity<Integer> getEvaluationAmount(@RequestParam Long memberId, @RequestParam String stockName) {
-        StockCalculationDTO dto = memberAccountService.getStockCalculationDTOList(memberId, stockName);
-        int result = stockCalculator.calculateEvaluationAmount(dto.currentPrice(), dto.stockCount());
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
-
-    @GetMapping("/fluctuation-rate")
-    public ResponseEntity<Double> getFluctuationRate(@RequestParam String stockName) {
-        double result = memberAccountService.getFluctuationData(stockName);
+        resultDTO result = new resultDTO(name, currentPrice, stockCount, evaluationProfit, profitRate, purchaseAmount, evaluationAmount);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

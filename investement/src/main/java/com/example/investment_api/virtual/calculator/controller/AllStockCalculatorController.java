@@ -1,5 +1,6 @@
 package com.example.investment_api.virtual.calculator.controller;
 
+import com.example.investment_api.virtual.account.dto.AllResultDTO;
 import com.example.investment_api.virtual.account.service.MemberAccountService;
 import com.example.investment_api.virtual.calculator.domain.AllStockCalculator;
 import com.example.investment_api.virtual.account.dto.StockCalculationDTO;
@@ -17,40 +18,23 @@ import java.util.List;
 public class AllStockCalculatorController {
 
     private final MemberAccountService memberAccountService;
+    private final AllStockCalculator allStockCalculator;
 
-    public AllStockCalculatorController(MemberAccountService memberAccountService) {
+    public AllStockCalculatorController(MemberAccountService memberAccountService, AllStockCalculator allStockCalculator) {
         this.memberAccountService = memberAccountService;
+        this.allStockCalculator = allStockCalculator;
     }
 
-    @GetMapping("/evaluation-profit")
-    public ResponseEntity<Double> getTotalEvaluationProfit(@RequestParam Long memberId) {
+    @GetMapping()
+    public ResponseEntity<AllResultDTO> getAllCalculations(@RequestParam Long memberId) {
         List<StockCalculationDTO> dtoList = memberAccountService.getStockCalculationDtoList(memberId);
-        AllStockCalculator calculator = new AllStockCalculator();
-        double result = calculator.calculateTotalEvaluationProfit(dtoList);
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
 
-    @GetMapping("/evaluation-amount")
-    public ResponseEntity<Integer> getTotalEvaluationAmount(@RequestParam Long memberId) {
-        List<StockCalculationDTO> dtoList = memberAccountService.getStockCalculationDtoList(memberId);
-        AllStockCalculator calculator = new AllStockCalculator();
-        int result = calculator.calculateTotalEvaluationAmount(dtoList);
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
+        double totalEvaluationProfit = allStockCalculator.calculateTotalEvaluationProfit(dtoList);
+        double totalPurchaseAmount = allStockCalculator.calculateTotalPurchaseAmount(dtoList);
+        double totalProfit = allStockCalculator.calculateTotalProfit(dtoList);
+        int totalEvaluationAmount = allStockCalculator.calculateTotalEvaluationAmount(dtoList);
 
-    @GetMapping("/profit")
-    public ResponseEntity<Double> getTotalProfit(@RequestParam Long memberId) {
-        List<StockCalculationDTO> dtoList = memberAccountService.getStockCalculationDtoList(memberId);
-        AllStockCalculator calculator = new AllStockCalculator();
-        double result = calculator.calculateTotalProfit(dtoList);
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
-
-    @GetMapping("/purchase-amount")
-    public ResponseEntity<Double> getTotalPurchaseAmount(@RequestParam Long memberId) {
-        List<StockCalculationDTO> dtoList = memberAccountService.getStockCalculationDtoList(memberId);
-        AllStockCalculator calculator = new AllStockCalculator();
-        double result = calculator.calculateTotalPurchaseAmount(dtoList);
+        AllResultDTO result = new AllResultDTO(totalEvaluationProfit, totalPurchaseAmount, totalProfit, totalEvaluationAmount);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }
