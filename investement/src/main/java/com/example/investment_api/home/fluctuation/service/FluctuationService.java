@@ -1,6 +1,5 @@
 package com.example.investment_api.home.fluctuation.service;
 
-
 import com.example.investment_api.home.fluctuation.controller.dto.response.FluctuationDTO;
 
 import com.example.investment_api.home.fluctuation.infrastructure.FluctuationParser;
