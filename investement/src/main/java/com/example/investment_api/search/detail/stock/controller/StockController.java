@@ -24,8 +24,8 @@ public class StockController {
     }
 
     @GetMapping
-    public ResponseEntity<StockResponse> getFinancialRatio(@RequestParam String stockInfo) throws IOException {
-        StockResponse stockResponse = stockService.getStockResponse(stockInfo);
+    public ResponseEntity<StockResponse> getFinancialRatio(@RequestParam String stockName) throws IOException {
+        StockResponse stockResponse = stockService.getStockResponse(stockName);
         return ResponseEntity.ok(stockResponse);
     }
 }

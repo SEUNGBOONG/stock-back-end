@@ -25,7 +25,7 @@ public class NewsController {
     }
 
     @GetMapping
-    public List<NewsResponse> getNews(@RequestParam String keyword) throws JSONException, IOException {
-        return newsService.getNews(keyword);
+    public List<NewsResponse> getNews(@RequestParam String stockName) throws JSONException, IOException {
+        return newsService.getNews(stockName);
     }
 }
