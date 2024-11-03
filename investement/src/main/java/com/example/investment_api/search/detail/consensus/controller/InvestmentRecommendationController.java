@@ -28,8 +28,8 @@ public class InvestmentRecommendationController {
         return getInvestmentRecommendationDTOResponseEntity(stockInfo);
     }
 
-    private ResponseEntity<InvestmentRecommendationDTO> getInvestmentRecommendationDTOResponseEntity(final String stockInfo) throws IOException {
-        InvestmentRecommendationDTO investmentRecommendationDTO = investmentRecommendationService.getInvestmentRecommendation(stockInfo);
+    private ResponseEntity<InvestmentRecommendationDTO> getInvestmentRecommendationDTOResponseEntity(final String stockName) throws IOException {
+        InvestmentRecommendationDTO investmentRecommendationDTO = investmentRecommendationService.getInvestmentRecommendation(stockName);
         return ResponseEntity.ok(investmentRecommendationDTO);
     }
 }

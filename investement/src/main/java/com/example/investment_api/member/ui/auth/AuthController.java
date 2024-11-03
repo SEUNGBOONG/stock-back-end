@@ -1,14 +1,20 @@
 package com.example.investment_api.member.ui.auth;
 
 import com.example.investment_api.member.mapper.auth.AuthMapper;
+
 import com.example.investment_api.member.ui.auth.dto.LoginRequest;
 import com.example.investment_api.member.ui.auth.dto.LoginResponse;
+
 import com.example.investment_api.member.application.auth.AuthService;
+
 import com.example.investment_api.member.ui.auth.dto.SignUpRequest;
 import com.example.investment_api.member.ui.auth.dto.SignUpResponse;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

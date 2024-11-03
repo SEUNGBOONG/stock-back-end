@@ -4,6 +4,7 @@ import com.example.investment_api.virtual.account.domain.MemberAccount;
 import com.example.investment_api.virtual.account.domain.MemberAccountRepository;
 import com.example.investment_api.virtual.account.dto.AccountDataDTO;
 import com.example.investment_api.virtual.account.dto.StockCalculationDTO;
+import com.example.investment_api.virtual.account.exception.NoSuchStock;
 import com.example.investment_api.virtual.calculator.infrastructure.scheduler.AccountDataPollingService;
 import org.springframework.stereotype.Service;
 
@@ -34,9 +35,8 @@ public class MemberAccountService {
     }
 
     public List<MemberAccount> getMemberAccounts(Long memberId) {
-        List<MemberAccount> accounts = accountRepository.findByMemberId(memberId)
+        return accountRepository.findByMemberId(memberId)
                 .orElseThrow(RuntimeException::new);
-        return accounts;
     }
 
     public StockCalculationDTO getStockCalculationDTOList(Long memberId, String stockName) {
@@ -48,13 +48,13 @@ public class MemberAccountService {
     private int getCurrentPrice(String stockName) {
         return Optional.ofNullable(stockDataPollingService.getLatestStockData(stockName))
                 .map(AccountDataDTO::currentPrice)
-                .orElseThrow(() -> new NoSuchElementException("No stock data found for stockName: " + stockName));
+                .orElseThrow(() -> new NoSuchStock(stockName));
     }
 
     public double getFluctuationData(String stockName) {
         return Optional.ofNullable(stockDataPollingService.getLatestStockData(stockName))
                 .map(AccountDataDTO::prevChangeRate)
-                .orElseThrow(() -> new NoSuchElementException("No stock data found for stockName: " + stockName));
+                .orElseThrow(() -> new NoSuchStock(stockName));
     }
 
     public MemberAccount getMemberAccount(Long memberId, String stockName) {

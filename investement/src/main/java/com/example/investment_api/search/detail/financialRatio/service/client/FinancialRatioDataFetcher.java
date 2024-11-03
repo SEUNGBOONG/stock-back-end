@@ -32,8 +32,8 @@ public class FinancialRatioDataFetcher {
         this.restTemplate = restTemplate;
     }
 
-    public ResponseEntity<String> fetchFinancialRatioData(String stockInfo) {
-        return setURL(stockInfo);
+    public ResponseEntity<String> fetchFinancialRatioData(String stockName) {
+        return setURL(stockName);
     }
 
     private ResponseEntity<String> setURL(final String stockInfo) {
