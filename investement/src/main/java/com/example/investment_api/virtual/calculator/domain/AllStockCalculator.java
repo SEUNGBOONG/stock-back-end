@@ -1,6 +1,6 @@
 package com.example.investment_api.virtual.calculator.domain;
 
-import com.example.investment_api.virtual.account.dto.StockCalculationDTO;
+import com.example.investment_api.virtual.account.dto.AccountStockData;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -14,9 +14,9 @@ public class AllStockCalculator {
         this.stockCalculator = new StockCalculator();
     }
 
-    public double calculateTotalEvaluationProfit(List<StockCalculationDTO> dtoList) {
+    public double calculateTotalEvaluationProfit(List<AccountStockData> dtoList) {
         double totalEvaluationProfit = 0.0;
-        for (StockCalculationDTO calculationDTO : dtoList) {
+        for (AccountStockData calculationDTO : dtoList) {
             int currentPrice = calculationDTO.currentPrice();
             int buyPrice = calculationDTO.buyPrice();
             int stockCount = calculationDTO.stockCount();
@@ -26,9 +26,9 @@ public class AllStockCalculator {
         return totalEvaluationProfit; //평가 손익
     }
 
-    public double calculateTotalPurchaseAmount(List<StockCalculationDTO> dtoList) {
+    public double calculateTotalPurchaseAmount(List<AccountStockData> dtoList) {
         int totalPurchaseAmount = 0;
-        for (StockCalculationDTO calculationDTO : dtoList) {
+        for (AccountStockData calculationDTO : dtoList) {
             int buyPrice = calculationDTO.buyPrice();
             int stockCount = calculationDTO.stockCount();
             totalPurchaseAmount += stockCalculator.calculatePurchaseAmount(buyPrice, stockCount);
@@ -36,7 +36,7 @@ public class AllStockCalculator {
         return totalPurchaseAmount; //매입 금액
     }
 
-    public double calculateTotalProfit(List<StockCalculationDTO> dtoList) {
+    public double calculateTotalProfit(List<AccountStockData> dtoList) {
         double totalProfit = 0.0;
         double totalPurchaseAmount = calculateTotalPurchaseAmount(dtoList);
         double totalEvaluationProfit = calculateTotalEvaluationProfit(dtoList);
@@ -46,9 +46,9 @@ public class AllStockCalculator {
         return totalProfit; //수익률
     }
 
-    public int calculateTotalEvaluationAmount(List<StockCalculationDTO> dtolist) {
+    public int calculateTotalEvaluationAmount(List<AccountStockData> dtolist) {
         int totalEvaluationAmount = 0;
-        for (StockCalculationDTO calculationDTO : dtolist) {
+        for (AccountStockData calculationDTO : dtolist) {
             int currentPrice = calculationDTO.currentPrice();
             int stockCount = calculationDTO.stockCount();
             totalEvaluationAmount += stockCalculator.calculateEvaluationAmount(currentPrice, stockCount);
