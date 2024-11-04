@@ -2,7 +2,7 @@ package com.example.investment_api.virtual.calculator.controller;
 
 import com.example.investment_api.virtual.account.dto.AllResultDTO;
 import com.example.investment_api.virtual.account.dto.AccountStockData;
-import com.example.investment_api.virtual.account.service.StockDataService;
+import com.example.investment_api.virtual.account.service.StockVirtualDataService;
 import com.example.investment_api.virtual.calculator.mapper.StockCalculationMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,17 +17,17 @@ import java.util.List;
 @RequestMapping("account/all-stocks")
 public class AllStockCalculatorController {
 
-    private final StockDataService stockDataService;
+    private final StockVirtualDataService stockVirtualDataService;
     private final StockCalculationMapper stockCalculationMapper;
 
-    public AllStockCalculatorController(StockDataService stockDataService, StockCalculationMapper stockCalculationMapper) {
-        this.stockDataService = stockDataService;
+    public AllStockCalculatorController(StockVirtualDataService stockVirtualDataService, StockCalculationMapper stockCalculationMapper) {
+        this.stockVirtualDataService = stockVirtualDataService;
         this.stockCalculationMapper = stockCalculationMapper;
     }
 
     @GetMapping()
     public ResponseEntity<AllResultDTO> getAllCalculations(@RequestParam Long memberId) {
-        List<AccountStockData> dtoList = stockDataService.getAccountStockDataList(memberId);
+        List<AccountStockData> dtoList = stockVirtualDataService.getAccountStockDataList(memberId);
         if (dtoList.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
