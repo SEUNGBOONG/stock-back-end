@@ -1,6 +1,6 @@
-package com.example.investment_api.virtual.account.dto;
+package com.example.investment_api.virtual.account.controller.dto;
 
-public record resultDTO(
+public record ResultDTO(
         String stockName, //주식명
         int currentPrice, //현재가
         int stockCount, //보유 수량

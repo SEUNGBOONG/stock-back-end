@@ -1,4 +1,4 @@
-package com.example.investment_api.virtual.account.dto;
+package com.example.investment_api.virtual.account.controller.dto;
 
 public record AllResultDTO(
         double totalEvaluationProfit, //총 평가손익

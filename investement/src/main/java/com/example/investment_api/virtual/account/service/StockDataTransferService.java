@@ -1,23 +1,26 @@
 package com.example.investment_api.virtual.account.service;
 
 import com.example.investment_api.virtual.account.domain.MemberAccount;
-import com.example.investment_api.virtual.account.dto.AccountStockData;
-import com.example.investment_api.virtual.account.dto.StockData;
+
+import com.example.investment_api.virtual.account.controller.dto.AccountStockData;
+import com.example.investment_api.virtual.account.controller.dto.StockData;
+
+import com.example.investment_api.virtual.account.exception.NoSuchStock;
 import com.example.investment_api.virtual.calculator.infrastructure.scheduler.AccountDataPollingService;
+
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
-public class StockDataService {
+public class StockDataTransferService {
 
     private final AccountDataPollingService stockDataPollingService;
     private final MemberAccountService memberAccountService;
 
-    public StockDataService(AccountDataPollingService stockDataPollingService, MemberAccountService memberAccountService) {
+    public StockDataTransferService(AccountDataPollingService stockDataPollingService, MemberAccountService memberAccountService) {
         this.stockDataPollingService = stockDataPollingService;
         this.memberAccountService = memberAccountService;
     }
@@ -52,12 +55,12 @@ public class StockDataService {
     private int getCurrentPrice(String stockName) {
         return Optional.ofNullable(stockDataPollingService.getLatestStockData(stockName))
                 .map(StockData::currentPrice)
-                .orElseThrow(() -> new NoSuchElementException("No stock data found for stockName: " + stockName));
+                .orElseThrow(() -> new NoSuchStock(stockName));
     }
 
     private double getFluctuationData(String stockName) {
         return Optional.ofNullable(stockDataPollingService.getLatestStockData(stockName))
                 .map(StockData::prevChangeRate)
-                .orElseThrow(() -> new NoSuchElementException("No stock data found for stockName: " + stockName));
+                .orElseThrow(() -> new NoSuchStock(stockName));
     }
 }

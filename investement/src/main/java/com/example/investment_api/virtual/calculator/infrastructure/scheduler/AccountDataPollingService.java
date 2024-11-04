@@ -1,8 +1,10 @@
 package com.example.investment_api.virtual.calculator.infrastructure.scheduler;
 
 import com.example.investment_api.home.marketCapitalization.service.client.MarketCapitalizationFetcher;
-import com.example.investment_api.virtual.account.dto.StockData;
+
+import com.example.investment_api.virtual.account.controller.dto.StockData;
 import com.example.investment_api.virtual.calculator.infrastructure.AccountDataParser;
+
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +30,6 @@ public class AccountDataPollingService {
         List<StockData> stockDataList = accountDataParser.parseAll(responseBody);
 
         if (stockDataList != null && !stockDataList.isEmpty()) {
-            // 각 주식 이름을 키로 하여 최신 데이터를 저장
             for (StockData stockData : stockDataList) {
                 latestStockData.put(stockData.stockName(), stockData);
             }
