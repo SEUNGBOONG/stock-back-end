@@ -102,8 +102,8 @@ public class MemberAccountService {
                 .orElseThrow(() -> new NoSuchAccountMemberId(memberId, stockName));
     }
 
-    public String modifyOrder(Long memberId, Long orderId, StockOrderDTO updatedOrder) {
-        StockOrder order = stockOrderRepository.findById(orderId)
+    public String modifyOrder(Long memberId, StockOrderDTO updatedOrder) {
+        StockOrder order = stockOrderRepository.findById(memberId)
                 .orElseThrow(NotFoundOrderException::new);
         order.setStockName(updatedOrder.getStockName());
         order.setQuantity(updatedOrder.getQuantity());
@@ -113,8 +113,8 @@ public class MemberAccountService {
         return "주문이 수정되었습니다: " + updatedOrder.getStockName();
     }
 
-    public String cancelOrder(Long memberId, Long orderId) {
-        StockOrder order = stockOrderRepository.findById(orderId)
+    public String cancelOrder(Long memberId) {
+        StockOrder order = stockOrderRepository.findById(memberId)
                 .orElseThrow(NotFoundOrderException::new);
         stockOrderRepository.delete(order);
         return "주문이 취소되었습니다: " + order.getStockName();
