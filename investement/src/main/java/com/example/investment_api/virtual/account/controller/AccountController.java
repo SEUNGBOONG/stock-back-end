@@ -1,6 +1,14 @@
 package com.example.investment_api.virtual.account.controller;
 
 import com.example.investment_api.global.annotation.Member;
+
+import com.example.investment_api.virtual.account.controller.dto.BuyRequest;
+import com.example.investment_api.virtual.account.controller.dto.BuyResponse;
+import com.example.investment_api.virtual.account.controller.dto.LimitOrderResponse;
+import com.example.investment_api.virtual.account.controller.dto.OrderRequest;
+import com.example.investment_api.virtual.account.controller.dto.SellRequest;
+import com.example.investment_api.virtual.account.controller.dto.SellResponse;
+
 import com.example.investment_api.virtual.account.domain.MemberAccount;
 
 import com.example.investment_api.virtual.account.controller.dto.StockOrderDTO;
@@ -30,33 +38,31 @@ public class AccountController {
     }
 
     @PostMapping("/buy")
-    public String buyStock(@Member Long memberId,
-                           @RequestParam String stockName,
-                           @RequestParam int quantity
+    public BuyResponse buyStock(@Member Long memberId,
+                                @RequestBody BuyRequest request
     ) {
-        return memberAccountService.buyStockImmediately(memberId, stockName, quantity);
+        return memberAccountService.buyStockImmediately(memberId, request.stockName(), request.quantity());
     }
 
     @PostMapping("/sell")
-    public String sellStock(@Member Long memberId,
-                            @RequestParam String stockName,
-                            @RequestParam int quantity) {
-        return memberAccountService.sellStockImmediately(memberId, stockName, quantity);
+    public SellResponse sellStock(@Member Long memberId,
+                                  @RequestBody SellRequest request
+                                  ) {
+        return memberAccountService.sellStockImmediately(memberId, request.stockName(), request.quantity());
     }
 
     @PostMapping("/order/buy")
-    public String placeLimitOrderForBuy(@Member Long memberId,
-                                        @RequestParam String stockName,
-                                        @RequestParam int limitPrice,
-                                        @RequestParam int quantity) {
-        return memberAccountService.placeLimitOrderForBuy(memberId, stockName, limitPrice, quantity);
+    public LimitOrderResponse placeLimitOrderForBuy(@Member Long memberId,
+                                                    @RequestBody OrderRequest request
+                                                    ) {
+        return memberAccountService.placeLimitOrderForBuy(memberId, request.stockName(), request.limitPrice(), request.quantity());
     }
 
     @PostMapping("/order/sell")
-    public String placeLimitOrderForSell(@Member Long memberId,
-                                         @RequestParam String stockName,
-                                         @RequestParam int limitPrice,
-                                         @RequestParam int quantity) {
+    public LimitOrderResponse placeLimitOrderForSell(@Member Long memberId,
+                                                     @RequestParam String stockName,
+                                                     @RequestParam int limitPrice,
+                                                     @RequestParam int quantity) {
         return memberAccountService.placeLimitOrderForSell(memberId, stockName, limitPrice, quantity);
     }
 
