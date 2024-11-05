@@ -1,10 +1,13 @@
 package com.example.investment_api.virtual.calculator.mapper;
 
-import com.example.investment_api.virtual.account.dto.AllResultDTO;
-import com.example.investment_api.virtual.account.dto.AccountStockData;
-import com.example.investment_api.virtual.account.dto.resultDTO;
+import com.example.investment_api.virtual.account.controller.dto.AllResultDTO;
+import com.example.investment_api.virtual.account.controller.dto.AccountStockData;
+import com.example.investment_api.virtual.account.controller.dto.ResultDTO;
+
 import com.example.investment_api.virtual.calculator.domain.AllStockCalculator;
+
 import com.example.investment_api.virtual.calculator.domain.StockCalculator;
+
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -20,13 +23,22 @@ public class StockCalculationMapper {
         this.allStockCalculator = allStockCalculator;
     }
 
-    public resultDTO toResultDTO(String stockName, AccountStockData dto) {
-        double evaluationProfit = stockCalculator.calculateEvaluationProfit(dto.buyPrice(), dto.currentPrice(), dto.stockCount());
-        double profitRate = stockCalculator.calculateProfitRate(dto.buyPrice(), dto.currentPrice());
-        int purchaseAmount = stockCalculator.calculatePurchaseAmount(dto.buyPrice(), dto.stockCount());
-        int evaluationAmount = stockCalculator.calculateEvaluationAmount(dto.currentPrice(), dto.stockCount());
+    public ResultDTO toResultDTO(String stockName, AccountStockData dto) {
+        double evaluationProfit = stockCalculator.calculateEvaluationProfit(
+                dto.buyPrice(),
+                dto.currentPrice(),
+                dto.stockCount());
+        double profitRate = stockCalculator.calculateProfitRate(
+                dto.buyPrice(),
+                dto.currentPrice());
+        int purchaseAmount = stockCalculator.calculatePurchaseAmount(
+                dto.buyPrice(),
+                dto.stockCount());
+        int evaluationAmount = stockCalculator.calculateEvaluationAmount(
+                dto.currentPrice(),
+                dto.stockCount());
 
-        return new resultDTO(
+        return new ResultDTO(
                 stockName,
                 dto.currentPrice(),
                 dto.stockCount(),

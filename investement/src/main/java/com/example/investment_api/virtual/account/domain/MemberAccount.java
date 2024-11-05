@@ -21,18 +21,26 @@ public class MemberAccount {
     private Long memberId;
 
     @Column
-    private String stockName; //주식명
+    private String stockName;
 
     @Column
-    private int buyPrice; //매입가
+    private int buyPrice;
 
     @Column
-    private int stockCount; //보유수량
+    private int stockCount;
 
     public MemberAccount(Long memberId, String stockName, int buyPrice, int stockCount) {
         this.memberId = memberId;
         this.stockName = stockName;
         this.buyPrice = buyPrice;
         this.stockCount = stockCount;
+    }
+
+    public void addStockCount(int count) {
+        this.stockCount += count;
+    }
+
+    public void removeStockCount(int count) {
+        this.stockCount -= count;
     }
 }

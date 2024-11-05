@@ -8,7 +8,6 @@ import java.util.Optional;
 
 @Repository
 public interface MemberAccountRepository extends JpaRepository<MemberAccount, Long> {
-
     Optional<List<MemberAccount>> findByMemberId(Long memberId);
 
     Optional<MemberAccount> findByMemberIdAndStockName(Long memberId, String stockName);

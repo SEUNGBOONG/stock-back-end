@@ -1,8 +1,8 @@
 package com.example.investment_api.virtual.calculator.controller;
 
-import com.example.investment_api.virtual.account.dto.AllResultDTO;
-import com.example.investment_api.virtual.account.dto.AccountStockData;
-import com.example.investment_api.virtual.account.service.StockDataService;
+import com.example.investment_api.virtual.account.controller.dto.AllResultDTO;
+import com.example.investment_api.virtual.account.controller.dto.AccountStockData;
+import com.example.investment_api.virtual.account.service.StockDataTransferService;
 import com.example.investment_api.virtual.calculator.mapper.StockCalculationMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,17 +17,17 @@ import java.util.List;
 @RequestMapping("account/all-stocks")
 public class AllStockCalculatorController {
 
-    private final StockDataService stockDataService;
+    private final StockDataTransferService stockDataTransferService;
     private final StockCalculationMapper stockCalculationMapper;
 
-    public AllStockCalculatorController(StockDataService stockDataService, StockCalculationMapper stockCalculationMapper) {
-        this.stockDataService = stockDataService;
+    public AllStockCalculatorController(StockDataTransferService stockDataTransferService, StockCalculationMapper stockCalculationMapper) {
+        this.stockDataTransferService = stockDataTransferService;
         this.stockCalculationMapper = stockCalculationMapper;
     }
 
     @GetMapping()
     public ResponseEntity<AllResultDTO> getAllCalculations(@RequestParam Long memberId) {
-        List<AccountStockData> dtoList = stockDataService.getAccountStockDataList(memberId);
+        List<AccountStockData> dtoList = stockDataTransferService.getAccountStockDataList(memberId);
         if (dtoList.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

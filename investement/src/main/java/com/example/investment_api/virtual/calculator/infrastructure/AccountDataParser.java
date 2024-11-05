@@ -1,9 +1,12 @@
 package com.example.investment_api.virtual.calculator.infrastructure;
 
-import com.example.investment_api.virtual.account.dto.StockData;
+import com.example.investment_api.virtual.account.controller.dto.StockData;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
