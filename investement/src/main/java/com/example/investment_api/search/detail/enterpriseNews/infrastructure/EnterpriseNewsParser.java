@@ -1,12 +1,9 @@
-package com.example.investment_api.search.detail.news.infrastructure;
+package com.example.investment_api.search.detail.enterpriseNews.infrastructure;
 
-import com.example.investment_api.search.detail.news.controller.dto.NewsResponse;
-
+import com.example.investment_api.search.detail.enterpriseNews.controller.dto.NewsDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -15,30 +12,30 @@ import java.util.Iterator;
 import java.util.List;
 
 @Component
-public class NewsParser {
+public class EnterpriseNewsParser {
 
-    private static final int LIST_SIZE = 3;
+    private static final int LIST_SIZE = 10;
     private final ObjectMapper objectMapper;
 
-    public NewsParser(ObjectMapper objectMapper) {
+    public EnterpriseNewsParser(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
 
-    public List<NewsResponse> parseNews(String responseBody) throws IOException {
+    public List<NewsDTO> parseNews(String responseBody) throws IOException {
         return setJsonNode(responseBody);
     }
 
-    private List<NewsResponse> setJsonNode(final String responseBody) throws JsonProcessingException {
+    private List<NewsDTO> setJsonNode(final String responseBody) throws JsonProcessingException {
         JsonNode items = objectMapper.readTree(responseBody).path("items");
 
-        List<NewsResponse> newsList = new ArrayList<>();
+        List<NewsDTO> newsList = new ArrayList<>();
         Iterator<JsonNode> elements = items.elements();
 
         extractNews(elements, newsList);
         return newsList;
     }
 
-    private void extractNews(final Iterator<JsonNode> elements, final List<NewsResponse> newsList) {
+    private void extractNews(final Iterator<JsonNode> elements, final List<NewsDTO> newsList) {
         int count = 0;
 
         while (isUnderLimit(elements, count)) {
@@ -46,7 +43,8 @@ public class NewsParser {
 
             String title = newsItem.path("title").asText().replaceAll("<.*?>", "");
             String link = newsItem.path("link").asText();
-            newsList.add(new NewsResponse(title, link));
+            String pubDate= newsItem.path("pubDate").asText();
+            newsList.add(new NewsDTO(title, link, pubDate));
 
             count++;
         }

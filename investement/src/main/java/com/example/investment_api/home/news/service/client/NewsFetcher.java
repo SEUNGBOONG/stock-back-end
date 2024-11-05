@@ -1,4 +1,4 @@
-package com.example.investment_api.search.detail.news.service.client;
+package com.example.investment_api.home.news.service.client;
 
 import com.example.investment_api.common.config.RestTemplateClient;
 
