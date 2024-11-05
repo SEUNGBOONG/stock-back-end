@@ -7,8 +7,9 @@ import com.example.investment_api.search.detail.stock.service.client.StockDataFe
 
 import com.example.investment_api.virtual.account.domain.MemberAccount;
 import com.example.investment_api.virtual.account.domain.MemberAccountRepository;
-import com.example.investment_api.virtual.account.domain.StockOrder;
 import com.example.investment_api.virtual.account.domain.StockOrderRepository;
+
+import com.example.investment_api.virtual.account.domain.StockOrder;
 
 import com.example.investment_api.virtual.account.controller.dto.StockDataDTO;
 import com.example.investment_api.virtual.account.controller.dto.StockOrderDTO;
