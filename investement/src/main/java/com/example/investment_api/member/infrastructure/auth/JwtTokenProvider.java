@@ -1,66 +1,40 @@
 package com.example.investment_api.member.infrastructure.auth;
 
-import com.example.investment_api.member.domain.auth.TokenProvider;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
-import jakarta.annotation.PostConstruct;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.DecodedJWT;
+import com.example.investment_api.member.domain.auth.Token;
+import java.util.Date;
+import java.util.UUID;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.security.Key;
-import java.util.Date;
-
 @Component
-@Getter
-@RequiredArgsConstructor
-public class JwtTokenProvider implements TokenProvider {
+public class JwtTokenProvider implements Token {
 
-    @Value("${jwt.secret}")
-    private String secret;
+    private final Algorithm algorithm;
+    private final long expirationPeriod;
 
-    @Value("${jwt.expiration-period}")
-    private int expirationPeriod;
-
-    private Key key;
-
-    @PostConstruct
-    private void createKey() {
-        key = Keys.hmacShaKeyFor(secret.getBytes());
-    }
-
-
-    @Override
-    public String create(Long id) {
-        Claims claims = Jwts.claims();
-        claims.put("memberId", id);
-        return createToken(claims);
-    }
-
-    private String createToken(Claims claims) {
-        Date now = new Date();
-        return Jwts.builder()
-                .setClaims(claims)
-                .setIssuedAt(now)
-                .setExpiration(expiredAt(now))
-                .signWith(key, SignatureAlgorithm.HS256)
-                .compact();
-    }
-
-    private Date expiredAt(Date createdAt) {
-        return new Date(createdAt.getTime() + expirationPeriod);
+    public JwtTokenProvider(@Value("${jwt.secret}") String secretKey, @Value("${jwt.expiration-period}") long expirationPeriod) {
+        this.algorithm = Algorithm.HMAC256(secretKey);
+        this.expirationPeriod = expirationPeriod;
     }
 
     @Override
-    public Long extract(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(token)
-                .getBody()
-                .get("memberId", Long.class);
+    public String createToken(Long memberId) {
+        return JWT.create()
+                .withClaim("memberId", memberId)
+                .withIssuedAt(new Date())
+                .withExpiresAt(new Date(System.currentTimeMillis() + expirationPeriod * 1000L))
+                .withJWTId(UUID.randomUUID().toString())
+                .sign(algorithm);
+    }
+
+    @Override
+    public DecodedJWT verifyToken(String token) {
+        JWTVerifier verifier = JWT.require(algorithm)
+                .build();
+        return verifier.verify(token);
     }
 }

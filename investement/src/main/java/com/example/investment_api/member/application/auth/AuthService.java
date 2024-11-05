@@ -49,7 +49,7 @@ public class AuthService {
     public LoginResponse login(LoginRequest loginRequest) {
         Member member = findMemberByEmail(loginRequest.memberEmail());
         member.checkPassword(loginRequest.memberPassword());
-        String token = jwtTokenProvider.create(member.getId());
+        String token = jwtTokenProvider.createToken(member.getId());
 
         return new LoginResponse(token, member.getMemberName(), member.getMemberNickName());
     }
