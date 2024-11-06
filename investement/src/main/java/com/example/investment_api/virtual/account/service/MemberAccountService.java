@@ -64,7 +64,7 @@ public class MemberAccountService {
     @Transactional
     public SellResponse sellStockImmediately(Long memberId, String stockName, int quantity) {
         int currentPrice = getCurrentPrice(stockName);
-        MemberAccount memberAccount = getAccount(memberId, stockName);
+        MemberAccount memberAccount = assumeNotStockGetAccount(memberId, stockName);
         MemberDeposit deposit = getMemberDeposit(memberId);
         if (memberAccount.getStockCount() >= quantity) {
             memberAccount.removeStockCount(quantity);
@@ -80,6 +80,11 @@ public class MemberAccountService {
     private MemberAccount getAccount(Long memberId, String stockName) {
         return memberAccountRepository.findByMemberIdAndStockName(memberId, stockName)
                 .orElseThrow(AccountNotFoundException::new);
+    }
+
+    private MemberAccount assumeNotStockGetAccount(Long memberId, String stockName) {
+        return memberAccountRepository.findByMemberIdAndStockName(memberId, stockName)
+                .orElseThrow(InsufficientStockQuantityException::new);
     }
 
     private void deleteEmptyStock(MemberAccount memberAccount) {
