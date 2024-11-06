@@ -55,12 +55,12 @@ public class StockDataTransferService {
     private int getCurrentPrice(String stockName) {
         return Optional.ofNullable(stockDataPollingService.getLatestStockData(stockName))
                 .map(StockData::currentPrice)
-                .orElseThrow(() -> new StockNotFoundException(stockName));
+                .orElseThrow(StockNotFoundException::new);
     }
 
     private double getFluctuationData(String stockName) {
         return Optional.ofNullable(stockDataPollingService.getLatestStockData(stockName))
                 .map(StockData::prevChangeRate)
-                .orElseThrow(() -> new StockNotFoundException(stockName));
+                .orElseThrow(StockNotFoundException::new);
     }
 }

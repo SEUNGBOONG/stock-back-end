@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface StockOrderRepository extends JpaRepository<StockOrder, Long> {
     List<StockOrder> findByMemberId(Long memberId);
+    List<StockOrder> findByIsProcessedFalse();
 }

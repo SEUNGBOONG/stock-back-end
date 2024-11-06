@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -60,10 +59,8 @@ public class AccountController {
 
     @PostMapping("/order/sell")
     public LimitOrderResponse placeLimitOrderForSell(@Member Long memberId,
-                                                     @RequestParam String stockName,
-                                                     @RequestParam int limitPrice,
-                                                     @RequestParam int quantity) {
-        return memberAccountService.placeLimitOrderForSell(memberId, stockName, limitPrice, quantity);
+                                                     @RequestBody OrderRequest orderRequest) {
+        return memberAccountService.placeLimitOrderForSell(memberId, orderRequest.stockName(), orderRequest.limitPrice(), orderRequest.quantity());
     }
 
     @GetMapping("/{memberId}/accounts")

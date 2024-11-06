@@ -3,8 +3,14 @@ package com.example.investment_api.virtual.account.service;
 import com.example.investment_api.common.stockData.Stock;
 import com.example.investment_api.common.stockData.StockRepository;
 
+import com.example.investment_api.member.domain.member.MemberDeposit;
+import com.example.investment_api.member.exception.exceptions.member.NotFoundMemberDepositException;
+import com.example.investment_api.member.infrastructure.member.MemberDepositJpaRepository;
 import com.example.investment_api.search.detail.stock.service.client.StockDataFetcher;
 
+import com.example.investment_api.virtual.account.controller.dto.BuyResponse;
+import com.example.investment_api.virtual.account.controller.dto.SellResponse;
+import com.example.investment_api.virtual.account.controller.dto.LimitOrderResponse;
 import com.example.investment_api.virtual.account.domain.MemberAccount;
 import com.example.investment_api.virtual.account.domain.MemberAccountRepository;
 import com.example.investment_api.virtual.account.domain.StockOrderRepository;
@@ -17,85 +23,124 @@ import com.example.investment_api.virtual.account.controller.dto.StockOrderDTO;
 import com.example.investment_api.virtual.account.exception.*;
 import com.example.investment_api.virtual.account.infrastructure.AccountStockParser;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
+@Transactional
 public class MemberAccountService {
 
     private final MemberAccountRepository memberAccountRepository;
     private final StockOrderRepository stockOrderRepository;
     private final StockRepository stockRepository;
+    private final MemberDepositJpaRepository depositJpaRepository;
 
     private final StockDataFetcher stockDataFetcher;
     private final AccountStockParser accountStockParser;
 
-    public MemberAccountService(final MemberAccountRepository memberAccountRepository,
-                                final AccountStockParser accountStockParser, final StockOrderRepository stockOrderRepository,
-                                final StockRepository stockRepository,
-                                final StockDataFetcher stockDataFetcher) {
-        this.memberAccountRepository = memberAccountRepository;
-        this.accountStockParser = accountStockParser;
-        this.stockOrderRepository = stockOrderRepository;
-        this.stockRepository = stockRepository;
-        this.stockDataFetcher = stockDataFetcher;
-    }
-
-    @Transactional
-    public String buyStockImmediately(Long memberId, String stockName, int quantity) {
-        if (quantity == 0) {
-            throw new InvalidQuantityException();
-        }
+    public BuyResponse buyStockImmediately(Long memberId, String stockName, int quantity) {
         int currentPrice = getCurrentPrice(stockName);
-        return processBuyStock(memberId, stockName, currentPrice, quantity);
+        MemberDeposit deposit = getMemberDeposit(memberId);
+        deposit.calculateDeposit(currentPrice, quantity);
+
+        saveAccount(memberId, stockName, currentPrice, quantity);
+
+        return new BuyResponse(memberId, stockName, currentPrice, quantity, deposit.getDeposit());
+    }
+
+    private MemberDeposit getMemberDeposit(Long memberId) {
+        MemberDeposit deposit = depositJpaRepository.findByMemberId(memberId)
+                .orElseThrow(NotFoundMemberDepositException::new);
+        return deposit;
     }
 
     @Transactional
-    public String sellStockImmediately(Long memberId, String stockName, int quantity) {
-        return processSellStock(memberId, stockName, getCurrentPrice(stockName), quantity);
-    }
+    public SellResponse sellStockImmediately(Long memberId, String stockName, int quantity) {
+        int currentPrice = getCurrentPrice(stockName);
+        MemberAccount memberAccount = getAccount(memberId, stockName);
 
-    @Transactional
-    public String placeLimitOrderForBuy(Long memberId, String stockName, int limitPrice, int quantity) {
-        if (limitPrice <= 0 || quantity <= 0) {
-            throw new InvalidOrderException();
+        if (memberAccount.getStockCount() >= quantity) {
+            memberAccount.removeStockCount(quantity);
+            memberAccountRepository.save(memberAccount);
+            deleteEmptyStock(memberAccount);
+            int remainNumbers = memberAccount.getStockCount();
+            return new SellResponse(memberId, stockName, currentPrice, remainNumbers);
         }
-        StockOrder order = new StockOrder(memberId, stockName, quantity, limitPrice, true);
-        stockOrderRepository.save(order);
-        return "지정가 매수 주문이 접수되었습니다: " + stockName + ", 가격: " + limitPrice + ", 수량: " + quantity;
+        throw new InsufficientStockQuantityException();
     }
 
-    @Transactional
-    public String placeLimitOrderForSell(Long memberId, String stockName, int limitPrice, int quantity) {
-        if (limitPrice <= 0 || quantity <= 0) {
-            throw new InvalidOrderException();
-        }
-        StockOrder order = new StockOrder(memberId, stockName, quantity, limitPrice, false);
-        stockOrderRepository.save(order);
-        return "지정가 매도 주문이 접수되었습니다: " + stockName + ", 가격: " + limitPrice + ", 수량: " + quantity;
-    }
-
-    private String processBuyStock(Long memberId, String stockName, int targetBuyPrice, int quantity) {
-        MemberAccount memberAccount = memberAccountRepository.findByMemberIdAndStockName(memberId, stockName)
-                .orElseGet(() -> {
-                    MemberAccount newAccount = new MemberAccount(memberId, stockName, targetBuyPrice, 0);
-                    memberAccountRepository.save(newAccount);
-                    return newAccount;
-                });
-
-        memberAccount.addStockCount(quantity);
-        memberAccountRepository.save(memberAccount);
-        return "주식 매수 완료: " + stockName + ", 수량: " + quantity;
-    }
-
-    private String processSellStock(Long memberId, String stockName, int targetSellPrice, int quantity) {
+    private MemberAccount getAccount(Long memberId, String stockName) {
         MemberAccount memberAccount = memberAccountRepository.findByMemberIdAndStockName(memberId, stockName)
                 .orElseThrow(AccountNotFoundException::new);
-        return perfectSell(stockName, targetSellPrice, quantity, memberAccount);
+        return memberAccount;
+    }
+
+    private void deleteEmptyStock(MemberAccount memberAccount) {
+        if (memberAccount.getStockCount() == 0) {
+            memberAccountRepository.delete(memberAccount);
+        }
+    }
+
+    @Transactional
+    public LimitOrderResponse placeLimitOrderForBuy(Long memberId, String stockName, int limitPrice, int quantity) {
+        StockOrder order = new StockOrder(memberId, stockName, quantity, limitPrice, true);
+        stockOrderRepository.save(order);
+        return new LimitOrderResponse(memberId, stockName, limitPrice, quantity);
+    }
+
+    @Transactional
+    public LimitOrderResponse placeLimitOrderForSell(Long memberId, String stockName, int limitPrice, int quantity) {
+        StockOrder order = new StockOrder(memberId, stockName, quantity, limitPrice, false);
+        stockOrderRepository.save(order);
+        return new LimitOrderResponse(memberId, stockName, limitPrice, quantity);
+    }
+
+    @Scheduled(fixedRate = 10000)
+    @Transactional
+    public void executePendingOrders() {
+        List<StockOrder> pendingOrders = stockOrderRepository.findByIsProcessedFalse();
+        for (StockOrder order : pendingOrders) {
+            Long memberId = order.getMemberId();
+            String stockName = order.getStockName();
+            int limitPrice = order.getLimitPrice();
+            int quantity = order.getQuantity();
+            int currentPrice = getCurrentPrice(stockName);
+
+            processStockOrder(order, memberId, stockName, limitPrice, quantity, currentPrice);
+        }
+    }
+
+    private void processStockOrder(StockOrder order, Long memberId, String stockName, int limitPrice, int quantity, int currentPrice) {
+        if (currentPrice == limitPrice) {
+            if (order.isBuyOrder()) {
+                buyStockImmediately(memberId, stockName, quantity);
+            } else {
+                sellStockImmediately(memberId, stockName, quantity);
+            }
+            order.setProcessed(true);
+            stockOrderRepository.save(order);
+        }
+    }
+
+    private void saveAccount(final Long memberId, final String stockName, final int stockPrice, final int quantity) {
+        Optional<MemberAccount> memberAccountOpt = memberAccountRepository.findByMemberIdAndStockName(memberId, stockName);
+
+        if (memberAccountOpt.isPresent()) {
+            MemberAccount memberAccount = memberAccountOpt.get();
+            memberAccount.calculateNewStockPrice(stockPrice, quantity);
+            memberAccount.addStockCount(quantity);
+        } else {
+            MemberAccount newAccount = new MemberAccount(memberId, stockName, stockPrice, quantity);
+            memberAccountRepository.save(newAccount);
+        }
     }
 
     public List<MemberAccount> getMemberAccounts(Long memberId) {
@@ -108,9 +153,9 @@ public class MemberAccountService {
                 .orElseThrow(() -> new AccountAndStockNotFoundException(memberId, stockName));
     }
 
-    public String modifyOrder(Long memberId, Long orderId, StockOrderDTO updatedOrder) {
-        StockOrder order = stockOrderRepository.findById(orderId)
-                .orElseThrow(OrderNotFoundException::new);
+    public String modifyOrder(Long memberId, StockOrderDTO updatedOrder) {
+        StockOrder order = stockOrderRepository.findById(memberId)
+                .orElseThrow(InvalidOrderException::new);
         order.setStockName(updatedOrder.getStockName());
         order.setQuantity(updatedOrder.getQuantity());
         order.setLimitPrice(updatedOrder.getPrice());
@@ -119,8 +164,8 @@ public class MemberAccountService {
         return "주문이 수정되었습니다: " + updatedOrder.getStockName();
     }
 
-    public String cancelOrder(Long memberId, Long orderId) {
-        StockOrder order = stockOrderRepository.findById(orderId)
+    public String cancelOrder(Long memberId) {
+        StockOrder order = stockOrderRepository.findById(memberId)
                 .orElseThrow(OrderNotFoundException::new);
         stockOrderRepository.delete(order);
         return "주문이 취소되었습니다: " + order.getStockName();
@@ -128,7 +173,7 @@ public class MemberAccountService {
 
     private int getCurrentPrice(String stockName) {
         Stock stock = stockRepository.findByStockName(stockName)
-                .orElseThrow(() -> new RuntimeException("주식명: " + stockName + "을(를) 찾을 수 없습니다."));
+                .orElseThrow(StockNotFoundException::new);
         ResponseEntity<String> response = stockDataFetcher.fetchStockData(stock.getStockCode());
 
         try {
@@ -137,18 +182,5 @@ public class MemberAccountService {
         } catch (IOException e) {
             throw new RuntimeException("현재가 정보를 가져오는 중 오류 발생: " + e.getMessage());
         }
-    }
-
-    private String perfectSell(final String stockName, final int targetSellPrice, final int quantity, final MemberAccount memberAccount) {
-        if (memberAccount.getStockCount() < quantity) {
-            throw new InsufficientStockQuantityException();
-        }
-        memberAccount.removeStockCount(quantity);
-        if (memberAccount.getStockCount() == 0) {
-            memberAccountRepository.delete(memberAccount);
-        } else {
-            memberAccountRepository.save(memberAccount);
-        }
-        return "주식 매도 완료: " + stockName + ", 수량: " + quantity + ", 매도 가격: " + targetSellPrice;
     }
 }
