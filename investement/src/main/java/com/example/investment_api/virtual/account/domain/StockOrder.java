@@ -33,7 +33,10 @@ public class StockOrder {
     private int limitPrice;
 
     @Column
-    private boolean isBuyOrder; // true: 매수, false: 매도
+    private boolean isBuyOrder; // true: 매수, false:
+
+    @Column
+    private boolean isProcessed;
 
     protected StockOrder() {
 
@@ -45,6 +48,7 @@ public class StockOrder {
         this.quantity = quantity;
         this.limitPrice = limitPrice;
         this.isBuyOrder = isBuyOrder;
+        this.isProcessed = false;
     }
 
 }

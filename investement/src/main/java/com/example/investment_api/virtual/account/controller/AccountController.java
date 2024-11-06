@@ -60,10 +60,8 @@ public class AccountController {
 
     @PostMapping("/order/sell")
     public LimitOrderResponse placeLimitOrderForSell(@Member Long memberId,
-                                                     @RequestParam String stockName,
-                                                     @RequestParam int limitPrice,
-                                                     @RequestParam int quantity) {
-        return memberAccountService.placeLimitOrderForSell(memberId, stockName, limitPrice, quantity);
+                                                     @RequestBody OrderRequest orderRequest) {
+        return memberAccountService.placeLimitOrderForSell(memberId, orderRequest.stockName(), orderRequest.limitPrice(), orderRequest.quantity());
     }
 
     @GetMapping("/{memberId}/accounts")
