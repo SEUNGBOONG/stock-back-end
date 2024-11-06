@@ -1,8 +1,8 @@
-package com.example.investment_api.search.detail.news.controller;
+package com.example.investment_api.home.news.controller;
 
-import com.example.investment_api.search.detail.news.controller.dto.NewsResponse;
+import com.example.investment_api.home.news.controller.dto.NewsResponse;
 
-import com.example.investment_api.search.detail.news.service.NewsService;
+import com.example.investment_api.home.news.service.NewsService;
 
 import org.json.JSONException;
 
@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/search/news")
+@RequestMapping("/home/news")
 public class NewsController {
 
     private final NewsService newsService;

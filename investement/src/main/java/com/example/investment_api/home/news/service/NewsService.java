@@ -1,8 +1,8 @@
-package com.example.investment_api.search.detail.news.service;
+package com.example.investment_api.home.news.service;
 
-import com.example.investment_api.search.detail.news.controller.dto.NewsResponse;
-import com.example.investment_api.search.detail.news.infrastructure.NewsParser;
-import com.example.investment_api.search.detail.news.service.client.NewsFetcher;
+import com.example.investment_api.home.news.infrastructure.NewsParser;
+import com.example.investment_api.home.news.service.client.NewsFetcher;
+import com.example.investment_api.home.news.controller.dto.NewsResponse;
 
 import jakarta.transaction.Transactional;
 
@@ -19,7 +19,6 @@ import java.util.List;
 public class NewsService {
 
     private final NewsFetcher newsFetcher;
-
     private final NewsParser newsParser;
 
     @Autowired

@@ -5,7 +5,7 @@ import com.example.investment_api.virtual.account.domain.MemberAccount;
 import com.example.investment_api.virtual.account.controller.dto.AccountStockData;
 import com.example.investment_api.virtual.account.controller.dto.StockData;
 
-import com.example.investment_api.virtual.account.exception.NoSuchStock;
+import com.example.investment_api.virtual.account.exception.StockNotFoundException;
 import com.example.investment_api.virtual.calculator.infrastructure.scheduler.AccountDataPollingService;
 
 import org.springframework.stereotype.Component;
@@ -55,12 +55,12 @@ public class StockDataTransferService {
     private int getCurrentPrice(String stockName) {
         return Optional.ofNullable(stockDataPollingService.getLatestStockData(stockName))
                 .map(StockData::currentPrice)
-                .orElseThrow(() -> new NoSuchStock(stockName));
+                .orElseThrow(() -> new StockNotFoundException(stockName));
     }
 
     private double getFluctuationData(String stockName) {
         return Optional.ofNullable(stockDataPollingService.getLatestStockData(stockName))
                 .map(StockData::prevChangeRate)
-                .orElseThrow(() -> new NoSuchStock(stockName));
+                .orElseThrow(() -> new StockNotFoundException(stockName));
     }
 }

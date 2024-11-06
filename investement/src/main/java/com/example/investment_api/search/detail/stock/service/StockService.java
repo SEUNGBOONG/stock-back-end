@@ -3,6 +3,7 @@ package com.example.investment_api.search.detail.stock.service;
 import com.example.investment_api.common.stockData.Stock;
 import com.example.investment_api.common.stockData.StockRepository;
 
+import com.example.investment_api.search.detail.stock.exception.NoSuchStockNameException;
 import com.example.investment_api.search.detail.stock.infrastructure.StockParser;
 import com.example.investment_api.search.detail.stock.controller.dto.StockResponse;
 
@@ -39,7 +40,7 @@ public class StockService {
 
     private StockResponse getResponse(final String stockName) throws IOException {
         Stock stock = stockRepository.findByStockName(stockName)
-                .orElseThrow(() -> new RuntimeException("주식명: " + stockName + "을(를) 찾을 수 없습니다."));
+                .orElseThrow(NoSuchStockNameException::new);
         ResponseEntity<String> response = stockDataFetcher.fetchStockData(stock.getStockCode());
         return stockParser.parse(response.getBody());
     }

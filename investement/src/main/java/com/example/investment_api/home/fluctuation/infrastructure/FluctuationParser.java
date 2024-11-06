@@ -2,7 +2,6 @@ package com.example.investment_api.home.fluctuation.infrastructure;
 
 import com.example.investment_api.home.fluctuation.controller.dto.response.FluctuationDTO;
 
-import com.example.investment_api.home.fluctuation.exception.StockNameNullException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import com.fasterxml.jackson.databind.JsonNode;

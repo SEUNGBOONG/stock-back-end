@@ -17,7 +17,6 @@ import java.util.List;
 public class MarketCapitalizationParser {
 
     private static final int LIST_SIZE = 5;
-
     private final ObjectMapper objectMapper;
 
     public MarketCapitalizationParser(final ObjectMapper objectMapper) {
@@ -60,5 +59,4 @@ public class MarketCapitalizationParser {
     private boolean isUnderLimit(Iterator<JsonNode> elements, int count) {
         return elements.hasNext() && count < LIST_SIZE;
     }
-
 }

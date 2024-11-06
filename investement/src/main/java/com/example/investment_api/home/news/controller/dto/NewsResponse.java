@@ -1,4 +1,4 @@
-package com.example.investment_api.search.detail.news.controller.dto;
+package com.example.investment_api.home.news.controller.dto;
 
 public record NewsResponse(
         String title,
