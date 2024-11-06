@@ -1,9 +1,12 @@
 package com.example.investment_api.member.application.auth;
 
+import com.example.investment_api.member.domain.member.MemberDeposit;
 import com.example.investment_api.member.exception.exceptions.auth.DuplicateEmailException;
 import com.example.investment_api.member.exception.exceptions.auth.DuplicateNickNameException;
 import com.example.investment_api.member.exception.exceptions.auth.NotFoundMemberByEmailException;
 
+import com.example.investment_api.member.exception.exceptions.member.NotFoundMemberDepositException;
+import com.example.investment_api.member.infrastructure.member.MemberDepositJpaRepository;
 import com.example.investment_api.member.mapper.auth.AuthMapper;
 import com.example.investment_api.member.ui.auth.dto.LoginRequest;
 
@@ -22,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class AuthService {
 
     private final MemberJpaRepository memberJpaRepository;
+    private final MemberDepositJpaRepository memberDepositJpaRepository;
     private final JwtTokenProvider jwtTokenProvider;
 
     @Transactional
@@ -29,8 +33,11 @@ public class AuthService {
         Member member = AuthMapper.toMember(signUpRequest);
         checkDuplicateMemberNickName(member.getMemberNickName());
         checkDuplicateMemberEmail(member.getMemberEmail());
+        Member savedMember = memberJpaRepository.save(member);
+        MemberDeposit deposit = new MemberDeposit(savedMember.getId(), 100000000);
+        memberDepositJpaRepository.save(deposit);
 
-        return memberJpaRepository.save(member);
+        return savedMember;
     }
 
     private void checkDuplicateMemberNickName(String nickName) {
@@ -57,5 +64,10 @@ public class AuthService {
     private Member findMemberByEmail(String email) {
         return memberJpaRepository.findMemberByMemberEmail(email)
                 .orElseThrow(NotFoundMemberByEmailException::new);
+    }
+
+    private MemberDeposit findMemberDepositByMemberId(Long memberId) {
+        return memberDepositJpaRepository.findByMemberId(memberId)
+                .orElseThrow(NotFoundMemberDepositException::new);
     }
 }

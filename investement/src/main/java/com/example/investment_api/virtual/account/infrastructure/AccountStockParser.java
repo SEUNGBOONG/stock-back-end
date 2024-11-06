@@ -1,9 +1,12 @@
 package com.example.investment_api.virtual.account.infrastructure;
 
 import com.example.investment_api.virtual.account.controller.dto.StockDataDTO;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -16,7 +19,6 @@ public class AccountStockParser {
     public AccountStockParser(final ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
-
 
     public StockDataDTO parse(String responseBody) throws IOException {
         JsonNode stockItem = setJson(responseBody);

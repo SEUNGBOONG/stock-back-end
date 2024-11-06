@@ -43,4 +43,13 @@ public class MemberAccount {
     public void removeStockCount(int count) {
         this.stockCount -= count;
     }
+
+    public void calculateNewStockPrice(int price, int count) {
+        int inputStockSum = price * count;
+        int prevSum = stockCount * buyPrice;
+        if (prevSum > 0) {
+            buyPrice = (prevSum + inputStockSum) / stockCount;
+        }
+    }
+
 }
