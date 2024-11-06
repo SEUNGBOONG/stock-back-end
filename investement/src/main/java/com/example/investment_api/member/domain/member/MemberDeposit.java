@@ -36,4 +36,8 @@ public class MemberDeposit {
         if(deposit < buyCount* buyMoney) throw new NotEnoughDeposit();
         deposit-=buyCount*buyMoney;
     }
+
+    public void calculateSellDeposit(int sellMoney, int buyCount){
+        deposit+= sellMoney*buyCount;
+    }
 }

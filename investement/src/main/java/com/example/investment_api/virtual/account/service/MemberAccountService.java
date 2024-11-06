@@ -57,30 +57,34 @@ public class MemberAccountService {
     }
 
     private MemberDeposit getMemberDeposit(Long memberId) {
-        MemberDeposit deposit = depositJpaRepository.findByMemberId(memberId)
+        return depositJpaRepository.findByMemberId(memberId)
                 .orElseThrow(NotFoundMemberDepositException::new);
-        return deposit;
     }
 
     @Transactional
     public SellResponse sellStockImmediately(Long memberId, String stockName, int quantity) {
         int currentPrice = getCurrentPrice(stockName);
-        MemberAccount memberAccount = getAccount(memberId, stockName);
-
+        MemberAccount memberAccount = assumeNotStockGetAccount(memberId, stockName);
+        MemberDeposit deposit = getMemberDeposit(memberId);
         if (memberAccount.getStockCount() >= quantity) {
             memberAccount.removeStockCount(quantity);
             memberAccountRepository.save(memberAccount);
             deleteEmptyStock(memberAccount);
             int remainNumbers = memberAccount.getStockCount();
+            deposit.calculateSellDeposit(currentPrice,quantity);
             return new SellResponse(memberId, stockName, currentPrice, remainNumbers);
         }
         throw new InsufficientStockQuantityException();
     }
 
     private MemberAccount getAccount(Long memberId, String stockName) {
-        MemberAccount memberAccount = memberAccountRepository.findByMemberIdAndStockName(memberId, stockName)
+        return memberAccountRepository.findByMemberIdAndStockName(memberId, stockName)
                 .orElseThrow(AccountNotFoundException::new);
-        return memberAccount;
+    }
+
+    private MemberAccount assumeNotStockGetAccount(Long memberId, String stockName) {
+        return memberAccountRepository.findByMemberIdAndStockName(memberId, stockName)
+                .orElseThrow(InsufficientStockQuantityException::new);
     }
 
     private void deleteEmptyStock(MemberAccount memberAccount) {
