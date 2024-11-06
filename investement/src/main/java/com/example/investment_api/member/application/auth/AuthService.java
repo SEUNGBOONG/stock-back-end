@@ -1,12 +1,7 @@
 package com.example.investment_api.member.application.auth;
 
-import com.example.investment_api.member.domain.member.MemberDeposit;
-import com.example.investment_api.member.exception.exceptions.auth.DuplicateEmailException;
-import com.example.investment_api.member.exception.exceptions.auth.DuplicateNickNameException;
-import com.example.investment_api.member.exception.exceptions.auth.NotFoundMemberByEmailException;
+import com.example.investment_api.member.exception.exceptions.auth.*;
 
-import com.example.investment_api.member.exception.exceptions.member.NotFoundMemberDepositException;
-import com.example.investment_api.member.infrastructure.member.MemberDepositJpaRepository;
 import com.example.investment_api.member.mapper.auth.AuthMapper;
 import com.example.investment_api.member.ui.auth.dto.LoginRequest;
 
@@ -20,24 +15,46 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.regex.Pattern;
+
+import static org.springframework.util.ObjectUtils.isEmpty;
+
 @Service
 @RequiredArgsConstructor
 public class AuthService {
 
     private final MemberJpaRepository memberJpaRepository;
-    private final MemberDepositJpaRepository memberDepositJpaRepository;
     private final JwtTokenProvider jwtTokenProvider;
+    private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$");
+
 
     @Transactional
     public Member signUp(SignUpRequest signUpRequest) {
+        validateSignupRequestFormat(signUpRequest);
+        validateEmailFormat(signUpRequest.memberEmail());
+        checkPasswordLength(signUpRequest.memberPassword());
         Member member = AuthMapper.toMember(signUpRequest);
         checkDuplicateMemberNickName(member.getMemberNickName());
         checkDuplicateMemberEmail(member.getMemberEmail());
-        Member savedMember = memberJpaRepository.save(member);
-        MemberDeposit deposit = new MemberDeposit(savedMember.getId(), 100000000);
-        memberDepositJpaRepository.save(deposit);
 
-        return savedMember;
+        return memberJpaRepository.save(member);
+    }
+
+    private void validateSignupRequestFormat(SignUpRequest signUpRequest){
+        if (signUpRequest == null ||
+                isEmpty(signUpRequest.memberEmail()) ||
+                isEmpty(signUpRequest.memberName()) ||
+                isEmpty(signUpRequest.annualIncome()) ||
+                isEmpty(signUpRequest.memberPassword()) ||
+                isEmpty(signUpRequest.memberNickName()))  {
+            throw new InvalidSignUpRequestException();
+        }
+    }
+
+    private void validateEmailFormat(String email) {
+        if (!EMAIL_PATTERN.matcher(email).matches()) {
+            throw new InvalidEmailFormatException();
+        }
     }
 
     private void checkDuplicateMemberNickName(String nickName) {
@@ -52,8 +69,15 @@ public class AuthService {
         }
     }
 
+    private void checkPasswordLength(String password){
+        if (password.length() <= 7){
+            throw new InvalidPasswordFormatException();
+        }
+    }
+
     @Transactional(readOnly = true)
     public LoginResponse login(LoginRequest loginRequest) {
+        validateLoginRequestFormat(loginRequest);
         Member member = findMemberByEmail(loginRequest.memberEmail());
         member.checkPassword(loginRequest.memberPassword());
         String token = jwtTokenProvider.createToken(member.getId());
@@ -61,13 +85,16 @@ public class AuthService {
         return new LoginResponse(token, member.getMemberName(), member.getMemberNickName());
     }
 
+    private void validateLoginRequestFormat(LoginRequest loginRequest){
+        if (loginRequest== null ||
+                isEmpty(loginRequest.memberEmail()) ||
+                isEmpty(loginRequest.memberPassword()))  {
+            throw new InvalidLoginRequestException();
+        }
+    }
+
     private Member findMemberByEmail(String email) {
         return memberJpaRepository.findMemberByMemberEmail(email)
                 .orElseThrow(NotFoundMemberByEmailException::new);
-    }
-
-    private MemberDeposit findMemberDepositByMemberId(Long memberId) {
-        return memberDepositJpaRepository.findByMemberId(memberId)
-                .orElseThrow(NotFoundMemberDepositException::new);
     }
 }
