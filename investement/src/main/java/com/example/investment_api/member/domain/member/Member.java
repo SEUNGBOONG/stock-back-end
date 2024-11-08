@@ -36,7 +36,7 @@ public class Member {
     @Column(nullable = false)
     private int annualIncome;
 
-    @Column
+    @Column(nullable = false)
     private boolean propensity; //true -> 적극적투자 , false 소극적투자
 
     public Member(final String memberEmail, final String memberName, final String memberPassword, final String memberNickName, final int annualIncome, final boolean propensity) {
