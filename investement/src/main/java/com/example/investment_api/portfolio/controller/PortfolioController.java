@@ -1,5 +1,6 @@
 package com.example.investment_api.portfolio.controller;
 
+import com.example.investment_api.global.annotation.Member;
 import com.example.investment_api.portfolio.controller.dto.PortfolioRequest;
 import com.example.investment_api.portfolio.controller.dto.PortfolioResponse;
 
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -23,8 +25,8 @@ public class PortfolioController {
     }
 
     @PostMapping("/recommend")
-    public ResponseEntity<PortfolioResponse> getRecommendedPortfolio(@RequestBody PortfolioRequest portfolioRequest) {
-        PortfolioResponse portfolioResponse = portfolioService.getRecommendedPortfolio(portfolioRequest);
+    public ResponseEntity<PortfolioResponse> getRecommendedPortfolio(@Member Long memberId) {
+        PortfolioResponse portfolioResponse = portfolioService.getRecommendedPortfolio(memberId);
         return ResponseEntity.ok(portfolioResponse);
     }
 }

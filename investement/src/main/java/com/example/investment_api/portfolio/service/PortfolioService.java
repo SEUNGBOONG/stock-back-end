@@ -21,8 +21,8 @@ public class PortfolioService {
         this.memberJpaRepository = memberJpaRepository;
     }
 
-    public PortfolioResponse getRecommendedPortfolio(PortfolioRequest portfolioRequest) {
-        Member member = memberJpaRepository.findById(portfolioRequest.memberId())
+    public PortfolioResponse getRecommendedPortfolio(Long memberId) {
+        Member member = memberJpaRepository.findById(memberId)
                 .orElseThrow(NotFoundMemberByEmailException::new);
 
         int annualIncome = member.getAnnualIncome();
