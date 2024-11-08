@@ -37,14 +37,15 @@ public class Member {
     private int annualIncome;
 
     @Column
-    private int testmoney;
+    private boolean propensity; //true -> 적극적투자 , false 소극적투자
 
-    public Member(String memberEmail, String memberName, String memberPassword, String memberNickName, int annualIncome) {
+    public Member(final String memberEmail, final String memberName, final String memberPassword, final String memberNickName, final int annualIncome, final boolean propensity) {
         this.memberEmail = memberEmail;
         this.memberName = memberName;
         this.memberPassword = memberPassword;
         this.memberNickName = memberNickName;
         this.annualIncome = annualIncome;
+        this.propensity = propensity;
     }
 
     public void checkPassword(String requestPassword) {

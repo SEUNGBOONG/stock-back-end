@@ -12,7 +12,9 @@ public class AuthMapper {
                 signUpRequest.memberName(),
                 signUpRequest.memberPassword(),
                 signUpRequest.memberNickName(),
-                signUpRequest.annualIncome());
+                signUpRequest.annualIncome(),
+                signUpRequest.propensity()
+        );
     }
 
     public static SignUpResponse toSignUpResponse(Member member) {
