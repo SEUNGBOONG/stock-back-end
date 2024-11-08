@@ -57,17 +57,6 @@ public class MemberAccountService {
         return new BuyResponse(memberId, stockName, currentPrice, quantity, deposit.getDeposit());
     }
 
-    private void validateQuantity(int quantity) {
-        if (quantity <= 0) {
-            throw new InvalidQuantityException();
-        }
-    }
-
-    private MemberDeposit getMemberDeposit(Long memberId) {
-        return depositJpaRepository.findByMemberId(memberId)
-                .orElseThrow(NotFoundMemberDepositException::new);
-    }
-
     @Transactional
     public SellResponse sellStockImmediately(Long memberId, String stockName, int quantity) {
         int currentPrice = getCurrentPrice(stockName);
@@ -128,6 +117,17 @@ public class MemberAccountService {
 
             processStockOrder(order, memberId, stockName, limitPrice, quantity, currentPrice);
         }
+    }
+
+    private void validateQuantity(int quantity) {
+        if (quantity <= 0) {
+            throw new InvalidQuantityException();
+        }
+    }
+
+    private MemberDeposit getMemberDeposit(Long memberId) {
+        return depositJpaRepository.findByMemberId(memberId)
+                .orElseThrow(NotFoundMemberDepositException::new);
     }
 
     private void processStockOrder(StockOrder order, Long memberId, String stockName, int limitPrice, int quantity, int currentPrice) {
