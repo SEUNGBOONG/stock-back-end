@@ -36,7 +36,7 @@ public class StockOrder {
     private boolean isBuyOrder; // true: 매수, false:
 
     @Column
-    private boolean isProcessed;
+    private boolean isProcessed = false;
 
     protected StockOrder() {
 

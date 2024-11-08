@@ -46,14 +46,14 @@ public class AccountController {
     @PostMapping("/sell")
     public SellResponse sellStock(@Member Long memberId,
                                   @RequestBody SellRequest request
-                                  ) {
+    ) {
         return memberAccountService.sellStockImmediately(memberId, request.stockName(), request.quantity());
     }
 
     @PostMapping("/order/buy")
     public LimitOrderResponse placeLimitOrderForBuy(@Member Long memberId,
                                                     @RequestBody OrderRequest request
-                                                    ) {
+    ) {
         return memberAccountService.placeLimitOrderForBuy(memberId, request.stockName(), request.limitPrice(), request.quantity());
     }
 
@@ -74,14 +74,15 @@ public class AccountController {
         return memberAccountService.getMemberAccount(memberId, stockName);
     }
 
-    @PutMapping("/{memberId}/order/limitBuy")
+    @PutMapping("/order/{orderId}/modify")
     public String modifyOrder(@Member Long memberId,
+                              @PathVariable int orderId,
                               @RequestBody StockOrderDTO updatedOrder) {
-        return memberAccountService.modifyOrder(memberId, updatedOrder);
+        return memberAccountService.modifyOrder(memberId, orderId, updatedOrder);
     }
 
-    @DeleteMapping("/{memberId}/limitSell")
-    public String cancelOrder(@Member Long memberId) {
-        return memberAccountService.cancelOrder(memberId);
+    @DeleteMapping("/order/{orderId}/cancel")
+    public String cancelOrder(@Member Long memberId, @PathVariable int orderId) {
+        return memberAccountService.cancelOrder(memberId, orderId);
     }
 }
