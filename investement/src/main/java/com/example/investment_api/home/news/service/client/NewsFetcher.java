@@ -2,6 +2,8 @@ package com.example.investment_api.home.news.service.client;
 
 import com.example.investment_api.common.config.RestTemplateClient;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import org.json.JSONException;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -15,10 +17,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class NewsFetcher {
 
-    @Value("${NAVER_API_KEY}")
+    @Value("${NAVER_API_CLIENTID}")
     private String clientId;
 
-    @Value("${NAVER_API_CLIENTID}")
+    @Value("${NAVER_API_KEY}")
     private String clientSecret;
 
     private final RestTemplateClient restTemplateClient;
@@ -32,13 +34,13 @@ public class NewsFetcher {
     }
 
     private ResponseEntity<String> setURL(final String keyword) {
-        String url = "https://openapi.naver.com/v1/search/news.json?query=" + keyword;
+        String encodedKeyword = URLEncoder.encode(keyword, StandardCharsets.UTF_8);
+        String url = "https://openapi.naver.com/v1/search/news.json?query=" + encodedKeyword;
         HttpHeaders headers = setHeader();
         return get(url, headers);
     }
 
     public ResponseEntity<String> get(String url, HttpHeaders headers) {
-        setHeader();
         return restTemplateClient.exchange(url, HttpMethod.GET, headers, String.class);
     }
 
