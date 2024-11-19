@@ -29,7 +29,6 @@ public class NewsService {
 
     public List<NewsResponse> getNewsResponses() throws IOException {
         ResponseEntity<String> response = newsFetcher.fetch("경제뉴스");
-        System.out.println(response.getBody());
         return newsParser.parseNews(response.getBody());
     }
 }
