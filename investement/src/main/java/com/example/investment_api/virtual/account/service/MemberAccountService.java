@@ -3,9 +3,9 @@ package com.example.investment_api.virtual.account.service;
 import com.example.investment_api.common.stockData.Stock;
 import com.example.investment_api.common.stockData.StockRepository;
 
-import com.example.investment_api.member.domain.member.MemberDeposit;
+import com.example.investment_api.member.domain.member.Member;
 import com.example.investment_api.member.exception.exceptions.member.NotFoundMemberDepositException;
-import com.example.investment_api.member.infrastructure.member.MemberDepositJpaRepository;
+import com.example.investment_api.member.infrastructure.member.MemberJpaRepository;
 import com.example.investment_api.search.detail.stock.service.client.StockDataFetcher;
 
 import com.example.investment_api.virtual.account.controller.dto.BuyResponse;
@@ -41,7 +41,7 @@ public class MemberAccountService {
     private final MemberAccountRepository memberAccountRepository;
     private final StockOrderRepository stockOrderRepository;
     private final StockRepository stockRepository;
-    private final MemberDepositJpaRepository depositJpaRepository;
+    private final MemberJpaRepository memberJpaRepository;
 
     private final StockDataFetcher stockDataFetcher;
     private final AccountStockParser accountStockParser;
@@ -49,12 +49,12 @@ public class MemberAccountService {
     public BuyResponse buyStockImmediately(Long memberId, String stockName, int quantity) {
         validateQuantity(quantity);
         int currentPrice = getCurrentPrice(stockName);
-        MemberDeposit deposit = getMemberDeposit(memberId);
-        deposit.calculateDeposit(currentPrice, quantity);
+        Member member = getMember(memberId);
+        member.calculateDeposit(currentPrice, quantity);
 
         saveAccount(memberId, stockName, currentPrice, quantity);
 
-        return new BuyResponse(memberId, stockName, currentPrice, quantity, deposit.getDeposit());
+        return new BuyResponse(memberId, stockName, currentPrice, quantity, member.getDeposit());
     }
 
     @Transactional
@@ -62,13 +62,13 @@ public class MemberAccountService {
         int currentPrice = getCurrentPrice(stockName);
         validateQuantity(quantity);
         MemberAccount memberAccount = assumeNotStockGetAccount(memberId, stockName);
-        MemberDeposit deposit = getMemberDeposit(memberId);
+        Member member = getMember(memberId);
         if (memberAccount.getStockCount() >= quantity) {
             memberAccount.removeStockCount(quantity);
             memberAccountRepository.save(memberAccount);
             deleteEmptyStock(memberAccount);
             int remainStockCounts = memberAccount.getStockCount();
-            deposit.calculateSellDeposit(currentPrice, quantity);
+            member.calculateSellDeposit(currentPrice, quantity);
             return new SellResponse(memberId, stockName, currentPrice, remainStockCounts);
         }
         throw new InsufficientStockQuantityException();
@@ -125,8 +125,8 @@ public class MemberAccountService {
         }
     }
 
-    private MemberDeposit getMemberDeposit(Long memberId) {
-        return depositJpaRepository.findByMemberId(memberId)
+    private Member getMember(Long memberId) {
+        return memberJpaRepository.findById(memberId)
                 .orElseThrow(NotFoundMemberDepositException::new);
     }
 
@@ -147,7 +147,6 @@ public class MemberAccountService {
 
         if (memberAccountOpt.isPresent()) {
             MemberAccount memberAccount = memberAccountOpt.get();
-            memberAccount.calculateNewStockPrice(stockPrice, quantity);
             memberAccount.addStockCount(quantity);
         } else {
             MemberAccount newAccount = new MemberAccount(memberId, stockName, stockPrice, quantity);

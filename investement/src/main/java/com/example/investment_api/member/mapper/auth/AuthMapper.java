@@ -13,7 +13,8 @@ public class AuthMapper {
                 signUpRequest.memberPassword(),
                 signUpRequest.memberNickName(),
                 signUpRequest.annualIncome(),
-                signUpRequest.propensity()
+                signUpRequest.propensity(),
+                100000000
         );
     }
 
