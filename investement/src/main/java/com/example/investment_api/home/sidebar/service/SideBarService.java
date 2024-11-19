@@ -1,8 +1,11 @@
 package com.example.investment_api.home.sidebar.service;
 
 import com.example.investment_api.home.sidebar.controller.dto.SideBarAccountCount;
+import com.example.investment_api.home.sidebar.controller.dto.SideBarAccountDTO;
 import com.example.investment_api.home.sidebar.controller.dto.SideBarDTO;
 
+import com.example.investment_api.member.domain.member.Member;
+import com.example.investment_api.member.infrastructure.member.MemberJpaRepository;
 import com.example.investment_api.virtual.account.controller.dto.StockData;
 import com.example.investment_api.virtual.account.domain.MemberAccount;
 import com.example.investment_api.virtual.account.exception.StockNotFoundException;
@@ -22,9 +25,12 @@ public class SideBarService {
 
     private final AccountDataPollingService accountDataPollingService;
 
-    public SideBarService(final MemberAccountService memberAccountService, final AccountDataPollingService accountDataPollingService) {
+    private final MemberJpaRepository memberJpaRepository;
+
+    public SideBarService(final MemberAccountService memberAccountService, final AccountDataPollingService accountDataPollingService, final MemberJpaRepository memberJpaRepository) {
         this.memberAccountService = memberAccountService;
         this.accountDataPollingService = accountDataPollingService;
+        this.memberJpaRepository = memberJpaRepository;
     }
 
     public List<SideBarDTO> getAccount(Long memberId) {
@@ -34,9 +40,16 @@ public class SideBarService {
                 .collect(Collectors.toList());
     }
 
-    public SideBarAccountCount sendCount(Long memberId) {
+    public SideBarAccountCount sendStockCount(Long memberId) {
         int count = getAccount(memberId).size();
         return new SideBarAccountCount(count);
+    }
+
+    public SideBarAccountDTO sendAsset(Long memberId) {
+        Member member = memberJpaRepository.findById(memberId)
+                .orElseThrow();
+        int asset = member.getDeposit();
+        return new SideBarAccountDTO(asset);
     }
 
     private SideBarDTO mapToAccountStockData(MemberAccount account) {
