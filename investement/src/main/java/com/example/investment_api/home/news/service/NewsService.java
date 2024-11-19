@@ -27,12 +27,8 @@ public class NewsService {
         this.newsParser = newsParser;
     }
 
-    public List<NewsResponse> getNews(String keyword) throws IOException {
-        return getNewsResponses(keyword);
-    }
-
-    private List<NewsResponse> getNewsResponses(final String keyword) throws IOException {
-        ResponseEntity<String> response = newsFetcher.fetch(keyword);
+    public List<NewsResponse> getNewsResponses() throws IOException {
+        ResponseEntity<String> response = newsFetcher.fetch("경제뉴스");
         return newsParser.parseNews(response.getBody());
     }
 }

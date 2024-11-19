@@ -8,7 +8,6 @@ import org.json.JSONException;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
@@ -25,7 +24,7 @@ public class NewsController {
     }
 
     @GetMapping
-    public List<NewsResponse> getNews(@RequestParam String stockName) throws JSONException, IOException {
-        return newsService.getNews(stockName);
+    public List<NewsResponse> getNews() throws JSONException, IOException {
+        return newsService.getNewsResponses();
     }
 }
