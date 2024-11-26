@@ -2,6 +2,7 @@ package com.example.investment_api.search.detail.chart.domain;
 
 import com.example.investment_api.search.detail.chart.controller.dto.ChartDTO;
 import com.example.investment_api.search.detail.chart.controller.dto.ChartDTOs;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;

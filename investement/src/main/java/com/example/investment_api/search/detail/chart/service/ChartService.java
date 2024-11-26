@@ -2,12 +2,14 @@ package com.example.investment_api.search.detail.chart.service;
 
 import com.example.investment_api.common.stockData.Stock;
 import com.example.investment_api.common.stockData.StockRepository;
+
 import com.example.investment_api.search.detail.chart.controller.dto.ChartDTOs;
 import com.example.investment_api.search.detail.chart.domain.ChartParser;
 import com.example.investment_api.search.detail.chart.service.client.DayChartFetcher;
 import com.example.investment_api.search.detail.chart.service.client.MonthChartFetcher;
 import com.example.investment_api.search.detail.chart.service.client.WeekChartFetcher;
 import com.example.investment_api.search.detail.chart.service.client.YearChartFetcher;
+
 import jakarta.transaction.Transactional;
 
 import java.io.IOException;
