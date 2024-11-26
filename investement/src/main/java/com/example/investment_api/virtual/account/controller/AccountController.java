@@ -63,12 +63,12 @@ public class AccountController {
         return memberAccountService.placeLimitOrderForSell(memberId, orderRequest.stockName(), orderRequest.limitPrice(), orderRequest.quantity());
     }
 
-    @GetMapping("/{memberId}/accounts")
+    @GetMapping("/accounts")
     public List<MemberAccount> getMemberAccounts(@Member Long memberId) {
         return memberAccountService.getMemberAccounts(memberId);
     }
 
-    @GetMapping("/{memberId}/account/{stockName}")
+    @GetMapping("/account/{stockName}")
     public MemberAccount getMemberAccount(@Member Long memberId,
                                           @PathVariable String stockName) {
         return memberAccountService.getMemberAccount(memberId, stockName);
