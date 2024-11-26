@@ -1,7 +1,5 @@
 package com.example.investment_api.search.detail.chart.service.client;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -10,8 +8,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 @Component
-public class DayChartFetcher {
+public class MonthChartFetcher {
 
     @Value("${CHART_TR_ID}")
     private String trId;
@@ -27,17 +28,17 @@ public class DayChartFetcher {
 
     private final RestTemplate restTemplate;
 
-    public DayChartFetcher(final RestTemplate restTemplate) {
+    public MonthChartFetcher(final RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
-    public ResponseEntity<String> getDayChartData(String fid_input_iscd) {
+    public ResponseEntity<String> getMonthChartData(String fid_input_iscd) {
         return getStringResponseEntity(fid_input_iscd);
     }
 
     private ResponseEntity<String> getStringResponseEntity(final String fid_input_iscd) {
         LocalDate currentDate = LocalDate.now();
-        LocalDate startDate = currentDate.minusDays(100000); // 100일 전 날짜 얘는 2024년 7월 1일까지 밖에 데이터를 안준다.
+        LocalDate startDate = currentDate.minusDays(10000); // 2016.08.31까지 밖에 데이터를 제공을 안해줌
         String formattedStartDate = startDate.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
         String formattedEndDate = currentDate.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
 
@@ -45,7 +46,7 @@ public class DayChartFetcher {
                 + "FID_COND_MRKT_DIV_CODE=J&FID_COND_SCR_DIV_CODE=16633"
                 + "&FID_INPUT_DATE_1=" + formattedStartDate // 100일 전 날짜
                 + "&FID_INPUT_DATE_2=" + formattedEndDate // 현재 날짜
-                + "&FID_PERIOD_DIV_CODE=D&FID_ORG_ADJ_PRC=0"
+                + "&FID_PaERIOD_DIV_CODE=M&FID_ORG_ADJ_PRC=0"
                 + "&FID_INPUT_ISCD=" + fid_input_iscd;
 
         HttpHeaders headers = setHeader();

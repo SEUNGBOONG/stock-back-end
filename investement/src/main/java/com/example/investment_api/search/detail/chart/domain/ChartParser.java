@@ -4,11 +4,11 @@ import com.example.investment_api.search.detail.chart.controller.dto.ChartDTO;
 import com.example.investment_api.search.detail.chart.controller.dto.ChartDTOs;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.stereotype.Component;
+
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import org.springframework.stereotype.Component;
 
 @Component
 public class ChartParser {
@@ -24,28 +24,31 @@ public class ChartParser {
     }
 
     private ChartDTOs getDayChartDTO(final String responseBody) throws IOException {
-        Iterator<JsonNode> elements = getJsonNodeElements(responseBody);
-        return new ChartDTOs(extractChartData(elements));
+        List<JsonNode> items = getJsonNodeElements(responseBody);
+        return new ChartDTOs(extractChartData(items));
     }
 
-    private Iterator<JsonNode> getJsonNodeElements(final String responseBody) throws IOException {
-        JsonNode items = objectMapper.readTree(responseBody).path("output2");
-        return items.elements();
+    private List<JsonNode> getJsonNodeElements(final String responseBody) throws IOException {
+        JsonNode itemsNode = objectMapper.readTree(responseBody).path("output2");
+        List<JsonNode> itemsList = new ArrayList<>();
+
+        for (int i = 0; i < itemsNode.size(); i++) {
+            itemsList.add(itemsNode.get(i));
+        }
+        return itemsList;
     }
 
-    private List<ChartDTO> extractChartData(final Iterator<JsonNode> elements) {
+    private List<ChartDTO> extractChartData(final List<JsonNode> items) {
         List<ChartDTO> chartDtos = new ArrayList<>();
 
-        for (JsonNode item : elements.next()) {
+        for (JsonNode item : items) {
             ChartDTO dto = new ChartDTO(
-                    item.path("stck_bsop_date").asText(),
-                    item.path("stck_clpr").asText(),
-                    item.path("stck_hgpr").asText(),
-                    item.path("stck_lwpr").asText(),
-                    item.path("prdy_vrss").asText()
+                    item.get("stck_bsop_date").asText(),
+                    item.get("stck_clpr").asText(),
+                    item.get("stck_hgpr").asText(),
+                    item.get("stck_lwpr").asText(),
+                    item.get("prdy_vrss").asText()
             );
-            System.out.println(item);
-
             chartDtos.add(dto);
         }
 
