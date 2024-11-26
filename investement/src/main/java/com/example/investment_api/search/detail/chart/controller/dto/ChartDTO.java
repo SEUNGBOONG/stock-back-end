@@ -6,5 +6,6 @@ public record ChartDTO(
         String highPrice, //최고가
         String lowPrice, //최저가
         String prevPrice //전일 대비 가격 - 이 가격에 따라 봉 색깔 판정
+
 ) {
 }
