@@ -26,50 +26,50 @@ public class ChartController {
     }
 
     @GetMapping("/day")
-    public ResponseEntity<ChartDTOs> getDayChart(@RequestParam String stockInfo) throws IOException {
-        ChartDTOs chartDTOs = chartService.getChart(stockInfo);
+    public ResponseEntity<ChartDTOs> getDayChart(@RequestParam String stockName) throws IOException {
+        ChartDTOs chartDTOs = chartService.getChart(stockName);
         return ResponseEntity.ok(chartDTOs);
     }
 
     @GetMapping("/month")
-    public ResponseEntity<ChartDTOs> getMonthChart(@RequestParam String stockInfo) throws IOException {
-        ChartDTOs chartDTOs = chartService.gerMonthChart(stockInfo);
+    public ResponseEntity<ChartDTOs> getMonthChart(@RequestParam String stockName) throws IOException {
+        ChartDTOs chartDTOs = chartService.gerMonthChart(stockName);
         return ResponseEntity.ok(chartDTOs);
     }
 
     @GetMapping("/year")
-    public ResponseEntity<ChartDTOs> getYearChart(@RequestParam String stockInfo) throws IOException {
-        ChartDTOs chartDTOs = chartService.getYearChart(stockInfo);
+    public ResponseEntity<ChartDTOs> getYearChart(@RequestParam String stockName) throws IOException {
+        ChartDTOs chartDTOs = chartService.getYearChart(stockName);
         return ResponseEntity.ok(chartDTOs);
     }
 
     @GetMapping("/week")
-    public ResponseEntity<ChartDTOs> getWeekChart(@RequestParam String stockInfo) throws IOException {
-        ChartDTOs chartDTOs = chartService.getWeekChart(stockInfo);
+    public ResponseEntity<ChartDTOs> getWeekChart(@RequestParam String stockName) throws IOException {
+        ChartDTOs chartDTOs = chartService.getWeekChart(stockName);
         return ResponseEntity.ok(chartDTOs);
     }
 
     @GetMapping("/tradingVolume/day")
-    public ResponseEntity<TradingVolumeChartDTOs> getDayTradingVolumeChart(@RequestParam String stockInfo) throws IOException {
-        TradingVolumeChartDTOs chartDTOs = tradingVolumeChartService.getChart(stockInfo);
+    public ResponseEntity<TradingVolumeChartDTOs> getDayTradingVolumeChart(@RequestParam String stockName) throws IOException {
+        TradingVolumeChartDTOs chartDTOs = tradingVolumeChartService.getChart(stockName);
         return ResponseEntity.ok(chartDTOs);
     }
 
     @GetMapping("/tradingVolume/month")
-    public ResponseEntity<TradingVolumeChartDTOs> getMonthTradingVolumeChart(@RequestParam String stockInfo) throws IOException {
-        TradingVolumeChartDTOs chartDTOs = tradingVolumeChartService.gerMonthChart(stockInfo);
+    public ResponseEntity<TradingVolumeChartDTOs> getMonthTradingVolumeChart(@RequestParam String stockName) throws IOException {
+        TradingVolumeChartDTOs chartDTOs = tradingVolumeChartService.gerMonthChart(stockName);
         return ResponseEntity.ok(chartDTOs);
     }
 
     @GetMapping("/tradingVolume/year")
-    public ResponseEntity<TradingVolumeChartDTOs> getYearTradingVolumeChart(@RequestParam String stockInfo) throws IOException {
-        TradingVolumeChartDTOs chartDTOs = tradingVolumeChartService.getYearChart(stockInfo);
+    public ResponseEntity<TradingVolumeChartDTOs> getYearTradingVolumeChart(@RequestParam String stockName) throws IOException {
+        TradingVolumeChartDTOs chartDTOs = tradingVolumeChartService.getYearChart(stockName);
         return ResponseEntity.ok(chartDTOs);
     }
 
     @GetMapping("/tradingVolume/week")
-    public ResponseEntity<TradingVolumeChartDTOs> getWeekTradingVolumeChart(@RequestParam String stockInfo) throws IOException {
-        TradingVolumeChartDTOs chartDTOs = tradingVolumeChartService.getWeekChart(stockInfo);
+    public ResponseEntity<TradingVolumeChartDTOs> getWeekTradingVolumeChart(@RequestParam String stockName) throws IOException {
+        TradingVolumeChartDTOs chartDTOs = tradingVolumeChartService.getWeekChart(stockName);
         return ResponseEntity.ok(chartDTOs);
     }
 

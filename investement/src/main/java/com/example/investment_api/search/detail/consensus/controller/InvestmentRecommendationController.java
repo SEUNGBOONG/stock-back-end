@@ -24,8 +24,8 @@ public class InvestmentRecommendationController {
     }
 
     @GetMapping
-    public ResponseEntity<InvestmentRecommendationDTO> getFinancialRatio(@RequestParam String stockInfo) throws IOException {
-        return getInvestmentRecommendationDTOResponseEntity(stockInfo);
+    public ResponseEntity<InvestmentRecommendationDTO> getFinancialRatio(@RequestParam String stockName) throws IOException {
+        return getInvestmentRecommendationDTOResponseEntity(stockName);
     }
 
     private ResponseEntity<InvestmentRecommendationDTO> getInvestmentRecommendationDTOResponseEntity(final String stockName) throws IOException {
