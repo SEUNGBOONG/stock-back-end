@@ -74,11 +74,6 @@ public class MemberAccountService {
         throw new InsufficientStockQuantityException();
     }
 
-    private MemberAccount getAccount(Long memberId, String stockName) {
-        return memberAccountRepository.findByMemberIdAndStockName(memberId, stockName)
-                .orElseThrow(AccountNotFoundException::new);
-    }
-
     private MemberAccount assumeNotStockGetAccount(Long memberId, String stockName) {
         return memberAccountRepository.findByMemberIdAndStockName(memberId, stockName)
                 .orElseThrow(InsufficientStockQuantityException::new);
