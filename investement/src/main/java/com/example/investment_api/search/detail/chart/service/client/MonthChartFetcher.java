@@ -41,7 +41,7 @@ public class MonthChartFetcher {
 
     private ResponseEntity<String> getStringResponseEntity(final String fid_input_iscd) {
         LocalDate currentDate = LocalDate.now();
-        LocalDate startDate = currentDate.minusDays(10000); // 2016.08.31까지 밖에 데이터를 제공을 안해줌
+        LocalDate startDate = currentDate.minusDays(5000); // 2016.08.31까지 밖에 데이터를 제공을 안해줌
         String formattedStartDate = startDate.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
         String formattedEndDate = currentDate.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
 
@@ -49,7 +49,7 @@ public class MonthChartFetcher {
                 + "FID_COND_MRKT_DIV_CODE=J&FID_COND_SCR_DIV_CODE=16633"
                 + "&FID_INPUT_DATE_1=" + formattedStartDate // 100일 전 날짜
                 + "&FID_INPUT_DATE_2=" + formattedEndDate // 현재 날짜
-                + "&FID_PaERIOD_DIV_CODE=M&FID_ORG_ADJ_PRC=0"
+                + "&FID_PERIOD_DIV_CODE=M&FID_ORG_ADJ_PRC=0"
                 + "&FID_INPUT_ISCD=" + fid_input_iscd;
 
         HttpHeaders headers = setHeader();
