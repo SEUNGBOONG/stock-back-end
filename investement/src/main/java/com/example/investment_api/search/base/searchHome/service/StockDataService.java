@@ -4,8 +4,9 @@ import com.example.investment_api.home.marketCapitalization.service.client.Marke
 
 import com.example.investment_api.search.base.searchHome.infrastructure.StockDataParser;
 import com.example.investment_api.search.base.searchHome.dto.StockDataDTO;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -24,14 +25,15 @@ public class StockDataService {
         this.stockDataParser = stockDataParser;
     }
 
-    public List<StockDataDTO> getStockDataDTO(int page, int size) throws IOException {
+    public List<StockDataDTO> getStockDataDTO(int offset, int limit, int pageSize) throws IOException {
         ResponseEntity<String> response = getStringResponseEntity();
         List<StockDataDTO> allStockData = stockDataParser.parse(response.getBody());
 
-        int start = (page - 1) * size;
-        int end = Math.min(start + size, allStockData.size());
-
-        return allStockData.subList(start, end);
+        int end = Math.min(offset + pageSize, allStockData.size());
+        if (offset >= allStockData.size() || offset < 0) {
+            return List.of();
+        }
+        return allStockData.subList(offset, end);
     }
 
     private ResponseEntity<String> getStringResponseEntity() {
