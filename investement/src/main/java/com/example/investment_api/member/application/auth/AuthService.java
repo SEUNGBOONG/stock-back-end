@@ -82,7 +82,7 @@ public class AuthService {
         member.checkPassword(loginRequest.memberPassword());
         String token = jwtTokenProvider.createToken(member.getId());
 
-        return new LoginResponse(token, member.getMemberName(), member.getMemberNickName());
+        return new LoginResponse(token, member.getId(), member.getMemberName(), member.getMemberNickName());
     }
 
     private void validateLoginRequestFormat(LoginRequest loginRequest){
