@@ -44,5 +44,4 @@ public class MemberAccount {
         this.stockCount -= count;
     }
 
-
 }
