@@ -11,9 +11,15 @@ public class MemberService {
 
     private final MemberJpaRepository memberJpaRepository;
 
-    public String getMemberNickName(Long memberId) {
-        Member member = memberJpaRepository.findById(memberId)
+    public String getMemberNickName(Long memberId){
+        Member member= memberJpaRepository.findById(memberId)
                 .orElseThrow(RuntimeException::new);
         return member.getMemberNickName();
+    }
+
+    public int getMemberDeposit(Long memberId){
+        Member member= memberJpaRepository.findById(memberId)
+                .orElseThrow(RuntimeException::new);
+        return member.getDeposit();
     }
 }

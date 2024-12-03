@@ -45,18 +45,19 @@ public class StockCalculationMapper {
     public AllResultDTO toAllResultDTO(List<AccountStockData> dtoList, Long memberId) {
         double totalEvaluationProfit = stockCalculatorService.calculateTotalEvaluationProfit(dtoList);
         double totalPurchaseAmount = stockCalculatorService.calculateTotalPurchaseAmount(dtoList);
-        double totalProfit = stockCalculatorService.calculateTotalProfit(dtoList);
         int totalEvaluationAmount = stockCalculatorService.calculateTotalEvaluationAmount(dtoList);
         String memberNickname = memberService.getMemberNickName(memberId);
-
+        int deposit = memberService.getMemberDeposit(memberId);
+        int estimatedAsset = totalEvaluationAmount + deposit;
         Map<Long, Integer> rankMap = memberRankService.calculateMemberRanks();
         int rank = rankMap.getOrDefault(memberId, -1);
         return new AllResultDTO(
+                memberNickname,
+                deposit,
                 totalEvaluationProfit,
                 totalPurchaseAmount,
-                totalProfit,
                 totalEvaluationAmount,
-                memberNickname,
+                estimatedAsset,
                 rank
         );
     }
