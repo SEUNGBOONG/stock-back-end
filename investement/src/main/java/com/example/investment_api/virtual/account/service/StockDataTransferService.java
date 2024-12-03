@@ -1,5 +1,6 @@
 package com.example.investment_api.virtual.account.service;
 
+import com.example.investment_api.virtual.account.controller.dto.UserStockDTO;
 import com.example.investment_api.virtual.account.domain.MemberAccount;
 
 import com.example.investment_api.virtual.account.controller.dto.AccountStockData;
@@ -63,4 +64,6 @@ public class StockDataTransferService {
                 .map(StockData::prevChangeRate)
                 .orElseThrow(StockNotFoundException::new);
     }
+
+
 }

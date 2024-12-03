@@ -4,6 +4,8 @@ public record AllResultDTO(
         double totalEvaluationProfit, //총 평가손익
         double totalPurchaseAmount, //총 매입금액
         double totalProfit, //수익률
-        int totalEvaluationAmount //총 평가금액
+        int totalEvaluationAmount, //총 평가금액
+        String memberNickname, //멤버 닉네임
+        int rank //순위
 ) {
 }
