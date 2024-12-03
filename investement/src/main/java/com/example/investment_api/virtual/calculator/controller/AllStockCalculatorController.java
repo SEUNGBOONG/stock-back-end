@@ -35,4 +35,3 @@ public class AllStockCalculatorController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }
-

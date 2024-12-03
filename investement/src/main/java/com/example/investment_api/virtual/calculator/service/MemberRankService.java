@@ -26,14 +26,13 @@ public class MemberRankService {
 
     public Map<Long, Integer> calculateMemberRanks() {
         List<Member> members = memberJpaRepository.findAll();
-        Map<Long, Double> memberProfitMap = new HashMap<>();
+        Map<Long, Double> memberDepositMap = new HashMap<>();
         for (Member member : members) {
-            List<AccountStockData> stockDataList = stockDataTransferService.getAccountStockDataList(member.getId());
-            double totalProfit = allStockCalculator.calculateTotalProfit(stockDataList);
-            memberProfitMap.put(member.getId(), totalProfit);
+            double rate = member.getDeposit();
+            memberDepositMap.put(member.getId(), rate);
         }
 
-        List<Map.Entry<Long, Double>> sortedList = memberProfitMap.entrySet()
+        List<Map.Entry<Long, Double>> sortedList = memberDepositMap.entrySet()
                 .stream()
                 .sorted((e1, e2) -> Double.compare(e2.getValue(), e1.getValue()))
                 .toList();
