@@ -1,42 +1,34 @@
 package com.example.investment_api.virtual.calculator.mapper;
 
+import com.example.investment_api.member.application.member.MemberService;
 import com.example.investment_api.virtual.account.controller.dto.AllResultDTO;
 import com.example.investment_api.virtual.account.controller.dto.AccountStockData;
 import com.example.investment_api.virtual.account.controller.dto.ResultDTO;
-
-import com.example.investment_api.virtual.calculator.domain.AllStockCalculator;
-
-import com.example.investment_api.virtual.calculator.domain.StockCalculator;
-
+import com.example.investment_api.virtual.calculator.service.MemberRankService;
+import com.example.investment_api.virtual.calculator.service.StockCalculatorService;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class StockCalculationMapper {
 
-    private final StockCalculator stockCalculator;
-    private final AllStockCalculator allStockCalculator;
+    private final StockCalculatorService stockCalculatorService;
+    private final MemberService memberService;
+    private final MemberRankService memberRankService;
 
-    public StockCalculationMapper(StockCalculator stockCalculator, AllStockCalculator allStockCalculator) {
-        this.stockCalculator = stockCalculator;
-        this.allStockCalculator = allStockCalculator;
+    public StockCalculationMapper(StockCalculatorService stockCalculatorService, MemberService memberService, MemberRankService memberRankService) {
+        this.stockCalculatorService = stockCalculatorService;
+        this.memberService = memberService;
+        this.memberRankService = memberRankService;
     }
 
     public ResultDTO toResultDTO(String stockName, AccountStockData dto) {
-        double evaluationProfit = stockCalculator.calculateEvaluationProfit(
-                dto.buyPrice(),
-                dto.currentPrice(),
-                dto.stockCount());
-        double profitRate = stockCalculator.calculateProfitRate(
-                dto.buyPrice(),
-                dto.currentPrice());
-        int purchaseAmount = stockCalculator.calculatePurchaseAmount(
-                dto.buyPrice(),
-                dto.stockCount());
-        int evaluationAmount = stockCalculator.calculateEvaluationAmount(
-                dto.currentPrice(),
-                dto.stockCount());
+        double evaluationProfit = stockCalculatorService.calculateEvaluationProfit(dto.buyPrice(), dto.currentPrice(), dto.stockCount());
+        double profitRate = stockCalculatorService.calculateProfitRate(dto.buyPrice(), dto.currentPrice());
+        int purchaseAmount = stockCalculatorService.calculatePurchaseAmount(dto.buyPrice(), dto.stockCount());
+        int evaluationAmount = stockCalculatorService.calculateEvaluationAmount(dto.currentPrice(), dto.stockCount());
 
         return new ResultDTO(
                 stockName,
@@ -50,12 +42,23 @@ public class StockCalculationMapper {
         );
     }
 
-    public AllResultDTO toAllResultDTO(List<AccountStockData> dtoList) {
-        double totalEvaluationProfit = allStockCalculator.calculateTotalEvaluationProfit(dtoList);
-        double totalPurchaseAmount = allStockCalculator.calculateTotalPurchaseAmount(dtoList);
-        double totalProfit = allStockCalculator.calculateTotalProfit(dtoList);
-        int totalEvaluationAmount = allStockCalculator.calculateTotalEvaluationAmount(dtoList);
+    public AllResultDTO toAllResultDTO(List<AccountStockData> dtoList, Long memberId) {
+        double totalEvaluationProfit = stockCalculatorService.calculateTotalEvaluationProfit(dtoList);
+        double totalPurchaseAmount = stockCalculatorService.calculateTotalPurchaseAmount(dtoList);
+        double totalProfit = stockCalculatorService.calculateTotalProfit(dtoList);
+        int totalEvaluationAmount = stockCalculatorService.calculateTotalEvaluationAmount(dtoList);
+        String memberNickname = memberService.getMemberNickName(memberId);
 
-        return new AllResultDTO(totalEvaluationProfit, totalPurchaseAmount, totalProfit, totalEvaluationAmount);
+        Map<Long, Integer> rankMap = memberRankService.calculateMemberRanks();
+        int rank = rankMap.getOrDefault(memberId, -1);
+        return new AllResultDTO(
+                totalEvaluationProfit,
+                totalPurchaseAmount,
+                totalProfit,
+                totalEvaluationAmount,
+                memberNickname,
+                rank
+        );
     }
 }
+
