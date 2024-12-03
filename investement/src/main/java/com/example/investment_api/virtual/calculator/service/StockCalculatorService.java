@@ -26,10 +26,6 @@ public class StockCalculatorService {
         return stockCalculator.calculateProfitRate(buyPrice, currentPrice);
     }
 
-    public int calculatePurchaseAmount(int buyPrice, int stockCount) {
-        return stockCalculator.calculatePurchaseAmount(buyPrice, stockCount);
-    }
-
     public int calculateEvaluationAmount(int currentPrice, int stockCount) {
         return stockCalculator.calculateEvaluationAmount(currentPrice, stockCount);
     }
