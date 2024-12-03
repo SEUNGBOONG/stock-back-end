@@ -55,4 +55,5 @@ public class AllStockCalculator {
         }
         return totalEvaluationAmount; //평가 금액
     }
+
 }

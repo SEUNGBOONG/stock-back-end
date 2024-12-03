@@ -1,5 +1,8 @@
 package com.example.investment_api.virtual.account.service;
 
+import com.example.investment_api.member.domain.member.Member;
+import com.example.investment_api.member.infrastructure.member.MemberJpaRepository;
+import com.example.investment_api.virtual.account.controller.dto.UserStockDTO;
 import com.example.investment_api.virtual.account.domain.MemberAccount;
 
 import com.example.investment_api.virtual.account.controller.dto.AccountStockData;
@@ -10,7 +13,9 @@ import com.example.investment_api.virtual.calculator.infrastructure.scheduler.Ac
 
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -19,10 +24,12 @@ public class StockDataTransferService {
 
     private final AccountDataPollingService stockDataPollingService;
     private final MemberAccountService memberAccountService;
+    private final MemberJpaRepository memberJpaRepository;
 
-    public StockDataTransferService(AccountDataPollingService stockDataPollingService, MemberAccountService memberAccountService) {
+    public StockDataTransferService(final AccountDataPollingService stockDataPollingService, final MemberAccountService memberAccountService, final MemberJpaRepository memberJpaRepository) {
         this.stockDataPollingService = stockDataPollingService;
         this.memberAccountService = memberAccountService;
+        this.memberJpaRepository = memberJpaRepository;
     }
 
     public List<AccountStockData> getAccountStockDataList(Long memberId) {
@@ -63,4 +70,5 @@ public class StockDataTransferService {
                 .map(StockData::prevChangeRate)
                 .orElseThrow(StockNotFoundException::new);
     }
+
 }

@@ -8,17 +8,12 @@ import com.example.investment_api.member.exception.exceptions.member.NotFoundMem
 import com.example.investment_api.member.infrastructure.member.MemberJpaRepository;
 import com.example.investment_api.search.detail.stock.service.client.StockDataFetcher;
 
-import com.example.investment_api.virtual.account.controller.dto.BuyResponse;
-import com.example.investment_api.virtual.account.controller.dto.SellResponse;
-import com.example.investment_api.virtual.account.controller.dto.LimitOrderResponse;
+import com.example.investment_api.virtual.account.controller.dto.*;
 import com.example.investment_api.virtual.account.domain.MemberAccount;
 import com.example.investment_api.virtual.account.domain.MemberAccountRepository;
 import com.example.investment_api.virtual.account.domain.StockOrderRepository;
 
 import com.example.investment_api.virtual.account.domain.StockOrder;
-
-import com.example.investment_api.virtual.account.controller.dto.StockDataDTO;
-import com.example.investment_api.virtual.account.controller.dto.StockOrderDTO;
 
 import com.example.investment_api.virtual.account.exception.*;
 import com.example.investment_api.virtual.account.infrastructure.AccountStockParser;
@@ -190,5 +185,13 @@ public class MemberAccountService {
         } catch (IOException e) {
             throw new RuntimeException("현재가 정보를 가져오는 중 오류 발생: " + e.getMessage());
         }
+    }
+
+    public UserStockDTO getUserStockNames(Long memberId){
+        List<MemberAccount> memberAccounts = getMemberAccounts(memberId);
+        List<String> stockNames = memberAccounts.stream()
+                .map(MemberAccount::getStockName)
+                .toList();
+        return new UserStockDTO(stockNames);
     }
 }
