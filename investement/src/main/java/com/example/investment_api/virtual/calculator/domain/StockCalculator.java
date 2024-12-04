@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 public class StockCalculator {
 
     public double calculateEvaluationProfit(int buyPrice, int currentPrice, int stockCount) {
-        return (buyPrice - currentPrice) * stockCount;
+        return (currentPrice - buyPrice) * stockCount;
     } // 평가손익
 
     public double calculateProfitRate(int buyPrice, int currentPrice) {
