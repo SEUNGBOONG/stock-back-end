@@ -7,7 +7,6 @@ public record ResultDTO(
         double prevChangeRate, // 등락률
         double EvaluationProfit, //평가손익
         double ProfitRate, //수익률
-        int purchaseAmount, //매입 금액
-        int EvaluationAmount //평가 금액
+        int purchaseAmount //매입 금액
 ) {
 }

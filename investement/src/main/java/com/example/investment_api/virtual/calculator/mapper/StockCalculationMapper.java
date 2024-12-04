@@ -28,7 +28,6 @@ public class StockCalculationMapper {
         double evaluationProfit = stockCalculatorService.calculateEvaluationProfit(dto.buyPrice(), dto.currentPrice(), dto.stockCount());
         double profitRate = stockCalculatorService.calculateProfitRate(dto.buyPrice(), dto.currentPrice());
         int purchaseAmount = dto.buyPrice();
-        int evaluationAmount = stockCalculatorService.calculateEvaluationAmount(dto.currentPrice(), dto.stockCount());
 
         return new ResultDTO(
                 stockName,
@@ -37,8 +36,7 @@ public class StockCalculationMapper {
                 dto.prevChangeRate(),
                 evaluationProfit,
                 profitRate,
-                purchaseAmount,
-                evaluationAmount
+                purchaseAmount
         );
     }
 

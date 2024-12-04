@@ -36,16 +36,6 @@ public class AllStockCalculator {
         return totalPurchaseAmount; //매입 금액
     }
 
-    public double calculateTotalProfit(List<AccountStockData> dtoList) {
-        double totalProfit = 0.0;
-        double totalPurchaseAmount = calculateTotalPurchaseAmount(dtoList);
-        double totalEvaluationProfit = calculateTotalEvaluationProfit(dtoList);
-        if (totalPurchaseAmount > 0) {
-            totalProfit = (totalEvaluationProfit - totalPurchaseAmount) / totalPurchaseAmount * 100;
-        }
-        return totalProfit; //수익률
-    }
-
     public int calculateTotalEvaluationAmount(List<AccountStockData> dtolist) {
         int totalEvaluationAmount = 0;
         for (AccountStockData calculationDTO : dtolist) {
