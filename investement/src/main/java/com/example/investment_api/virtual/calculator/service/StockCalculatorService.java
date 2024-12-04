@@ -26,20 +26,12 @@ public class StockCalculatorService {
         return stockCalculator.calculateProfitRate(buyPrice, currentPrice);
     }
 
-    public int calculatePurchaseAmount(int buyPrice, int stockCount) {
-        return stockCalculator.calculatePurchaseAmount(buyPrice, stockCount);
-    }
-
     public double calculateTotalEvaluationProfit(List<AccountStockData> dtoList) {
         return allStockCalculator.calculateTotalEvaluationProfit(dtoList);
     }
 
     public double calculateTotalPurchaseAmount(List<AccountStockData> dtoList) {
         return allStockCalculator.calculateTotalPurchaseAmount(dtoList);
-    }
-
-    public double calculateTotalProfit(List<AccountStockData> dtoList) {
-        return allStockCalculator.calculateTotalProfit(dtoList);
     }
 
     public int calculateTotalEvaluationAmount(List<AccountStockData> dtoList) {
