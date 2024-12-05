@@ -21,7 +21,7 @@ public class AllStockCalculator {
             int buyPrice = calculationDTO.buyPrice();
             int stockCount = calculationDTO.stockCount();
 
-            totalEvaluationProfit += stockCalculator.calculateEvaluationProfit(currentPrice, buyPrice, stockCount);
+            totalEvaluationProfit += stockCalculator.calculateEvaluationProfit(buyPrice, currentPrice, stockCount);
         }
         return totalEvaluationProfit; //평가 손익
     }
