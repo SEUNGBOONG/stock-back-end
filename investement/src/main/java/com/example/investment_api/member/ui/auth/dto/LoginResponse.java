@@ -4,6 +4,8 @@ public record LoginResponse(
         String token,
         Long memberId,
         String memberName,
-        String memberNickName
+        String memberNickName,
+        int annualIncome,
+        int deposit
 ) {
 }
