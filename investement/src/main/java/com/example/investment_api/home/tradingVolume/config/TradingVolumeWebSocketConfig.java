@@ -18,6 +18,6 @@ public class TradingVolumeWebSocketConfig implements WebSocketConfigurer {
 
     @Override
     public void registerWebSocketHandlers(final WebSocketHandlerRegistry registry) {
-        registry.addHandler(tradingVolumeWebSocketHandler, "/ws/tradingVolume");
+        registry.addHandler(tradingVolumeWebSocketHandler, "/wss/tradingVolume");
     }
 }
