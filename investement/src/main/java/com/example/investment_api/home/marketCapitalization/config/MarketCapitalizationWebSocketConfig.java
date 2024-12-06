@@ -17,6 +17,6 @@ public class MarketCapitalizationWebSocketConfig implements WebSocketConfigurer 
 
     @Override
     public void registerWebSocketHandlers(final WebSocketHandlerRegistry registry) {
-        registry.addHandler(marketCapitalizationWebSocketHandler, "/ws/marketCapitalization");
+        registry.addHandler(marketCapitalizationWebSocketHandler, "/wss/marketCapitalization");
     }
 }

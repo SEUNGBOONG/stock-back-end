@@ -17,6 +17,6 @@ public class FluctuationWebSocketConfig implements WebSocketConfigurer {
 
     @Override
     public void registerWebSocketHandlers(final WebSocketHandlerRegistry registry) {
-        registry.addHandler(fluctuationWebSocketHandler, "/ws/marketCapitalization");
+        registry.addHandler(fluctuationWebSocketHandler, "/wss/marketCapitalization");
     }
 }
