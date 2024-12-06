@@ -82,7 +82,8 @@ public class AuthService {
         member.checkPassword(loginRequest.memberPassword());
         String token = jwtTokenProvider.createToken(member.getId());
 
-        return new LoginResponse(token, member.getId(), member.getMemberName(), member.getMemberNickName());
+        return new LoginResponse(token, member.getId(), member.getMemberName(), member.getMemberNickName(),
+                member.getAnnualIncome(), member.getDeposit());
     }
 
     private void validateLoginRequestFormat(LoginRequest loginRequest){
