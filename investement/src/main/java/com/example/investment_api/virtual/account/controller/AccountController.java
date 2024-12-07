@@ -2,16 +2,9 @@ package com.example.investment_api.virtual.account.controller;
 
 import com.example.investment_api.global.annotation.Member;
 
-import com.example.investment_api.virtual.account.controller.dto.BuyRequest;
-import com.example.investment_api.virtual.account.controller.dto.BuyResponse;
-import com.example.investment_api.virtual.account.controller.dto.LimitOrderResponse;
-import com.example.investment_api.virtual.account.controller.dto.OrderRequest;
-import com.example.investment_api.virtual.account.controller.dto.SellRequest;
-import com.example.investment_api.virtual.account.controller.dto.SellResponse;
+import com.example.investment_api.virtual.account.controller.dto.*;
 
 import com.example.investment_api.virtual.account.domain.MemberAccount;
-
-import com.example.investment_api.virtual.account.controller.dto.StockOrderDTO;
 
 import com.example.investment_api.virtual.account.service.MemberAccountService;
 
@@ -73,6 +66,12 @@ public class AccountController {
                                           @PathVariable String stockName) {
         return memberAccountService.getMemberAccount(memberId, stockName);
     }
+
+    @GetMapping("/orders/{stockName}")
+    public List<OrderData> getMemberOrders(@Member Long memberId, @PathVariable String stockName){
+        return memberAccountService.getStockOrderData(memberId, stockName);
+    }
+
 
     @PutMapping("/order/{orderId}/modify")
     public String modifyOrder(@Member Long memberId,

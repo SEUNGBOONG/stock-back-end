@@ -27,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -193,5 +194,32 @@ public class MemberAccountService {
                 .map(MemberAccount::getStockName)
                 .toList();
         return new UserStockDTO(stockNames);
+    }
+
+    public List<StockOrder> getStockOrders(Long memberId, String stockName){
+        return stockOrderRepository.findByMemberIdAndStockName(memberId,stockName)
+                .orElseThrow(OrderNotFoundException::new);
+    }
+
+    public List<OrderData> getStockOrderData(Long memberId, String stockName) {
+        List<StockOrder> stockOrders = getStockOrders(memberId, stockName);
+        int totalQuantity = stockOrders.stream()
+                .mapToInt(StockOrder::getQuantity)
+                .sum();
+        List<OrderData> orderData = stockOrders.stream()
+                .map(order -> mapToOrderDTO(order, totalQuantity))
+                .collect(Collectors.toList());
+        return orderData;
+    }
+
+    public OrderData mapToOrderDTO(StockOrder stockOrder, int totalQuantity) {
+        int remainQuantity = totalQuantity - stockOrder.getQuantity();
+        return new OrderData(
+                stockOrder.getId(),
+                stockOrder.getStockName(),
+                remainQuantity,
+                stockOrder.getQuantity(),
+                stockOrder.getLimitPrice()
+        );
     }
 }

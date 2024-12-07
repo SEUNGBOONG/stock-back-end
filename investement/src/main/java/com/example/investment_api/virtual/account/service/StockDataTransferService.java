@@ -1,11 +1,9 @@
 package com.example.investment_api.virtual.account.service;
 
-import com.example.investment_api.virtual.account.controller.dto.UserStockDTO;
 import com.example.investment_api.virtual.account.domain.MemberAccount;
 
 import com.example.investment_api.virtual.account.controller.dto.AccountStockData;
 import com.example.investment_api.virtual.account.controller.dto.StockData;
-
 import com.example.investment_api.virtual.account.exception.StockNotFoundException;
 import com.example.investment_api.virtual.calculator.infrastructure.scheduler.AccountDataPollingService;
 
