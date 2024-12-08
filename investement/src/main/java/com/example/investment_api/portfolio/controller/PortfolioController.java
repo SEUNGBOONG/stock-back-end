@@ -7,7 +7,7 @@ import com.example.investment_api.portfolio.service.PortfolioService;
 
 import org.springframework.http.ResponseEntity;
 
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,7 +23,7 @@ public class PortfolioController {
         this.portfolioService = portfolioService;
     }
 
-    @PostMapping("/recommend")
+    @GetMapping("/recommend")
     public ResponseEntity<List<PortfolioResponse>> getRecommendedPortfolio(@Member Long memberId) {
         List<PortfolioResponse> portfolioResponse = portfolioService.getRecommendedPortfolio(memberId);
         return ResponseEntity.ok(portfolioResponse);
