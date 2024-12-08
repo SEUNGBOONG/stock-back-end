@@ -27,3 +27,19 @@
 
 ![1yP7Y](https://github.com/user-attachments/assets/fc8abd2f-5f91-4dfb-ae21-93b4f5715de8)
 
+
+
+
+향후 진행일정 
+12 월 9일 -> 1차 마감 
+
+
+
+1월 31일 -> 2차 마감 
+
+
+
+
+3월 1일 -> 3차 마감 
+
+
