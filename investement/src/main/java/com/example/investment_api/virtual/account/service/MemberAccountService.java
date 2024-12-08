@@ -9,11 +9,7 @@ import com.example.investment_api.member.infrastructure.member.MemberJpaReposito
 import com.example.investment_api.search.detail.stock.service.client.StockDataFetcher;
 
 import com.example.investment_api.virtual.account.controller.dto.*;
-import com.example.investment_api.virtual.account.domain.MemberAccount;
-import com.example.investment_api.virtual.account.domain.MemberAccountRepository;
-import com.example.investment_api.virtual.account.domain.StockOrderRepository;
-
-import com.example.investment_api.virtual.account.domain.StockOrder;
+import com.example.investment_api.virtual.account.domain.*;
 
 import com.example.investment_api.virtual.account.exception.*;
 import com.example.investment_api.virtual.account.infrastructure.AccountStockParser;
@@ -38,6 +34,8 @@ public class MemberAccountService {
     private final StockOrderRepository stockOrderRepository;
     private final StockRepository stockRepository;
     private final MemberJpaRepository memberJpaRepository;
+    private final MemberOrderRepository memberOrderRepository;
+
 
     private final StockDataFetcher stockDataFetcher;
     private final AccountStockParser accountStockParser;
@@ -49,6 +47,8 @@ public class MemberAccountService {
         member.calculateDeposit(currentPrice, quantity);
 
         saveAccount(memberId, stockName, currentPrice, quantity);
+        MemberOrder memberOrder= new MemberOrder(memberId, stockName, currentPrice, quantity, true);
+        memberOrderRepository.save(memberOrder);
 
         return new BuyResponse(memberId, stockName, currentPrice, quantity, member.getDeposit());
     }
@@ -65,6 +65,8 @@ public class MemberAccountService {
             deleteEmptyStock(memberAccount);
             int remainStockCounts = memberAccount.getStockCount();
             member.calculateSellDeposit(currentPrice, quantity);
+            MemberOrder memberOrder= new MemberOrder(memberId, stockName, currentPrice, quantity, false);
+            memberOrderRepository.save(memberOrder);
             return new SellResponse(memberId, stockName, currentPrice, remainStockCounts);
         }
         throw new InsufficientStockQuantityException();
@@ -221,5 +223,10 @@ public class MemberAccountService {
                 stockOrder.getQuantity(),
                 stockOrder.getLimitPrice()
         );
+    }
+
+    public List<MemberOrder> getMemberOrders(Long memberId, String stockName){
+        return memberOrderRepository.findMemberOrdersByMemberIdAndStockName(memberId, stockName)
+                .orElseThrow(() -> new OrderNotFoundException());
     }
 }
