@@ -61,7 +61,7 @@ public class AccountController {
         return memberAccountService.getMemberAccounts(memberId);
     }
 
-    @GetMapping("/account/{stockName}")
+    @GetMapping("/accounts/{stockName}")
     public MemberAccount getMemberAccount(@Member Long memberId,
                                           @PathVariable String stockName) {
         return memberAccountService.getMemberAccount(memberId, stockName);
