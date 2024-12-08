@@ -6,6 +6,7 @@ import com.example.investment_api.virtual.account.controller.dto.*;
 
 import com.example.investment_api.virtual.account.domain.MemberAccount;
 
+import com.example.investment_api.virtual.account.domain.MemberOrder;
 import com.example.investment_api.virtual.account.service.MemberAccountService;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -83,5 +84,10 @@ public class AccountController {
     @DeleteMapping("/order/{orderId}/cancel")
     public String cancelOrder(@Member Long memberId, @PathVariable int orderId) {
         return memberAccountService.cancelOrder(memberId, orderId);
+    }
+
+    @GetMapping("accounts/save/{stockName}")
+    public List<MemberOrder> getMemberOrdersList(@Member Long memberId, @PathVariable String stockName){
+        return memberAccountService.getMemberOrders(memberId, stockName);
     }
 }
