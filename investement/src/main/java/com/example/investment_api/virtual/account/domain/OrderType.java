@@ -1,16 +1,16 @@
 package com.example.investment_api.virtual.account.domain;
 
+import lombok.Getter;
+
+@Getter
 public enum OrderType {
 
     BUY("매수"),
     SELL("매도");
 
-    private String type;
+    private final String type;
 
     OrderType(String type) {
-    }
-
-    public String getType() {
-        return type;
+        this.type = type;
     }
 }

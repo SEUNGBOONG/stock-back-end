@@ -5,7 +5,7 @@ public record OrderData(
         String stockName,
         int remainCount,
         int stockCount,
-        int buyPrice
-
+        int buyPrice,
+        String type
 ) {
 }
