@@ -85,14 +85,14 @@ public class MemberAccountService {
 
     @Transactional
     public LimitOrderResponse placeLimitOrderForBuy(Long memberId, String stockName, int limitPrice, int quantity) {
-        StockOrder order = new StockOrder(memberId, stockName, quantity, limitPrice, OrderType.BUY.getType());
+        StockOrder order = new StockOrder(memberId, stockName, quantity, limitPrice, "매수");
         stockOrderRepository.save(order);
         return new LimitOrderResponse(memberId, stockName, limitPrice, quantity, order.getIsBuyOrder());
     }
 
     @Transactional
     public LimitOrderResponse placeLimitOrderForSell(Long memberId, String stockName, int limitPrice, int quantity) {
-        StockOrder order = new StockOrder(memberId, stockName, quantity, limitPrice, OrderType.SELL.getType());
+        StockOrder order = new StockOrder(memberId, stockName, quantity, limitPrice, "매도");
         stockOrderRepository.save(order);
         return new LimitOrderResponse(memberId, stockName, limitPrice, quantity, order.getIsBuyOrder());
     }
