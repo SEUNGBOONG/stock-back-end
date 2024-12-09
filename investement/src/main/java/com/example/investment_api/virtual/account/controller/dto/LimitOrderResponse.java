@@ -1,4 +1,10 @@
 package com.example.investment_api.virtual.account.controller.dto;
 
-public record LimitOrderResponse(Long memberId, String stockName, int limitPrice, int quantity) {
+public record LimitOrderResponse(
+        Long memberId,
+        String stockName,
+        int limitPrice,
+        int quantity,
+        String type
+) {
 }
