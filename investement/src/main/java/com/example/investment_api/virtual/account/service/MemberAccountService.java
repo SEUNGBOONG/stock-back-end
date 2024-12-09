@@ -47,7 +47,7 @@ public class MemberAccountService {
         member.calculateDeposit(currentPrice, quantity);
 
         saveAccount(memberId, stockName, currentPrice, quantity);
-        MemberOrder memberOrder= new MemberOrder(memberId, stockName, currentPrice, quantity, true);
+        MemberOrder memberOrder= new MemberOrder(memberId, stockName, currentPrice, quantity, "매수");
         memberOrderRepository.save(memberOrder);
 
         return new BuyResponse(memberId, stockName, currentPrice, quantity, member.getDeposit());
@@ -65,7 +65,7 @@ public class MemberAccountService {
             deleteEmptyStock(memberAccount);
             int remainStockCounts = memberAccount.getStockCount();
             member.calculateSellDeposit(currentPrice, quantity);
-            MemberOrder memberOrder= new MemberOrder(memberId, stockName, currentPrice, quantity, false);
+            MemberOrder memberOrder= new MemberOrder(memberId, stockName, currentPrice, quantity, "매도");
             memberOrderRepository.save(memberOrder);
             return new SellResponse(memberId, stockName, currentPrice, remainStockCounts);
         }
