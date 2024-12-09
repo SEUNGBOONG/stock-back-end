@@ -85,16 +85,16 @@ public class MemberAccountService {
 
     @Transactional
     public LimitOrderResponse placeLimitOrderForBuy(Long memberId, String stockName, int limitPrice, int quantity) {
-        StockOrder order = new StockOrder(memberId, stockName, quantity, limitPrice, true);
+        StockOrder order = new StockOrder(memberId, stockName, quantity, limitPrice, OrderType.BUY.getType());
         stockOrderRepository.save(order);
-        return new LimitOrderResponse(memberId, stockName, limitPrice, quantity);
+        return new LimitOrderResponse(memberId, stockName, limitPrice, quantity, order.getIsBuyOrder());
     }
 
     @Transactional
     public LimitOrderResponse placeLimitOrderForSell(Long memberId, String stockName, int limitPrice, int quantity) {
-        StockOrder order = new StockOrder(memberId, stockName, quantity, limitPrice, false);
+        StockOrder order = new StockOrder(memberId, stockName, quantity, limitPrice, OrderType.SELL.getType());
         stockOrderRepository.save(order);
-        return new LimitOrderResponse(memberId, stockName, limitPrice, quantity);
+        return new LimitOrderResponse(memberId, stockName, limitPrice, quantity, order.getIsBuyOrder());
     }
 
     @Scheduled(fixedRate = 10000)
@@ -125,7 +125,7 @@ public class MemberAccountService {
 
     private void processStockOrder(StockOrder order, Long memberId, String stockName, int limitPrice, int quantity, int currentPrice) {
         if (currentPrice == limitPrice) {
-            if (order.isBuyOrder()) {
+            if (order.getIsBuyOrder().equals(OrderType.BUY.getType())) {
                 buyStockImmediately(memberId, stockName, quantity);
             } else {
                 sellStockImmediately(memberId, stockName, quantity);

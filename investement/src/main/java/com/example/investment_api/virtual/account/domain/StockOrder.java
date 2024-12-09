@@ -33,7 +33,7 @@ public class StockOrder {
     private int limitPrice;
 
     @Column
-    private boolean isBuyOrder; // true: 매수, false:
+    private String isBuyOrder; // true: 매수, false:
 
     @Column
     private boolean isProcessed = false;
@@ -42,7 +42,7 @@ public class StockOrder {
 
     }
 
-    public StockOrder(Long memberId, String stockName, int quantity, int limitPrice, boolean isBuyOrder) {
+    public StockOrder(Long memberId, String stockName, int quantity, int limitPrice, String isBuyOrder) {
         this.memberId = memberId;
         this.stockName = stockName;
         this.quantity = quantity;
