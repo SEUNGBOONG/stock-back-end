@@ -130,7 +130,6 @@ public class MemberAccountService {
             } else {
                 sellStockImmediately(memberId, stockName, quantity);
             }
-            order.setProcessed(true);
             stockOrderRepository.save(order);
         }
     }
@@ -208,10 +207,9 @@ public class MemberAccountService {
         int totalQuantity = stockOrders.stream()
                 .mapToInt(StockOrder::getQuantity)
                 .sum();
-        List<OrderData> orderData = stockOrders.stream()
+        return stockOrders.stream()
                 .map(order -> mapToOrderDTO(order, totalQuantity))
                 .collect(Collectors.toList());
-        return orderData;
     }
 
     public OrderData mapToOrderDTO(StockOrder stockOrder, int totalQuantity) {
@@ -221,12 +219,13 @@ public class MemberAccountService {
                 stockOrder.getStockName(),
                 remainQuantity,
                 stockOrder.getQuantity(),
-                stockOrder.getLimitPrice()
+                stockOrder.getLimitPrice(),
+                stockOrder.getIsBuyOrder()
         );
     }
 
     public List<MemberOrder> getMemberOrders(Long memberId, String stockName){
         return memberOrderRepository.findMemberOrdersByMemberIdAndStockName(memberId, stockName)
-                .orElseThrow(() -> new OrderNotFoundException());
+                .orElseThrow(OrderNotFoundException::new);
     }
 }
