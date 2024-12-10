@@ -28,6 +28,10 @@
 ![1yP7Y](https://github.com/user-attachments/assets/fc8abd2f-5f91-4dfb-ae21-93b4f5715de8)
 
 
+[Uploading 튜토리얼.webm…]()
+
+
+
 
 
 향후 진행일정 
@@ -36,6 +40,8 @@
 
 
 1월 31일 -> 2차 마감 
+
+
 
 
 
