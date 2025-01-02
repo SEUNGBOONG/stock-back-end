@@ -130,6 +130,7 @@ public class MemberAccountService {
             } else {
                 sellStockImmediately(memberId, stockName, quantity);
             }
+            order.setProcessed(true);
             stockOrderRepository.save(order);
         }
     }
