@@ -9,7 +9,8 @@ import com.example.investment_api.member.infrastructure.member.MemberJpaReposito
 import com.example.investment_api.virtual.account.controller.dto.StockData;
 import com.example.investment_api.virtual.account.domain.MemberAccount;
 import com.example.investment_api.virtual.account.exception.StockNotFoundException;
-import com.example.investment_api.virtual.account.service.MemberAccountService;
+import com.example.investment_api.virtual.account.service.AccountService;
+import com.example.investment_api.virtual.account.service.OrderService;
 
 import com.example.investment_api.virtual.calculator.infrastructure.scheduler.AccountDataPollingService;
 import org.springframework.stereotype.Service;
@@ -21,20 +22,20 @@ import java.util.stream.Collectors;
 @Service
 public class SideBarService {
 
-    private final MemberAccountService memberAccountService;
+    private final AccountService accountService;
 
     private final AccountDataPollingService accountDataPollingService;
 
     private final MemberJpaRepository memberJpaRepository;
 
-    public SideBarService(final MemberAccountService memberAccountService, final AccountDataPollingService accountDataPollingService, final MemberJpaRepository memberJpaRepository) {
-        this.memberAccountService = memberAccountService;
+    public SideBarService(AccountService accountService, final AccountDataPollingService accountDataPollingService, final MemberJpaRepository memberJpaRepository) {
+        this.accountService = accountService;
         this.accountDataPollingService = accountDataPollingService;
         this.memberJpaRepository = memberJpaRepository;
     }
 
     public List<SideBarDTO> getAccount(Long memberId) {
-        List<MemberAccount> accounts = memberAccountService.getMemberAccounts(memberId);
+        List<MemberAccount> accounts = accountService.getMemberAccounts(memberId);
         return accounts.stream()
                 .map(this::mapToAccountStockData)
                 .collect(Collectors.toList());
