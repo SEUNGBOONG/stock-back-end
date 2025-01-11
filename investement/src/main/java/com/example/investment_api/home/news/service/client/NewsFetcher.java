@@ -1,5 +1,6 @@
 package com.example.investment_api.home.news.service.client;
 
+import com.example.investment_api.common.api.ApiMessage;
 import com.example.investment_api.common.config.RestTemplateClient;
 
 import org.json.JSONException;
@@ -32,7 +33,7 @@ public class NewsFetcher {
     }
 
     private ResponseEntity<String> setURL(final String keyword) {
-        String url = "https://openapi.naver.com/v1/search/news.json?query=" + keyword;
+        String url = ApiMessage.NAVER_URL.name() + keyword;
         HttpHeaders headers = setHeader();
         return get(url, headers);
     }
@@ -43,8 +44,8 @@ public class NewsFetcher {
 
     private HttpHeaders setHeader() {
         HttpHeaders headers = new HttpHeaders();
-        headers.set("X-Naver-Client-Id", clientId);
-        headers.set("X-Naver-Client-Secret", clientSecret);
+        headers.set(ApiMessage.NAVER_CLIENT_ID.name(), clientId);
+        headers.set(ApiMessage.NAVER_CLIENT_SECRET.name(), clientSecret);
         return headers;
     }
 }
