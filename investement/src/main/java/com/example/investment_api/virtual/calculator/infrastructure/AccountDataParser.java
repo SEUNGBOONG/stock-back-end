@@ -1,5 +1,6 @@
 package com.example.investment_api.virtual.calculator.infrastructure;
 
+import com.example.investment_api.common.api.ApiMessage;
 import com.example.investment_api.virtual.account.controller.dto.StockData;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -35,9 +36,9 @@ public class AccountDataParser {
     }
 
     private StockData extractStockData(final JsonNode item) {
-        String stockName = item.path("hts_kor_isnm").asText();  // 주식 이름
-        int stockPrice = item.path("stck_prpr").asInt();        // 현재 주가
-        double prevChangeRate = item.path("prdy_ctrt").asDouble(); // 전일 대비 등락률
+        String stockName = item.path(ApiMessage.STOCK_NAME.name()).asText();  // 주식 이름
+        int stockPrice = item.path(ApiMessage.STOCK_PREV.name()).asInt();        // 현재 주가
+        double prevChangeRate = item.path(ApiMessage.PREV_CHANGE_PRICE.name()).asDouble(); // 전일 대비 등락률
 
         return new StockData(stockName, stockPrice, prevChangeRate);
     }
