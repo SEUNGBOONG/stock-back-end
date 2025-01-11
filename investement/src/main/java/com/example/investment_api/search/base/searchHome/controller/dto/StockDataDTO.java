@@ -1,4 +1,4 @@
-package com.example.investment_api.search.base.searchHome.dto;
+package com.example.investment_api.search.base.searchHome.controller.dto;
 
 public record StockDataDTO(
         String rank,

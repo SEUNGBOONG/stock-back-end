@@ -3,7 +3,7 @@ package com.example.investment_api.search.base.searchHome.service;
 import com.example.investment_api.home.marketCapitalization.service.client.MarketCapitalizationFetcher;
 
 import com.example.investment_api.search.base.searchHome.infrastructure.StockDataParser;
-import com.example.investment_api.search.base.searchHome.dto.StockDataDTO;
+import com.example.investment_api.search.base.searchHome.controller.dto.StockDataDTO;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,11 @@ public class StockDataService {
         this.stockDataParser = stockDataParser;
     }
 
-    public List<StockDataDTO> getStockDataDTO(int offset, int limit, int pageSize) throws IOException {
+    public List<StockDataDTO> getStockDataDTO(int offset, int pageSize) throws IOException {
+        return getStockDataDTOS(offset, pageSize);
+    }
+
+    private List<StockDataDTO> getStockDataDTOS(final int offset, final int pageSize) throws IOException {
         ResponseEntity<String> response = getStringResponseEntity();
         List<StockDataDTO> allStockData = stockDataParser.parse(response.getBody());
 

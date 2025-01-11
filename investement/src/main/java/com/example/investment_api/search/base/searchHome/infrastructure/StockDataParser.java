@@ -1,6 +1,6 @@
 package com.example.investment_api.search.base.searchHome.infrastructure;
 
-import com.example.investment_api.common.api.KoreaInvestement;
+import com.example.investment_api.common.api.ApiMessage;
 import com.example.investment_api.search.base.searchHome.controller.dto.StockDataDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -40,13 +40,13 @@ public class StockDataParser {
     private void buildDataList(List<StockDataDTO> marketCapitalizationDTOList, Iterator<JsonNode> elements) {
         while (elements.hasNext()) {
             JsonNode marketCapitalizationOutput = elements.next();
-            String rank = marketCapitalizationOutput.path(KoreaInvestement.DATA_RANK.name()).asText();
-            String stockPrice = marketCapitalizationOutput.path(KoreaInvestement.STOCK_PREV.name()).asText();
-            String stockName = marketCapitalizationOutput.path(KoreaInvestement.STOCK_NAME.name()).asText();
-            String prevChangePrice = marketCapitalizationOutput.path(KoreaInvestement.PREV_CHANGE_PRICE.name()).asText();
-            String prevChangeRate = marketCapitalizationOutput.path(KoreaInvestement.PREV_CHANGE_RATE.name()).asText();
-            String tradingVolume = marketCapitalizationOutput.path(KoreaInvestement.TRADING_VOLUME.name()).asText();
-            String marketCapitalization = marketCapitalizationOutput.path(KoreaInvestement.MARKET_CAPITAILIZATION.name()).asText();
+            String rank = marketCapitalizationOutput.path(ApiMessage.DATA_RANK.name()).asText();
+            String stockPrice = marketCapitalizationOutput.path(ApiMessage.STOCK_PREV.name()).asText();
+            String stockName = marketCapitalizationOutput.path(ApiMessage.STOCK_NAME.name()).asText();
+            String prevChangePrice = marketCapitalizationOutput.path(ApiMessage.PREV_CHANGE_PRICE.name()).asText();
+            String prevChangeRate = marketCapitalizationOutput.path(ApiMessage.PREV_CHANGE_RATE.name()).asText();
+            String tradingVolume = marketCapitalizationOutput.path(ApiMessage.TRADING_VOLUME.name()).asText();
+            String marketCapitalization = marketCapitalizationOutput.path(ApiMessage.MARKET_CAPITAILIZATION.name()).asText();
 
             marketCapitalizationDTOList.add(new StockDataDTO(rank, stockName, stockPrice, prevChangePrice, prevChangeRate, marketCapitalization, tradingVolume));
         }
