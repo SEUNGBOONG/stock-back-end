@@ -4,6 +4,8 @@ public enum ApiMessage {
 
     DATA_RANK("data_rank"),
 
+    STOCK_ITEM_NAME("bstp_kor_isnm"),
+
     STOCK_PREV("stck_prpr"),
     STOCK_NAME("hts_kor_isnm"),
     PREV_CHANGE_PRICE("prdy_vrss"),
@@ -11,10 +13,13 @@ public enum ApiMessage {
     TRADING_VOLUME("acml_vol"),
     MARKET_CAPITAILIZATION("stck_avls"),
     PREV_SIGN("prdy_vrss_sign"),
-
-
+    TOTAL_VOLUME("acml_vol"),
     INDEX_VALUE("clpr"),
     FLUCTUATION_RATE("fltRt"),
+    HIGH_STOCK_PRICE("stck_hgpr"),
+    LOW_STOCK_PRICE("stck_lwpr"),
+    PREV_VOLUME("prdy_vol"),
+    VOLUME_CHANGE_RATE("vol_inrt"),
 
     NAVER_CLIENT_ID("X-Naver-Client-Id"),
     NAVER_CLIENT_SECRET("X-Naver-Client-Secret"),
@@ -24,7 +29,7 @@ public enum ApiMessage {
     APP_KEY("appkey"),
     APP_SECRET("appsecret"),
     AUTHORIZATION("Authorization"),
-    BEARER("Bearer"),
+    BEARER("Bearer "),
     CONTENT_TYPE("Content-Type"),
     APPLICATION_JSON("application/json");
 
