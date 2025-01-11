@@ -1,5 +1,6 @@
 package com.example.investment_api.home.tradingVolume.infrastructure;
 
+import com.example.investment_api.common.api.ApiMessage;
 import com.example.investment_api.home.tradingVolume.controller.dto.TradingVolumeDTO;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -43,12 +44,12 @@ public class TradingVolumeParser {
         while (isUnderLimit(elements, count)) {
             JsonNode tradingVolumeItem = elements.next();
 
-            String stockName = tradingVolumeItem.path("hts_kor_isnm").asText();
-            String rank = tradingVolumeItem.path("data_rank").asText();
-            String currentPrice = tradingVolumeItem.path("stck_prpr").asText();
-            String totalVolume = tradingVolumeItem.path("acml_vol").asText();
-            String prevVolume = tradingVolumeItem.path("prdy_vol").asText();
-            String volumeChangeRate = tradingVolumeItem.path("vol_inrt").asText();
+            String stockName = tradingVolumeItem.path(ApiMessage.STOCK_NAME.name()).asText();
+            String rank = tradingVolumeItem.path(ApiMessage.DATA_RANK.name()).asText();
+            String currentPrice = tradingVolumeItem.path(ApiMessage.STOCK_PREV.name()).asText();
+            String totalVolume = tradingVolumeItem.path(ApiMessage.TOTAL_VOLUME.name()).asText();
+            String prevVolume = tradingVolumeItem.path(ApiMessage.PREV_VOLUME.name()).asText();
+            String volumeChangeRate = tradingVolumeItem.path(ApiMessage.VOLUME_CHANGE_RATE.name()).asText();
 
             tradingVolumeList.add(new TradingVolumeDTO(stockName, rank, currentPrice, totalVolume, prevVolume, volumeChangeRate));
             count++;
