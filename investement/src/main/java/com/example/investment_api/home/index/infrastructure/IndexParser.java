@@ -1,5 +1,6 @@
 package com.example.investment_api.home.index.infrastructure;
 
+import com.example.investment_api.common.api.ApiMessage;
 import com.example.investment_api.home.index.controller.dto.KOSDAQResponse;
 
 import com.example.investment_api.home.index.controller.dto.KOSPIResponse;
@@ -22,18 +23,18 @@ public class IndexParser {
     }
 
     private KOSPIResponse getKospiResponse(final JSONObject indexData) {
-        String indexName = indexData.getString("idxNm");
-        String indexValue = indexData.getString("clpr");
-        String fluctuationRate = indexData.getString("fltRt");
+        String indexName = indexData.getString(ApiMessage.STOCK_NAME.name());
+        String indexValue = indexData.getString(ApiMessage.INDEX_VALUE.name());
+        String fluctuationRate = indexData.getString(ApiMessage.FLUCTUATION_RATE.name());
 
         return new KOSPIResponse(indexName, indexValue, fluctuationRate);
     }
 
     private KOSDAQResponse getKosdaqResponse(final JSONObject jsonObject) {
         JSONObject indexData = getJsonObject(jsonObject);
-        String indexName = indexData.getString("idxNm");
-        String indexValue = indexData.getString("clpr");
-        String fluctuationRate = indexData.getString("fltRt");
+        String indexName = indexData.getString(ApiMessage.STOCK_NAME.name());
+        String indexValue = indexData.getString(ApiMessage.INDEX_VALUE.name());
+        String fluctuationRate = indexData.getString(ApiMessage.FLUCTUATION_RATE.name());
 
         return new KOSDAQResponse(indexName, indexValue, fluctuationRate);
     }

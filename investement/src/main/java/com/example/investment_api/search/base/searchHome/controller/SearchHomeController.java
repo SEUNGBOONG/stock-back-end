@@ -1,6 +1,6 @@
 package com.example.investment_api.search.base.searchHome.controller;
 
-import com.example.investment_api.search.base.searchHome.dto.StockDataDTO;
+import com.example.investment_api.search.base.searchHome.controller.dto.StockDataDTO;
 
 import com.example.investment_api.search.base.searchHome.service.StockDataService;
 
