@@ -1,6 +1,7 @@
 package com.example.investment_api.search.base.searchHome.infrastructure;
 
-import com.example.investment_api.search.base.searchHome.dto.StockDataDTO;
+import com.example.investment_api.common.api.KoreaInvestement;
+import com.example.investment_api.search.base.searchHome.controller.dto.StockDataDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -39,13 +40,13 @@ public class StockDataParser {
     private void buildDataList(List<StockDataDTO> marketCapitalizationDTOList, Iterator<JsonNode> elements) {
         while (elements.hasNext()) {
             JsonNode marketCapitalizationOutput = elements.next();
-            String rank = marketCapitalizationOutput.path("data_rank").asText();
-            String stockPrice = marketCapitalizationOutput.path("stck_prpr").asText();
-            String stockName = marketCapitalizationOutput.path("hts_kor_isnm").asText();
-            String prevChangePrice = marketCapitalizationOutput.path("prdy_vrss").asText();
-            String prevChangeRate = marketCapitalizationOutput.path("prdy_ctrt").asText();
-            String tradingVolume = marketCapitalizationOutput.path("acml_vol").asText();
-            String marketCapitalization = marketCapitalizationOutput.path("stck_avls").asText();
+            String rank = marketCapitalizationOutput.path(KoreaInvestement.DATA_RANK.name()).asText();
+            String stockPrice = marketCapitalizationOutput.path(KoreaInvestement.STOCK_PREV.name()).asText();
+            String stockName = marketCapitalizationOutput.path(KoreaInvestement.STOCK_NAME.name()).asText();
+            String prevChangePrice = marketCapitalizationOutput.path(KoreaInvestement.PREV_CHANGE_PRICE.name()).asText();
+            String prevChangeRate = marketCapitalizationOutput.path(KoreaInvestement.PREV_CHANGE_RATE.name()).asText();
+            String tradingVolume = marketCapitalizationOutput.path(KoreaInvestement.TRADING_VOLUME.name()).asText();
+            String marketCapitalization = marketCapitalizationOutput.path(KoreaInvestement.MARKET_CAPITAILIZATION.name()).asText();
 
             marketCapitalizationDTOList.add(new StockDataDTO(rank, stockName, stockPrice, prevChangePrice, prevChangeRate, marketCapitalization, tradingVolume));
         }
