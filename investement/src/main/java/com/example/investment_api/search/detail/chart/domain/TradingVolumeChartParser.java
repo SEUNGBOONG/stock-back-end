@@ -2,8 +2,10 @@ package com.example.investment_api.search.detail.chart.domain;
 
 import com.example.investment_api.search.detail.chart.controller.dto.TradingVolumeChartDTO;
 import com.example.investment_api.search.detail.chart.controller.dto.TradingVolumeChartDTOs;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -13,6 +15,10 @@ import java.util.List;
 @Component
 public class TradingVolumeChartParser {
 
+    public static final String INCREASE_CHART = "increase";
+    public static final String STCK_BSOP_DATE = "stck_bsop_date";
+    public static final String DECREASE_CHART = "decrease";
+    public static final String ACML_VOL = "acml_vol";
     private final ObjectMapper objectMapper;
 
     public TradingVolumeChartParser(final ObjectMapper objectMapper) {
@@ -43,12 +49,12 @@ public class TradingVolumeChartParser {
         String previousAcmlVol = null;
 
         for (JsonNode item : items) {
-            String cumulativeVolume = item.get("acml_vol").asText();
-            String changeDirection = "increase";
+            String cumulativeVolume = item.get(ACML_VOL).asText();
+            String changeDirection = INCREASE_CHART;
             changeDirection = getChangeDirection(previousAcmlVol, cumulativeVolume, changeDirection);
 
             TradingVolumeChartDTO dto = new TradingVolumeChartDTO(
-                    item.get("stck_bsop_date").asText(), // 주식 영업일자
+                    item.get(STCK_BSOP_DATE).asText(), // 주식 영업일자
                     cumulativeVolume,                      // 누적 거래량
                     changeDirection                      // 증가/감소 여부
             );
@@ -66,9 +72,9 @@ public class TradingVolumeChartParser {
             long previousVol = Long.parseLong(previousAcmlVol);
 
             if (currentVol > previousVol) {
-                changeDirection = "increase";
+                changeDirection = INCREASE_CHART;
             } else if (currentVol < previousVol) {
-                changeDirection = "decrease";
+                changeDirection = DECREASE_CHART;
             }
         }
         return changeDirection;
