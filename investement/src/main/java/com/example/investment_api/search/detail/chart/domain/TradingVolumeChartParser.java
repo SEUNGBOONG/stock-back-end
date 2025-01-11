@@ -60,7 +60,7 @@ public class TradingVolumeChartParser {
         return chartDtos;
     }
 
-    private static String getChangeDirection(String previousAcmlVol, String cumulativeVolume, String changeDirection) {
+    private String getChangeDirection(String previousAcmlVol, String cumulativeVolume, String changeDirection) {
         if (previousAcmlVol != null) {
             long currentVol = Long.parseLong(cumulativeVolume);
             long previousVol = Long.parseLong(previousAcmlVol);
@@ -73,4 +73,5 @@ public class TradingVolumeChartParser {
         }
         return changeDirection;
     }
+
 }
