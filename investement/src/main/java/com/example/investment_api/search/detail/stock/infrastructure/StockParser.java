@@ -1,5 +1,6 @@
 package com.example.investment_api.search.detail.stock.infrastructure;
 
+import com.example.investment_api.common.api.ApiMessage;
 import com.example.investment_api.search.detail.stock.controller.dto.StockResponse;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -30,12 +31,12 @@ public class StockParser {
     }
 
     private StockResponse toDTO(final JsonNode stockItem) {
-        String stockName = stockItem.path("bstp_kor_isnm").asText();
-        String stockPrice = stockItem.path("stck_prpr").asText();
-        String previousStockPrice = stockItem.path("prdy_vrss").asText();
-        String contrastRatio = stockItem.path("prdy_ctrt").asText();
-        String highStockPrice = stockItem.path("stck_hgpr").asText();
-        String lowStockPrice = stockItem.path("stck_lwpr").asText();
+        String stockName = stockItem.path(ApiMessage.STOCK_NAME.name()).asText();
+        String stockPrice = stockItem.path(ApiMessage.STOCK_PREV.name()).asText();
+        String previousStockPrice = stockItem.path(ApiMessage.PREV_CHANGE_PRICE.name()).asText();
+        String contrastRatio = stockItem.path(ApiMessage.PREV_CHANGE_RATE.name()).asText();
+        String highStockPrice = stockItem.path(ApiMessage.HIGH_STOCK_PRICE.name()).asText();
+        String lowStockPrice = stockItem.path(ApiMessage.LOW_STOCK_PRICE.name()).asText();
 
         return new StockResponse(stockName, stockPrice, previousStockPrice, contrastRatio, highStockPrice, lowStockPrice);
     }

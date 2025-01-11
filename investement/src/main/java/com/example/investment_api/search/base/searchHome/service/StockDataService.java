@@ -25,11 +25,7 @@ public class StockDataService {
         this.stockDataParser = stockDataParser;
     }
 
-    public List<StockDataDTO> getStockDataDTO(int offset, int pageSize) throws IOException {
-        return getStockDataDTOS(offset, pageSize);
-    }
-
-    private List<StockDataDTO> getStockDataDTOS(final int offset, final int pageSize) throws IOException {
+    public List<StockDataDTO> getStockDataDTO(int offset, int limit, int pageSize) throws IOException {
         ResponseEntity<String> response = getStringResponseEntity();
         List<StockDataDTO> allStockData = stockDataParser.parse(response.getBody());
 
