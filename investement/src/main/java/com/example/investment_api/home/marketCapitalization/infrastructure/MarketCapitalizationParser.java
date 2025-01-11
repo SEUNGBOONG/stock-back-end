@@ -1,5 +1,6 @@
 package com.example.investment_api.home.marketCapitalization.infrastructure;
 
+import com.example.investment_api.common.api.ApiMessage;
 import com.example.investment_api.home.marketCapitalization.controller.dto.MarketCapitalizationDTO;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -41,10 +42,10 @@ public class MarketCapitalizationParser {
 
         while (isUnderLimit(elements, count)) {
             JsonNode marketCapitalizationOutput = elements.next();
-            String rank = marketCapitalizationOutput.path("data_rank").asText();
-            String stockPrice = marketCapitalizationOutput.path("stck_prpr").asText();
-            String stockName = marketCapitalizationOutput.path("hts_kor_isnm").asText();
-            String marketCapitalization = marketCapitalizationOutput.path("stck_avls").asText();
+            String rank = marketCapitalizationOutput.path(ApiMessage.DATA_RANK.name()).asText();
+            String stockPrice = marketCapitalizationOutput.path(ApiMessage.STOCK_PREV.name()).asText();
+            String stockName = marketCapitalizationOutput.path(ApiMessage.STOCK_NAME.name()).asText();
+            String marketCapitalization = marketCapitalizationOutput.path(ApiMessage.MARKET_CAPITAILIZATION.name()).asText();
 
             marketCapitalizationDTOList.add(new MarketCapitalizationDTO(rank, stockPrice, stockName, marketCapitalization));
             count++;

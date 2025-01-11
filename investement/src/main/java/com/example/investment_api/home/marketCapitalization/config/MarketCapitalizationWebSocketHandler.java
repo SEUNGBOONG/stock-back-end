@@ -38,7 +38,8 @@ public class MarketCapitalizationWebSocketHandler extends TextWebSocketHandler {
     }
 
     private void webSocketConnect(final WebSocketSession session) throws IOException, InterruptedException {
-        String approvalKey = getApprovalKeyFromSession(session);
+        String[] approvalKeyFromSession = getApprovalKeyFromSession(session);
+        String approvalKey = getParamsKey(approvalKeyFromSession);
         if (isValidApprovalKey(approvalKey)) {
             webSocketSession(session);
         } else {
@@ -46,14 +47,19 @@ public class MarketCapitalizationWebSocketHandler extends TextWebSocketHandler {
         }
     }
 
-    private String getApprovalKeyFromSession(WebSocketSession session) {
+    private String[] getApprovalKeyFromSession(WebSocketSession session) {
         String query = session.getUri().getQuery();
+        String[] params = new String[0];
         if (query != null) {
-            String[] params = query.split("&");
-            for (String param : params) {
-                if (param.startsWith("approval_key=")) {
-                    return param.split("=")[1];
-                }
+            params = query.split("&");
+        }
+        return params;
+    }
+
+    private String getParamsKey(String[] params) {
+        for (String param : params) {
+            if (param.startsWith("approval_key=")) {
+                return param.split("=")[1];
             }
         }
         return null;
@@ -70,7 +76,7 @@ public class MarketCapitalizationWebSocketHandler extends TextWebSocketHandler {
             if (socketSource.isOpen()) {
                 socketSource.sendMessage(new TextMessage(message));
             }
-            Thread.sleep(3000);
+            Thread.sleep(1000);
         }
     }
 }
