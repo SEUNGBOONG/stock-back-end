@@ -1,5 +1,6 @@
 package com.example.investment_api.search.detail.consensus.service.client;
 
+import com.example.investment_api.common.api.ApiMessage;
 import org.springframework.beans.factory.annotation.Value;
 
 import org.springframework.http.HttpEntity;
@@ -50,10 +51,10 @@ public class InvestmentRecommendationFetcher {
 
     private HttpHeaders setHeader() {
         HttpHeaders headers = new HttpHeaders();
-        headers.set("tr_id", trId);
-        headers.set("appsecret", appSecret);
-        headers.set("appkey", appKey);
-        headers.set("Authorization", "Bearer " + accessToken);
+        headers.set(ApiMessage.TR_ID.name(), trId);
+        headers.set(ApiMessage.APP_SECRET.name(), appSecret);
+        headers.set(ApiMessage.APP_KEY.name(), appKey);
+        headers.set(ApiMessage.AUTHORIZATION.name(), ApiMessage.BEARER.name() + accessToken);
         return headers;
     }
 }
