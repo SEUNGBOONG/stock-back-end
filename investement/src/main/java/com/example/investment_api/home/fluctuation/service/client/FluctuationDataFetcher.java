@@ -1,5 +1,6 @@
 package com.example.investment_api.home.fluctuation.service.client;
 
+import com.example.investment_api.common.api.ApiMessage;
 import org.springframework.beans.factory.annotation.Value;
 
 import org.springframework.http.HttpEntity;
@@ -46,11 +47,11 @@ public class FluctuationDataFetcher {
     }
 
     private void setHeader(final HttpHeaders headers) {
-        headers.set("tr_id", trId);
-        headers.set("appsecret", appSecret);
-        headers.set("appkey", appKey);
-        headers.set("Authorization", "Bearer " + accessToken);
-        headers.set("Content-Type", "application/json");
+        headers.set(ApiMessage.TR_ID.name(), trId);
+        headers.set(ApiMessage.APP_SECRET.name(), appSecret);
+        headers.set(ApiMessage.APP_KEY.name(), appKey);
+        headers.set(ApiMessage.AUTHORIZATION.name(), ApiMessage.BEARER.name() + accessToken);
+        headers.set(ApiMessage.CONTENT_TYPE.name(), ApiMessage.APPLICATION_JSON.name());
     }
 
     private String setURL() {

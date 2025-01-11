@@ -1,5 +1,6 @@
 package com.example.investment_api.home.fluctuation.infrastructure;
 
+import com.example.investment_api.common.api.ApiMessage;
 import com.example.investment_api.home.fluctuation.controller.dto.response.FluctuationDTO;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -18,6 +19,8 @@ import java.util.List;
 public class FluctuationParser {
 
     private final ObjectMapper objectMapper;
+
+    public static final String OUTPUT = "output";
     private static final int LIST_SIZE = 5;
 
     public FluctuationParser(final ObjectMapper objectMapper) {
@@ -30,7 +33,7 @@ public class FluctuationParser {
 
     private List<FluctuationDTO> setJsonNode(final String responseBody) throws JsonProcessingException {
         JsonNode rootNode = objectMapper.readTree(responseBody);
-        JsonNode items = rootNode.path("output");
+        JsonNode items = rootNode.path(OUTPUT);
 
         List<FluctuationDTO> fluctuationDTOList = new ArrayList<>();
         Iterator<JsonNode> elements = items.elements();
@@ -43,12 +46,12 @@ public class FluctuationParser {
         while (isUnderLimit(elements, count)) {
             JsonNode fluctuationItem = elements.next();
 
-            String stockName = fluctuationItem.path("hts_kor_isnm").asText();
-            int rank = Integer.parseInt(fluctuationItem.path("data_rank").asText());
-            int currentPrice = Integer.parseInt(fluctuationItem.path("stck_prpr").asText());
-            int prevChangePrice = Integer.parseInt(fluctuationItem.path("prdy_vrss").asText());
-            String prevSign = fluctuationItem.path("prdy_vrss_sign").asText();
-            Double prevChangeRate = Double.valueOf(fluctuationItem.path("prdy_ctrt").asText());
+            String stockName = fluctuationItem.path(ApiMessage.STOCK_NAME.name()).asText();
+            int rank = Integer.parseInt(fluctuationItem.path(ApiMessage.DATA_RANK.name()).asText());
+            int currentPrice = Integer.parseInt(fluctuationItem.path(ApiMessage.STOCK_PREV.name()).asText());
+            int prevChangePrice = Integer.parseInt(fluctuationItem.path(ApiMessage.PREV_CHANGE_PRICE.name()).asText());
+            String prevSign = fluctuationItem.path(ApiMessage.PREV_SIGN.name()).asText();
+            Double prevChangeRate = Double.valueOf(fluctuationItem.path(ApiMessage.PREV_CHANGE_RATE.name()).asText());
 
             fluctuationDTOList.add(new FluctuationDTO(stockName, rank, currentPrice, prevChangePrice, prevSign, prevChangeRate));
             count++;

@@ -63,6 +63,7 @@ public class FluctuationWebSocketHandler extends TextWebSocketHandler {
         }
         return null;
     }
+
     private boolean isValidApprovalKey(String approvalKey) {
         return socketKey.equals(approvalKey);
     }
