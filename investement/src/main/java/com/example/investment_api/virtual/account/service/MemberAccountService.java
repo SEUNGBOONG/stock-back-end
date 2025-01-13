@@ -30,6 +30,7 @@ import java.util.stream.Collectors;
 @Transactional
 public class MemberAccountService {
 
+    public static final int REFRESH_TIME = 10000;
     private final MemberAccountRepository memberAccountRepository;
     private final StockOrderRepository stockOrderRepository;
     private final StockRepository stockRepository;
@@ -99,7 +100,7 @@ public class MemberAccountService {
         return new LimitOrderResponse(memberId, stockName, limitPrice, quantity, order.getIsBuyOrder());
     }
 
-    @Scheduled(fixedRate = 10000)
+    @Scheduled(fixedRate = REFRESH_TIME)
     @Transactional
     public void executePendingOrders() {
         List<StockOrder> pendingOrders = stockOrderRepository.findByIsProcessedFalse();
