@@ -18,6 +18,13 @@ import java.util.List;
 public class TradingVolumeParser {
 
     private static final int LIST_SIZE = 5;
+    public static final String STOCK_NAME = "hts_kor_isnm";
+    public static final String DATA_RANK = "data_rank";
+    public static final String CURRENT_PRICE = "stck_prpr";
+    public static final String TOTAL_VOLUME = "acml_vol";
+    public static final String PREVIOUS_VOLUME = "prdy_vol";
+    public static final String VOLUME_CHANGE = "vol_inrt";
+    public static final String OUTPUT = "output";
 
     private final ObjectMapper objectMapper;
 
@@ -43,12 +50,12 @@ public class TradingVolumeParser {
         while (isUnderLimit(elements, count)) {
             JsonNode tradingVolumeItem = elements.next();
 
-            String stockName = tradingVolumeItem.path("hts_kor_isnm").asText();
-            String rank = tradingVolumeItem.path("data_rank").asText();
-            String currentPrice = tradingVolumeItem.path("stck_prpr").asText();
-            String totalVolume = tradingVolumeItem.path("acml_vol").asText();
-            String prevVolume = tradingVolumeItem.path("prdy_vol").asText();
-            String volumeChangeRate = tradingVolumeItem.path("vol_inrt").asText();
+            String stockName = tradingVolumeItem.path(STOCK_NAME).asText();
+            String rank = tradingVolumeItem.path(DATA_RANK).asText();
+            String currentPrice = tradingVolumeItem.path(CURRENT_PRICE).asText();
+            String totalVolume = tradingVolumeItem.path(TOTAL_VOLUME).asText();
+            String prevVolume = tradingVolumeItem.path(PREVIOUS_VOLUME).asText();
+            String volumeChangeRate = tradingVolumeItem.path(VOLUME_CHANGE).asText();
 
             tradingVolumeList.add(new TradingVolumeDTO(stockName, rank, currentPrice, totalVolume, prevVolume, volumeChangeRate));
             count++;
@@ -57,7 +64,8 @@ public class TradingVolumeParser {
 
     private JsonNode setJsonNOde(final String responseBody) throws JsonProcessingException {
         JsonNode rootNode = objectMapper.readTree(responseBody);
-        return rootNode.path("output");
+
+        return rootNode.path(OUTPUT);
     }
 
     private boolean isUnderLimit(Iterator<JsonNode> elements, int count) {
