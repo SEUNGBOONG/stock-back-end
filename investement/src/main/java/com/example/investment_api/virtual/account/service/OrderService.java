@@ -27,6 +27,7 @@ import java.util.List;
 @Transactional
 public class OrderService {
 
+    public static final int REFRESH_TIME = 10000;
     private final MemberAccountRepository memberAccountRepository;
     private final StockOrderRepository stockOrderRepository;
     private final StockRepository stockRepository;
@@ -97,6 +98,24 @@ public class OrderService {
         return new LimitOrderResponse(memberId, stockName, limitPrice, quantity, order.getIsBuyOrder());
     }
 
+<<<<<<< HEAD:investement/src/main/java/com/example/investment_api/virtual/account/service/OrderService.java
+=======
+    @Scheduled(fixedRate = REFRESH_TIME)
+    @Transactional
+    public void executePendingOrders() {
+        List<StockOrder> pendingOrders = stockOrderRepository.findByIsProcessedFalse();
+        for (StockOrder order : pendingOrders) {
+            Long memberId = order.getMemberId();
+            String stockName = order.getStockName();
+            int limitPrice = order.getLimitPrice();
+            int quantity = order.getQuantity();
+            int currentPrice = getCurrentPrice(stockName);
+
+            processStockOrder(order, memberId, stockName, limitPrice, quantity, currentPrice);
+        }
+    }
+
+>>>>>>> 2ad8cbe (Refact: 계좌 상수):investement/src/main/java/com/example/investment_api/virtual/account/service/MemberAccountService.java
     private void validateQuantity(int quantity) {
         if (quantity <= 0) {
             throw new InvalidQuantityException();
