@@ -17,6 +17,12 @@ import java.util.List;
 @Component
 public class FluctuationParser {
 
+    public static final String HTS_KOR_ISNM = "hts_kor_isnm";
+    public static final String DATA_RANK = "data_rank";
+    public static final String STCK_PRPR = "stck_prpr";
+    public static final String PRDY_VRSS = "prdy_vrss";
+    public static final String PRDY_VRSS_SIGN = "prdy_vrss_sign";
+    public static final String PRDY_CTRT = "prdy_ctrt";
     private final ObjectMapper objectMapper;
     private static final int LIST_SIZE = 5;
 
@@ -43,12 +49,12 @@ public class FluctuationParser {
         while (isUnderLimit(elements, count)) {
             JsonNode fluctuationItem = elements.next();
 
-            String stockName = fluctuationItem.path("hts_kor_isnm").asText();
-            int rank = Integer.parseInt(fluctuationItem.path("data_rank").asText());
-            int currentPrice = Integer.parseInt(fluctuationItem.path("stck_prpr").asText());
-            int prevChangePrice = Integer.parseInt(fluctuationItem.path("prdy_vrss").asText());
-            String prevSign = fluctuationItem.path("prdy_vrss_sign").asText();
-            Double prevChangeRate = Double.valueOf(fluctuationItem.path("prdy_ctrt").asText());
+            String stockName = fluctuationItem.path(HTS_KOR_ISNM).asText();
+            int rank = Integer.parseInt(fluctuationItem.path(DATA_RANK).asText());
+            int currentPrice = Integer.parseInt(fluctuationItem.path(STCK_PRPR).asText());
+            int prevChangePrice = Integer.parseInt(fluctuationItem.path(PRDY_VRSS).asText());
+            String prevSign = fluctuationItem.path(PRDY_VRSS_SIGN).asText();
+            Double prevChangeRate = Double.valueOf(fluctuationItem.path(PRDY_CTRT).asText());
 
             fluctuationDTOList.add(new FluctuationDTO(stockName, rank, currentPrice, prevChangePrice, prevSign, prevChangeRate));
             count++;
