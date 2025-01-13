@@ -17,6 +17,10 @@ import java.util.List;
 public class MarketCapitalizationParser {
 
     private static final int LIST_SIZE = 5;
+    public static final String DATA_RANK = "data_rank";
+    public static final String STOCK_PRICE = "stck_prpr";
+    public static final String STOCK_NAME = "hts_kor_isnm";
+    public static final String MARKET_CAPITALIZATION = "stck_avls";
     private final ObjectMapper objectMapper;
 
     public MarketCapitalizationParser(final ObjectMapper objectMapper) {
@@ -41,10 +45,10 @@ public class MarketCapitalizationParser {
 
         while (isUnderLimit(elements, count)) {
             JsonNode marketCapitalizationOutput = elements.next();
-            String rank = marketCapitalizationOutput.path("data_rank").asText();
-            String stockPrice = marketCapitalizationOutput.path("stck_prpr").asText();
-            String stockName = marketCapitalizationOutput.path("hts_kor_isnm").asText();
-            String marketCapitalization = marketCapitalizationOutput.path("stck_avls").asText();
+            String rank = marketCapitalizationOutput.path(DATA_RANK).asText();
+            String stockPrice = marketCapitalizationOutput.path(STOCK_PRICE).asText();
+            String stockName = marketCapitalizationOutput.path(STOCK_NAME).asText();
+            String marketCapitalization = marketCapitalizationOutput.path(MARKET_CAPITALIZATION).asText();
 
             marketCapitalizationDTOList.add(new MarketCapitalizationDTO(rank, stockPrice, stockName, marketCapitalization));
             count++;
