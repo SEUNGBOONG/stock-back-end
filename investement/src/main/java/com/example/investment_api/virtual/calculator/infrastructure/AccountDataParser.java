@@ -16,6 +16,10 @@ import java.util.List;
 @Component
 public class AccountDataParser {
 
+    public static final String STOCK_NAME = "hts_kor_isnm";
+    public static final String STOCK_PRICE = "stck_prpr";
+    public static final String PREVIOUS_CHANGE_RATE = "prdy_ctrt";
+    public static final String OUTPUT = "output";
     private final ObjectMapper objectMapper;
 
     public AccountDataParser(final ObjectMapper objectMapper) {
@@ -35,15 +39,15 @@ public class AccountDataParser {
     }
 
     private StockData extractStockData(final JsonNode item) {
-        String stockName = item.path("hts_kor_isnm").asText();  // 주식 이름
-        int stockPrice = item.path("stck_prpr").asInt();        // 현재 주가
-        double prevChangeRate = item.path("prdy_ctrt").asDouble(); // 전일 대비 등락률
+        String stockName = item.path(STOCK_NAME).asText();  // 주식 이름
+        int stockPrice = item.path(STOCK_PRICE).asInt();        // 현재 주가
+        double prevChangeRate = item.path(PREVIOUS_CHANGE_RATE).asDouble(); // 전일 대비 등락률
 
         return new StockData(stockName, stockPrice, prevChangeRate);
     }
 
     private JsonNode getJsonNode(final String responseBody) throws JsonProcessingException {
         JsonNode rootNode = objectMapper.readTree(responseBody);
-        return rootNode.path("output");
+        return rootNode.path(OUTPUT);
     }
 }
