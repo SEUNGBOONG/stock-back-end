@@ -12,6 +12,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class IndexParser {
 
+    public static final String INDEX_NAME = "idxNm";
+    public static final String INDEX_VALUE = "clpr";
+    public static final String FLUCTUATION_VALUE = "fltRt";
+    public static final String RESPONSE = "response";
+    public static final String BODY = "body";
+    public static final String ITEMS = "items";
+    public static final String ITEM = "item";
+
     public KOSPIResponse parseKOSPIResponse(JSONObject jsonObject) {
         JSONObject indexData = getJsonObject(jsonObject);
         return getKospiResponse(indexData);
@@ -22,28 +30,28 @@ public class IndexParser {
     }
 
     private KOSPIResponse getKospiResponse(final JSONObject indexData) {
-        String indexName = indexData.getString("idxNm");
-        String indexValue = indexData.getString("clpr");
-        String fluctuationRate = indexData.getString("fltRt");
+        String indexName = indexData.getString(INDEX_NAME);
+        String indexValue = indexData.getString(INDEX_VALUE);
+        String fluctuationRate = indexData.getString(FLUCTUATION_VALUE);
 
         return new KOSPIResponse(indexName, indexValue, fluctuationRate);
     }
 
     private KOSDAQResponse getKosdaqResponse(final JSONObject jsonObject) {
         JSONObject indexData = getJsonObject(jsonObject);
-        String indexName = indexData.getString("idxNm");
-        String indexValue = indexData.getString("clpr");
-        String fluctuationRate = indexData.getString("fltRt");
+        String indexName = indexData.getString(INDEX_NAME);
+        String indexValue = indexData.getString(INDEX_VALUE);
+        String fluctuationRate = indexData.getString(FLUCTUATION_VALUE);
 
         return new KOSDAQResponse(indexName, indexValue, fluctuationRate);
     }
 
     private JSONObject getJsonObject(final JSONObject jsonObject) {
         JSONArray items = jsonObject
-                .getJSONObject("response")
-                .getJSONObject("body")
-                .getJSONObject("items")
-                .getJSONArray("item");
+                .getJSONObject(RESPONSE)
+                .getJSONObject(BODY)
+                .getJSONObject(ITEMS)
+                .getJSONArray(ITEM);
         return items.getJSONObject(0);
     }
 }
