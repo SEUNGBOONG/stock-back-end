@@ -6,6 +6,7 @@ public record SignUpRequest(
         String memberPassword,
         String memberNickName,
         int annualIncome,
-        boolean propensity //적극적 true 소극적 false
+        boolean propensity, // 적극적 true, 소극적 false
+        boolean releaseCheck
 ) {
 }

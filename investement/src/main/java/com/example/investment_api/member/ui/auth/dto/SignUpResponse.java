@@ -7,6 +7,6 @@ public record SignUpResponse(
         String memberPassword,
         String memberNickname,
         int memberAnnualIncome,
-        boolean memberPropensity
-        ) {
+        boolean memberPropensity,
+        boolean releaseCheck) {
 }
