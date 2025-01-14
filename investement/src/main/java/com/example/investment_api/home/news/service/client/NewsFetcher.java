@@ -15,6 +15,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class NewsFetcher {
 
+    public static final String X_NAVER_CLIENT_ID = "X-Naver-Client-Id";
+    public static final String X_NAVER_CLIENT_SECRET = "X-Naver-Client-Secret";
+    public static final String NAVER_URL = "https://openapi.naver.com/v1/search/news.json?query=";
     @Value("${NAVER_API_CLIENTID}")
     private String clientId;
 
@@ -32,7 +35,7 @@ public class NewsFetcher {
     }
 
     private ResponseEntity<String> setURL(final String keyword) {
-        String url = "https://openapi.naver.com/v1/search/news.json?query=" + keyword;
+        String url = NAVER_URL + keyword;
         HttpHeaders headers = setHeader();
         return get(url, headers);
     }
@@ -43,8 +46,8 @@ public class NewsFetcher {
 
     private HttpHeaders setHeader() {
         HttpHeaders headers = new HttpHeaders();
-        headers.set("X-Naver-Client-Id", clientId);
-        headers.set("X-Naver-Client-Secret", clientSecret);
+        headers.set(X_NAVER_CLIENT_ID, clientId);
+        headers.set(X_NAVER_CLIENT_SECRET, clientSecret);
         return headers;
     }
 }

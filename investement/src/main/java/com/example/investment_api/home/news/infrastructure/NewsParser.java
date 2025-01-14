@@ -18,6 +18,10 @@ import java.util.List;
 public class NewsParser {
 
     private static final int LIST_SIZE = 3;
+    public static final String ITEMS = "items";
+    public static final String TITLE = "title";
+    public static final String LINK = "link";
+    public static final String MESSAGE = "<.*?>";
     private final ObjectMapper objectMapper;
 
     public NewsParser(ObjectMapper objectMapper) {
@@ -29,7 +33,7 @@ public class NewsParser {
     }
 
     private List<NewsResponse> setJsonNode(final String responseBody) throws JsonProcessingException {
-        JsonNode items = objectMapper.readTree(responseBody).path("items");
+        JsonNode items = objectMapper.readTree(responseBody).path(ITEMS);
 
         List<NewsResponse> newsList = new ArrayList<>();
         Iterator<JsonNode> elements = items.elements();
@@ -44,8 +48,8 @@ public class NewsParser {
         while (isUnderLimit(elements, count)) {
             JsonNode newsItem = elements.next();
 
-            String title = newsItem.path("title").asText().replaceAll("<.*?>", "");
-            String link = newsItem.path("link").asText();
+            String title = newsItem.path(TITLE).asText().replaceAll(MESSAGE, "");
+            String link = newsItem.path(LINK).asText();
             newsList.add(new NewsResponse(title, link));
 
             count++;

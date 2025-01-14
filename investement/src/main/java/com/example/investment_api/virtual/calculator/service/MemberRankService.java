@@ -2,9 +2,7 @@ package com.example.investment_api.virtual.calculator.service;
 
 import com.example.investment_api.member.domain.member.Member;
 import com.example.investment_api.member.infrastructure.member.MemberJpaRepository;
-import com.example.investment_api.virtual.account.controller.dto.AccountStockData;
-import com.example.investment_api.virtual.account.service.StockDataTransferService;
-import com.example.investment_api.virtual.calculator.domain.AllStockCalculator;
+
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -15,13 +13,9 @@ import java.util.Map;
 public class MemberRankService {
 
     private final MemberJpaRepository memberJpaRepository;
-    private final StockDataTransferService stockDataTransferService;
-    private final AllStockCalculator allStockCalculator;
 
-    public MemberRankService( MemberJpaRepository memberJpaRepository, StockDataTransferService stockDataTransferService, AllStockCalculator allStockCalculator) {
+    public MemberRankService(final MemberJpaRepository memberJpaRepository) {
         this.memberJpaRepository = memberJpaRepository;
-        this.stockDataTransferService = stockDataTransferService;
-        this.allStockCalculator = allStockCalculator;
     }
 
     public Map<Long, Integer> calculateMemberRanks() {
