@@ -15,6 +15,21 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class MarketCapitalizationFetcher {
 
+    public static final String URL = "https://openapi.koreainvestment.com:9443/uapi/domestic-stock/v1/ranking/market-cap?" +
+            "fid_cond_mrkt_div_code=J&" +
+            "fid_cond_scr_div_code=20174&" +
+            "fid_div_cls_code=0&" +
+            "fid_input_iscd=0000&" +
+            "fid_trgt_cls_code=0&" +
+            "fid_trgt_exls_cls_code=0&" +
+            "fid_input_price_1=&" +
+            "fid_input_price_2=&" +
+            "fid_vol_cnt=";
+    public static final String TR_ID = "tr_id";
+    public static final String APPSECRET = "appsecret";
+    public static final String APPKEY = "appkey";
+    public static final String AUTHORIZATION = "Authorization";
+    public static final String BEARER = "Bearer ";
     private final RestTemplate restTemplate;
 
     public MarketCapitalizationFetcher(final RestTemplate restTemplate) {
@@ -49,24 +64,15 @@ public class MarketCapitalizationFetcher {
     }
 
     private static String setURL() {
-        return "https://openapi.koreainvestment.com:9443/uapi/domestic-stock/v1/ranking/market-cap?" +
-                "fid_cond_mrkt_div_code=J&" +
-                "fid_cond_scr_div_code=20174&" +
-                "fid_div_cls_code=0&" +
-                "fid_input_iscd=0000&" +
-                "fid_trgt_cls_code=0&" +
-                "fid_trgt_exls_cls_code=0&" +
-                "fid_input_price_1=&" +
-                "fid_input_price_2=&" +
-                "fid_vol_cnt=";
+        return URL;
     }
 
     private HttpHeaders setHeader() {
         HttpHeaders headers = new HttpHeaders();
-        headers.set("tr_id", trId);
-        headers.set("appsecret", appSecret);
-        headers.set("appkey", appKey);
-        headers.set("Authorization", "Bearer " + accessToken);
+        headers.set(TR_ID, trId);
+        headers.set(APPSECRET, appSecret);
+        headers.set(APPKEY, appKey);
+        headers.set(AUTHORIZATION, BEARER + accessToken);
         headers.setContentType(MediaType.APPLICATION_JSON);
         return headers;
     }
