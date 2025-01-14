@@ -1,6 +1,5 @@
 package com.example.investment_api.member.domain.member;
 
-import com.example.investment_api.member.exception.NotEnoughDeposit;
 import com.example.investment_api.member.exception.exceptions.auth.NotSamePasswordException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -43,7 +42,11 @@ public class Member {
     @Column(nullable = false)
     private int deposit;
 
-    public Member(final String memberEmail, final String memberName, final String memberPassword, final String memberNickName, final int annualIncome, final boolean propensity, int deposit) {
+    @Column(nullable = false)
+    private boolean releaseCheck; //true -> 공개, false 비공개
+
+    public Member(final String memberEmail, final String memberName, final String memberPassword, final String memberNickName, final int annualIncome, final boolean propensity, final int deposit, final boolean releaseCheck) {
+        this.id = id;
         this.memberEmail = memberEmail;
         this.memberName = memberName;
         this.memberPassword = memberPassword;
@@ -51,6 +54,7 @@ public class Member {
         this.annualIncome = annualIncome;
         this.propensity = propensity;
         this.deposit = deposit;
+        this.releaseCheck = releaseCheck;
     }
 
     public void checkPassword(String requestPassword) {
