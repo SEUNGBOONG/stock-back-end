@@ -22,9 +22,15 @@ public class MemberOrder {
     @Column
     private int stockCount;
     @Column
+<<<<<<< HEAD
     private String buyOrder; //true면 매수, false면 매도
 
     public MemberOrder(Long memberId, String stockName, int buyPrice, int stockCount, String buyOrder) {
+=======
+    private boolean buyOrder; //true면 매수, false면 매도
+
+    public MemberOrder(Long memberId, String stockName, int buyPrice, int stockCount, boolean buyOrder) {
+>>>>>>> origin/171/refactroing/reCode
         this.memberId = memberId;
         this.stockName = stockName;
         this.buyPrice = buyPrice;

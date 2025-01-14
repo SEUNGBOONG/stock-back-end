@@ -23,29 +23,6 @@
 ### Environment : <img src="https://img.shields.io/badge/visualstudiocode-007ACC?style=for-the-badge&logo=visualstudiocode&logoColor=white"> <img src="https://img.shields.io/badge/intellijidea-000000?style=for-the-badge&logo=intellijidea&logoColor=white"> <img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white"> <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white">
 
 ### Communication : <img src="https://img.shields.io/badge/notion-000000?style=for-the-badge&logo=notion&logoColor=white">
-
-
-![1yP7Y](https://github.com/user-attachments/assets/fc8abd2f-5f91-4dfb-ae21-93b4f5715de8)
-
-
-[Uploading 튜토리얼.webm…]()
-
-
-
-
-
-향후 진행일정 
-12 월 9일 -> 1차 마감 
-
-
-
-1월 31일 -> 2차 마감 
-
-
-
-
-
-
-3월 1일 -> 3차 마감 
+[Uploading ckxmdud.webm…]()
 
 

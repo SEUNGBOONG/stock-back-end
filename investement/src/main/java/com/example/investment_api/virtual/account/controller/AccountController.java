@@ -6,11 +6,8 @@ import com.example.investment_api.virtual.account.controller.dto.*;
 
 import com.example.investment_api.virtual.account.domain.MemberAccount;
 
-import com.example.investment_api.virtual.account.domain.MemberOrder;
-import com.example.investment_api.virtual.account.service.AccountService;
-import com.example.investment_api.virtual.account.service.OrderService;
+import com.example.investment_api.virtual.account.service.MemberAccountService;
 
-import com.example.investment_api.virtual.account.service.StockDataTransferService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,14 +23,10 @@ import java.util.List;
 @RequestMapping("/api/account")
 public class AccountController {
 
-    private final OrderService memberAccountService;
-    private final StockDataTransferService transferService;
-    private final AccountService accountService;
+    private final MemberAccountService memberAccountService;
 
-    public AccountController(OrderService memberAccountService, StockDataTransferService transferService, AccountService accountService) {
+    public AccountController(MemberAccountService memberAccountService) {
         this.memberAccountService = memberAccountService;
-        this.transferService = transferService;
-        this.accountService = accountService;
     }
 
     @PostMapping("/buy")
@@ -65,18 +58,18 @@ public class AccountController {
 
     @GetMapping("/accounts")
     public List<MemberAccount> getMemberAccounts(@Member Long memberId) {
-        return accountService.getMemberAccounts(memberId);
+        return memberAccountService.getMemberAccounts(memberId);
     }
 
-    @GetMapping("/accounts/{stockName}")
+    @GetMapping("/account/{stockName}")
     public MemberAccount getMemberAccount(@Member Long memberId,
                                           @PathVariable String stockName) {
-        return accountService.getMemberAccount(memberId, stockName);
+        return memberAccountService.getMemberAccount(memberId, stockName);
     }
 
     @GetMapping("/orders/{stockName}")
-    public List<OrderData> getMemberOrders(@Member Long memberId, @PathVariable String stockName) {
-        return transferService.getStockOrderData(memberId, stockName);
+    public List<OrderData> getMemberOrders(@Member Long memberId, @PathVariable String stockName){
+        return memberAccountService.getStockOrderData(memberId, stockName);
     }
 
 
@@ -90,10 +83,5 @@ public class AccountController {
     @DeleteMapping("/order/{orderId}/cancel")
     public String cancelOrder(@Member Long memberId, @PathVariable int orderId) {
         return memberAccountService.cancelOrder(memberId, orderId);
-    }
-
-    @GetMapping("accounts/save/{stockName}")
-    public List<MemberOrder> getMemberOrdersList(@Member Long memberId, @PathVariable String stockName) {
-        return memberAccountService.getMemberOrders(memberId, stockName);
     }
 }

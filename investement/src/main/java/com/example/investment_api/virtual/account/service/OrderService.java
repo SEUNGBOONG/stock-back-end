@@ -9,35 +9,38 @@ import com.example.investment_api.member.infrastructure.member.MemberJpaReposito
 import com.example.investment_api.search.detail.stock.service.client.StockDataFetcher;
 
 import com.example.investment_api.virtual.account.controller.dto.*;
-import com.example.investment_api.virtual.account.domain.*;
+import com.example.investment_api.virtual.account.domain.MemberAccount;
+import com.example.investment_api.virtual.account.domain.MemberAccountRepository;
+import com.example.investment_api.virtual.account.domain.StockOrderRepository;
+
+import com.example.investment_api.virtual.account.domain.StockOrder;
 
 import com.example.investment_api.virtual.account.exception.*;
 import com.example.investment_api.virtual.account.infrastructure.AccountStockParser;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class OrderService {
+public class MemberAccountService {
 
-    public static final int REFRESH_TIME = 10000;
     private final MemberAccountRepository memberAccountRepository;
     private final StockOrderRepository stockOrderRepository;
     private final StockRepository stockRepository;
     private final MemberJpaRepository memberJpaRepository;
-    private final MemberOrderRepository memberOrderRepository;
 
     private final StockDataFetcher stockDataFetcher;
     private final AccountStockParser accountStockParser;
-
-    private final AccountService accountService;
 
     public BuyResponse buyStockImmediately(Long memberId, String stockName, int quantity) {
         validateQuantity(quantity);
@@ -45,9 +48,7 @@ public class OrderService {
         Member member = getMember(memberId);
         member.calculateDeposit(currentPrice, quantity);
 
-        accountService.saveAccount(memberId, stockName, currentPrice, quantity);
-        MemberOrder memberOrder= new MemberOrder(memberId, stockName, currentPrice, quantity, "매수");
-        memberOrderRepository.save(memberOrder);
+        saveAccount(memberId, stockName, currentPrice, quantity);
 
         return new BuyResponse(memberId, stockName, currentPrice, quantity, member.getDeposit());
     }
@@ -64,8 +65,6 @@ public class OrderService {
             deleteEmptyStock(memberAccount);
             int remainStockCounts = memberAccount.getStockCount();
             member.calculateSellDeposit(currentPrice, quantity);
-            MemberOrder memberOrder= new MemberOrder(memberId, stockName, currentPrice, quantity, "매도");
-            memberOrderRepository.save(memberOrder);
             return new SellResponse(memberId, stockName, currentPrice, remainStockCounts);
         }
         throw new InsufficientStockQuantityException();
@@ -84,23 +83,19 @@ public class OrderService {
 
     @Transactional
     public LimitOrderResponse placeLimitOrderForBuy(Long memberId, String stockName, int limitPrice, int quantity) {
-        StockOrder order = new StockOrder(memberId, stockName, quantity, limitPrice, "매수");
+        StockOrder order = new StockOrder(memberId, stockName, quantity, limitPrice, true);
         stockOrderRepository.save(order);
-        System.out.println(order.getIsBuyOrder());
-        return new LimitOrderResponse(memberId, stockName, limitPrice, quantity, order.getIsBuyOrder());
+        return new LimitOrderResponse(memberId, stockName, limitPrice, quantity);
     }
 
     @Transactional
     public LimitOrderResponse placeLimitOrderForSell(Long memberId, String stockName, int limitPrice, int quantity) {
-        StockOrder order = new StockOrder(memberId, stockName, quantity, limitPrice, "매도");
+        StockOrder order = new StockOrder(memberId, stockName, quantity, limitPrice, false);
         stockOrderRepository.save(order);
-        System.out.println(order.getIsBuyOrder());
-        return new LimitOrderResponse(memberId, stockName, limitPrice, quantity, order.getIsBuyOrder());
+        return new LimitOrderResponse(memberId, stockName, limitPrice, quantity);
     }
 
-<<<<<<< HEAD:investement/src/main/java/com/example/investment_api/virtual/account/service/OrderService.java
-=======
-    @Scheduled(fixedRate = REFRESH_TIME)
+    @Scheduled(fixedRate = 10000)
     @Transactional
     public void executePendingOrders() {
         List<StockOrder> pendingOrders = stockOrderRepository.findByIsProcessedFalse();
@@ -115,7 +110,6 @@ public class OrderService {
         }
     }
 
->>>>>>> 2ad8cbe (Refact: 계좌 상수):investement/src/main/java/com/example/investment_api/virtual/account/service/MemberAccountService.java
     private void validateQuantity(int quantity) {
         if (quantity <= 0) {
             throw new InvalidQuantityException();
@@ -125,6 +119,40 @@ public class OrderService {
     private Member getMember(Long memberId) {
         return memberJpaRepository.findById(memberId)
                 .orElseThrow(NotFoundMemberDepositException::new);
+    }
+
+    private void processStockOrder(StockOrder order, Long memberId, String stockName, int limitPrice, int quantity, int currentPrice) {
+        if (currentPrice == limitPrice) {
+            if (order.isBuyOrder()) {
+                buyStockImmediately(memberId, stockName, quantity);
+            } else {
+                sellStockImmediately(memberId, stockName, quantity);
+            }
+            order.setProcessed(true);
+            stockOrderRepository.save(order);
+        }
+    }
+
+    private void saveAccount(final Long memberId, final String stockName, final int stockPrice, final int quantity) {
+        Optional<MemberAccount> memberAccountOpt = memberAccountRepository.findByMemberIdAndStockName(memberId, stockName);
+
+        if (memberAccountOpt.isPresent()) {
+            MemberAccount memberAccount = memberAccountOpt.get();
+            memberAccount.addStockCount(quantity);
+        } else {
+            MemberAccount newAccount = new MemberAccount(memberId, stockName, stockPrice, quantity);
+            memberAccountRepository.save(newAccount);
+        }
+    }
+
+    public List<MemberAccount> getMemberAccounts(Long memberId) {
+        return memberAccountRepository.findByMemberId(memberId)
+                .orElseThrow(() -> new MemberIdNotFoundException(memberId));
+    }
+
+    public MemberAccount getMemberAccount(Long memberId, String stockName) {
+        return memberAccountRepository.findByMemberIdAndStockName(memberId, stockName)
+                .orElseThrow(() -> new AccountAndStockNotFoundException(memberId, stockName));
     }
 
     public String modifyOrder(Long memberId, int orderId, StockOrderDTO updatedOrder) {
@@ -147,7 +175,7 @@ public class OrderService {
         return "주문이 취소되고 삭제되었습니다: " + order.getStockName() + " 주식, 가격: " + order.getLimitPrice();
     }
 
-    public int getCurrentPrice(String stockName) {
+    private int getCurrentPrice(String stockName) {
         Stock stock = stockRepository.findByStockName(stockName)
                 .orElseThrow(StockNotFoundException::new);
         ResponseEntity<String> response = stockDataFetcher.fetchStockData(stock.getStockCode());
@@ -160,9 +188,38 @@ public class OrderService {
         }
     }
 
+    public UserStockDTO getUserStockNames(Long memberId){
+        List<MemberAccount> memberAccounts = getMemberAccounts(memberId);
+        List<String> stockNames = memberAccounts.stream()
+                .map(MemberAccount::getStockName)
+                .toList();
+        return new UserStockDTO(stockNames);
+    }
 
-    public List<MemberOrder> getMemberOrders(Long memberId, String stockName){
-        return memberOrderRepository.findMemberOrdersByMemberIdAndStockName(memberId, stockName)
+    public List<StockOrder> getStockOrders(Long memberId, String stockName){
+        return stockOrderRepository.findByMemberIdAndStockName(memberId,stockName)
                 .orElseThrow(OrderNotFoundException::new);
+    }
+
+    public List<OrderData> getStockOrderData(Long memberId, String stockName) {
+        List<StockOrder> stockOrders = getStockOrders(memberId, stockName);
+        int totalQuantity = stockOrders.stream()
+                .mapToInt(StockOrder::getQuantity)
+                .sum();
+        List<OrderData> orderData = stockOrders.stream()
+                .map(order -> mapToOrderDTO(order, totalQuantity))
+                .collect(Collectors.toList());
+        return orderData;
+    }
+
+    public OrderData mapToOrderDTO(StockOrder stockOrder, int totalQuantity) {
+        int remainQuantity = totalQuantity - stockOrder.getQuantity();
+        return new OrderData(
+                stockOrder.getId(),
+                stockOrder.getStockName(),
+                remainQuantity,
+                stockOrder.getQuantity(),
+                stockOrder.getLimitPrice()
+        );
     }
 }
