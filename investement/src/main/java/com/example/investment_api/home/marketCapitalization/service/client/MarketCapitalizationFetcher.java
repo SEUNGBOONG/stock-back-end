@@ -15,7 +15,7 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class MarketCapitalizationFetcher {
 
-    public static final String URL = "https://openapi.koreainvestment.com:9443/uapi/domestic-stock/v1/ranking/market-cap?" +
+    private static final String URL = "https://openapi.koreainvestment.com:9443/uapi/domestic-stock/v1/ranking/market-cap?" +
             "fid_cond_mrkt_div_code=J&" +
             "fid_cond_scr_div_code=20174&" +
             "fid_div_cls_code=0&" +
@@ -25,11 +25,12 @@ public class MarketCapitalizationFetcher {
             "fid_input_price_1=&" +
             "fid_input_price_2=&" +
             "fid_vol_cnt=";
-    public static final String TR_ID = "tr_id";
-    public static final String APPSECRET = "appsecret";
-    public static final String APPKEY = "appkey";
-    public static final String AUTHORIZATION = "Authorization";
-    public static final String BEARER = "Bearer ";
+    private static final String TR_ID = "tr_id";
+    private static final String APPSECRET = "appsecret";
+    private static final String APPKEY = "appkey";
+    private static final String AUTHORIZATION = "Authorization";
+    private static final String BEARER = "Bearer ";
+
     private final RestTemplate restTemplate;
 
     public MarketCapitalizationFetcher(final RestTemplate restTemplate) {

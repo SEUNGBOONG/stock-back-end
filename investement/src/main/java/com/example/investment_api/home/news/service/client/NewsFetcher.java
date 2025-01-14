@@ -15,9 +15,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class NewsFetcher {
 
-    public static final String X_NAVER_CLIENT_ID = "X-Naver-Client-Id";
-    public static final String X_NAVER_CLIENT_SECRET = "X-Naver-Client-Secret";
-    public static final String NAVER_URL = "https://openapi.naver.com/v1/search/news.json?query=";
+    private static final String X_NAVER_CLIENT_ID = "X-Naver-Client-Id";
+    private static final String X_NAVER_CLIENT_SECRET = "X-Naver-Client-Secret";
+    private static final String NAVER_URL = "https://openapi.naver.com/v1/search/news.json?query=";
+
     @Value("${NAVER_API_CLIENTID}")
     private String clientId;
 

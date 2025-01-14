@@ -18,10 +18,10 @@ import java.util.List;
 public class NewsParser {
 
     private static final int LIST_SIZE = 3;
-    public static final String ITEMS = "items";
-    public static final String TITLE = "title";
-    public static final String LINK = "link";
-    public static final String MESSAGE = "<.*?>";
+    private static final String ITEMS = "items";
+    private static final String TITLE = "title";
+    private static final String LINK = "link";
+    private static final String MESSAGE = "<.*?>";
     private final ObjectMapper objectMapper;
 
     public NewsParser(ObjectMapper objectMapper) {
