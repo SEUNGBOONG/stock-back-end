@@ -14,12 +14,13 @@ public class AuthMapper {
                 signUpRequest.memberNickName(),
                 signUpRequest.annualIncome(),
                 signUpRequest.propensity(),
-                100000000
+                100000000,
+                signUpRequest.releaseCheck()
         );
     }
 
     public static SignUpResponse toSignUpResponse(Member member) {
         return new SignUpResponse(member.getId(), member.getMemberName(), member.getMemberEmail(),
-                member.getMemberPassword(), member.getMemberNickName(), member.getAnnualIncome(), member.isPropensity());
+                member.getMemberPassword(), member.getMemberNickName(), member.getAnnualIncome(), member.isPropensity(), member.isReleaseCheck());
     }
 }
