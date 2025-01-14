@@ -18,13 +18,14 @@ import java.util.List;
 public class TradingVolumeParser {
 
     private static final int LIST_SIZE = 5;
-    public static final String STOCK_NAME = "hts_kor_isnm";
-    public static final String DATA_RANK = "data_rank";
-    public static final String STOCK_PRICE = "stck_prpr";
-    public static final String PREVIOUS_VOLUME = "prdy_vol";
-    public static final String VOLUME_CHANGE_RATE = "vol_inrt";
-    public static final String VOLUME = "acml_vol";
-    public static final String OUTPUT = "output";
+
+    private static final String STOCK_NAME = "hts_kor_isnm";
+    private static final String DATA_RANK = "data_rank";
+    private static final String STOCK_PRICE = "stck_prpr";
+    private static final String PREVIOUS_VOLUME = "prdy_vol";
+    private static final String VOLUME_CHANGE_RATE = "vol_inrt";
+    private static final String VOLUME = "acml_vol";
+    private static final String OUTPUT = "output";
 
     private final ObjectMapper objectMapper;
 

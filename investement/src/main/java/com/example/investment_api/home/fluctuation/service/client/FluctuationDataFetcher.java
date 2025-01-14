@@ -14,6 +14,14 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class FluctuationDataFetcher {
 
+    private static final String TR_ID = "tr_id";
+    private static final String APPSECRET = "appsecret";
+    private static final String APPKEY = "appkey";
+    private static final String AUTHORIZATION = "Authorization";
+    private static final String BEARER = "Bearer ";
+    private static final String CONTENT_TYPE = "Content-Type";
+    private static final String CONTENT_TYPE1 = "application/json";
+
     private final RestTemplate restTemplate;
 
     @Value("${API_APP_KEY}")
@@ -46,11 +54,11 @@ public class FluctuationDataFetcher {
     }
 
     private void setHeader(final HttpHeaders headers) {
-        headers.set("tr_id", trId);
-        headers.set("appsecret", appSecret);
-        headers.set("appkey", appKey);
-        headers.set("Authorization", "Bearer " + accessToken);
-        headers.set("Content-Type", "application/json");
+        headers.set(TR_ID, trId);
+        headers.set(APPSECRET, appSecret);
+        headers.set(APPKEY, appKey);
+        headers.set(AUTHORIZATION, BEARER + accessToken);
+        headers.set(CONTENT_TYPE, CONTENT_TYPE1);
     }
 
     private String setURL() {
