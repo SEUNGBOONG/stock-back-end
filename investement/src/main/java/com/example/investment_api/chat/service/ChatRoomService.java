@@ -6,6 +6,7 @@ import com.example.investment_api.chat.domain.entity.ChatMessage;
 import com.example.investment_api.chat.domain.repository.ChatRoomRepository;
 import com.example.investment_api.chat.domain.repository.ChatMessageRepository;
 import com.example.investment_api.chat.exception.AlreadyExistChatRoom;
+import com.example.investment_api.chat.exception.NotFoundChattingRoom;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -49,7 +50,7 @@ public class ChatRoomService {
     // 3. 채팅 메시지 저장
     public ChatMessage sendMessage(Long roomId, Long senderId, String content) {
         ChatRoom chatRoom = chatRoomRepository.findById(roomId)
-                .orElseThrow(() -> new IllegalArgumentException("채팅방을 찾을 수 없습니다."));
+                .orElseThrow(NotFoundChattingRoom::new);
 
         // 메시지 객체 생성
         ChatMessage message = new ChatMessage(chatRoom, senderId, content);
