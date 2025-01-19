@@ -1,5 +1,6 @@
 package com.example.investment_api.chat.controller;
 
+import com.example.investment_api.chat.domain.entity.ChatMessage;
 import com.example.investment_api.chat.domain.entity.ChatRoom;
 import com.example.investment_api.chat.service.ChatRoomService;
 
@@ -9,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -56,5 +58,22 @@ public class ChatRoomController {
         // 채팅방 생성
         ChatRoom newChatRoom = chatRoomService.createChatRoom(stockName);
         return ResponseEntity.ok(newChatRoom);  // 생성된 채팅방 반환
+    }
+
+    // 3. 채팅 메시지 보내기
+    @PostMapping("/{roomId}/messages")
+    public ResponseEntity<ChatMessage> sendMessage(
+            @PathVariable Long roomId,
+            @RequestParam String content,
+            @Member Long senderId) {
+
+        try {
+            // 채팅방에서 메시지 전송 처리
+            ChatMessage message = chatRoomService.sendMessage(roomId, senderId, content);
+            return ResponseEntity.ok(message);
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
     }
 }
