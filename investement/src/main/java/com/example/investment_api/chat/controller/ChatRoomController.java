@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -54,7 +55,6 @@ public class ChatRoomController {
 
         chatRoomService.checkIfCanJoin(memberId, stockName);
 
-
         // 채팅방 생성
         ChatRoom newChatRoom = chatRoomService.createChatRoom(stockName);
         return ResponseEntity.ok(newChatRoom);  // 생성된 채팅방 반환
@@ -64,16 +64,16 @@ public class ChatRoomController {
     @PostMapping("/{roomId}/messages")
     public ResponseEntity<ChatMessage> sendMessage(
             @PathVariable Long roomId,
-            @RequestParam String content,
-            @Member Long senderId) {
+            @RequestBody ChatMessage message) {  // JSON 데이터를 @RequestBody로 받음
 
         try {
             // 채팅방에서 메시지 전송 처리
-            ChatMessage message = chatRoomService.sendMessage(roomId, senderId, content);
+            message = chatRoomService.sendMessage(roomId, message.getSenderId(), message.getContent());
             return ResponseEntity.ok(message);
 
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
     }
+
 }
