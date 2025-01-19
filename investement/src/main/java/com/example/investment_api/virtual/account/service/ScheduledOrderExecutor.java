@@ -3,6 +3,7 @@ package com.example.investment_api.virtual.account.service;
 import com.example.investment_api.virtual.account.domain.OrderType;
 import com.example.investment_api.virtual.account.domain.StockOrder;
 import com.example.investment_api.virtual.account.domain.StockOrderRepository;
+import com.example.investment_api.virtual.alarm.domain.NotificationType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -34,10 +35,13 @@ public class ScheduledOrderExecutor {
 
     private void processStockOrder(StockOrder order, Long memberId, String stockName, int limitPrice, int quantity, int currentPrice) {
         if (currentPrice == limitPrice) {
+            NotificationType notificationType;
             if (order.getIsBuyOrder().equals(OrderType.BUY.getType())) {
                 memberAccountService.buyStockImmediately(memberId, stockName, quantity);
+                notificationType= NotificationType.BUY_SUCCESS;
             } else {
                 memberAccountService.sellStockImmediately(memberId, stockName, quantity);
+                notificationType = NotificationType.SELL_SUCCESS;
             }
             order.setProcessed(true);
             stockOrderRepository.save(order);
