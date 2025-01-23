@@ -35,13 +35,10 @@ public class ScheduledOrderExecutor {
 
     private void processStockOrder(StockOrder order, Long memberId, String stockName, int limitPrice, int quantity, int currentPrice) {
         if (currentPrice == limitPrice) {
-            NotificationType notificationType;
             if (order.getIsBuyOrder().equals(OrderType.BUY.getType())) {
                 memberAccountService.buyStockImmediately(memberId, stockName, quantity);
-                notificationType= NotificationType.BUY_SUCCESS;
             } else {
                 memberAccountService.sellStockImmediately(memberId, stockName, quantity);
-                notificationType = NotificationType.SELL_SUCCESS;
             }
             order.setProcessed(true);
             stockOrderRepository.save(order);
