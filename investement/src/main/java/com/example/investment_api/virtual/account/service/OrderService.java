@@ -14,6 +14,8 @@ import com.example.investment_api.virtual.account.domain.*;
 import com.example.investment_api.virtual.account.exception.*;
 import com.example.investment_api.virtual.account.infrastructure.AccountStockParser;
 
+import com.example.investment_api.virtual.alarm.domain.NotificationType;
+import com.example.investment_api.virtual.alarm.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -37,6 +39,7 @@ public class OrderService {
     private final AccountStockParser accountStockParser;
 
     private final AccountService accountService;
+    private final NotificationService notificationService;
 
     public BuyResponse buyStockImmediately(Long memberId, String stockName, int quantity) {
         validateQuantity(quantity);
@@ -47,6 +50,7 @@ public class OrderService {
         accountService.saveAccount(memberId, stockName, currentPrice, quantity);
         MemberOrder memberOrder= new MemberOrder(memberId, stockName, currentPrice, quantity, "매수");
         memberOrderRepository.save(memberOrder);
+        notificationService.sendOrderNotification(memberId, NotificationType.BUY_SUCCESS, stockName, quantity);
 
         return new BuyResponse(memberId, stockName, currentPrice, quantity, member.getDeposit());
     }
@@ -65,6 +69,7 @@ public class OrderService {
             member.calculateSellDeposit(currentPrice, quantity);
             MemberOrder memberOrder= new MemberOrder(memberId, stockName, currentPrice, quantity, "매도");
             memberOrderRepository.save(memberOrder);
+            notificationService.sendOrderNotification(memberId, NotificationType.SELL_SUCCESS, stockName, quantity);
             return new SellResponse(memberId, stockName, currentPrice, remainStockCounts);
         }
         throw new InsufficientStockQuantityException();
