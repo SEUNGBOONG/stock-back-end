@@ -1,5 +1,6 @@
 package com.example.investment_api.virtual.alarm.controller.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
@@ -8,7 +9,7 @@ import java.time.LocalDateTime;
 public record NotificationDTO(
         Long id,
         String message,
-        LocalDateTime createdAT,
+        String createdAT,
         String url
 ) {
 }
