@@ -1,8 +1,8 @@
-package com.example.investment_api.virtual.alarm.controller;
+package com.example.investment_api.virtual.notification.controller;
 
 import com.example.investment_api.global.annotation.Member;
-import com.example.investment_api.virtual.alarm.controller.dto.NotificationDTO;
-import com.example.investment_api.virtual.alarm.service.NotificationService;
+import com.example.investment_api.virtual.notification.controller.dto.NotificationDTO;
+import com.example.investment_api.virtual.notification.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

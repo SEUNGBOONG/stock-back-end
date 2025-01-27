@@ -1,7 +1,7 @@
-package com.example.investment_api.virtual.alarm.mapper;
+package com.example.investment_api.virtual.notification.mapper;
 
-import com.example.investment_api.virtual.alarm.controller.dto.NotificationDTO;
-import com.example.investment_api.virtual.alarm.domain.Notification;
+import com.example.investment_api.virtual.notification.controller.dto.NotificationDTO;
+import com.example.investment_api.virtual.notification.domain.Notification;
 import org.springframework.stereotype.Component;
 
 import java.time.format.DateTimeFormatter;

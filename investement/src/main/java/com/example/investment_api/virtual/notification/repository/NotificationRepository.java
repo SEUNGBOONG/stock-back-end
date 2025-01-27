@@ -1,6 +1,6 @@
-package com.example.investment_api.virtual.alarm.repository;
+package com.example.investment_api.virtual.notification.repository;
 
-import com.example.investment_api.virtual.alarm.domain.Notification;
+import com.example.investment_api.virtual.notification.domain.Notification;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

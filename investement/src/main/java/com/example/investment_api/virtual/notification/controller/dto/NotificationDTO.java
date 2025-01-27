@@ -1,9 +1,6 @@
-package com.example.investment_api.virtual.alarm.controller.dto;
+package com.example.investment_api.virtual.notification.controller.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
-
-import java.time.LocalDateTime;
 
 @Builder
 public record NotificationDTO(

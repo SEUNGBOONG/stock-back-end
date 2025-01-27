@@ -14,8 +14,8 @@ import com.example.investment_api.virtual.account.domain.*;
 import com.example.investment_api.virtual.account.exception.*;
 import com.example.investment_api.virtual.account.infrastructure.AccountStockParser;
 
-import com.example.investment_api.virtual.alarm.domain.NotificationType;
-import com.example.investment_api.virtual.alarm.service.NotificationService;
+import com.example.investment_api.virtual.notification.domain.NotificationType;
+import com.example.investment_api.virtual.notification.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;

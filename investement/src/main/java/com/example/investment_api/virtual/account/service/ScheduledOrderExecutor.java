@@ -3,7 +3,6 @@ package com.example.investment_api.virtual.account.service;
 import com.example.investment_api.virtual.account.domain.OrderType;
 import com.example.investment_api.virtual.account.domain.StockOrder;
 import com.example.investment_api.virtual.account.domain.StockOrderRepository;
-import com.example.investment_api.virtual.alarm.domain.NotificationType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;

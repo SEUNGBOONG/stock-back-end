@@ -1,4 +1,4 @@
-package com.example.investment_api.virtual.alarm.domain;
+package com.example.investment_api.virtual.notification.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
