@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/chat/rooms")
 public class ChatRoomController {
@@ -51,6 +53,16 @@ public class ChatRoomController {
             return ResponseEntity.ok(savedMessage);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+    }
+
+    @GetMapping("/{roomId}/messages")
+    public ResponseEntity<List<ChatMessageDTO>> getAllMessagesInRoom(@PathVariable Long roomId) {
+        try {
+            List<ChatMessageDTO> messages = chatRoomService.getAllMessagesInRoom(roomId);
+            return ResponseEntity.ok(messages);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
 
