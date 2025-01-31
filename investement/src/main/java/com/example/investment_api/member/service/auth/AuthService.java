@@ -1,15 +1,15 @@
-package com.example.investment_api.member.application.auth;
+package com.example.investment_api.member.service.auth;
 
 import com.example.investment_api.member.exception.exceptions.auth.*;
 
 import com.example.investment_api.member.mapper.auth.AuthMapper;
-import com.example.investment_api.member.ui.auth.dto.LoginRequest;
+import com.example.investment_api.member.controller.auth.dto.LoginRequest;
 
 import com.example.investment_api.member.infrastructure.auth.JwtTokenProvider;
 import com.example.investment_api.member.domain.member.Member;
 import com.example.investment_api.member.infrastructure.member.MemberJpaRepository;
-import com.example.investment_api.member.ui.auth.dto.LoginResponse;
-import com.example.investment_api.member.ui.auth.dto.SignUpRequest;
+import com.example.investment_api.member.controller.auth.dto.LoginResponse;
+import com.example.investment_api.member.controller.auth.dto.SignUpRequest;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

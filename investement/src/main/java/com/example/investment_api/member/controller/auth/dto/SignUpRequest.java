@@ -1,4 +1,4 @@
-package com.example.investment_api.member.ui.auth.dto;
+package com.example.investment_api.member.controller.auth.dto;
 
 public record SignUpRequest(
         String memberEmail,

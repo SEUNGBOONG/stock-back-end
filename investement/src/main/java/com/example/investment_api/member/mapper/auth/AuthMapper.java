@@ -1,8 +1,8 @@
 package com.example.investment_api.member.mapper.auth;
 
 import com.example.investment_api.member.domain.member.Member;
-import com.example.investment_api.member.ui.auth.dto.SignUpRequest;
-import com.example.investment_api.member.ui.auth.dto.SignUpResponse;
+import com.example.investment_api.member.controller.auth.dto.SignUpRequest;
+import com.example.investment_api.member.controller.auth.dto.SignUpResponse;
 
 public class AuthMapper {
 
