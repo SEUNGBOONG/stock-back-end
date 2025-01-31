@@ -1,25 +1,19 @@
 package com.example.investment_api.chat.controller.dto;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class ChatMessageDTO {
     private Long roomId;
+    private String stockName;
     private Long senderId;
     private String content;
-    private String createdAt;
 
-    @JsonCreator
-    public ChatMessageDTO(
-            @JsonProperty("roomId") Long roomId,
-            @JsonProperty("senderId") Long senderId,
-            @JsonProperty("content") String content,
-            @JsonProperty("createdAt") String createdAt) {
-        this.roomId = roomId;
-        this.senderId = senderId;
-        this.content = content;
-        this.createdAt = createdAt;
-    }
 }

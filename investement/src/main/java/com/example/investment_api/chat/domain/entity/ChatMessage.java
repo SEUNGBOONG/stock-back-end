@@ -22,6 +22,7 @@ public class ChatMessage {
     private ChatRoom chatRoom;
 
     private Long senderId;
+
     private String content;
 
     private LocalDateTime createdAt; // 메시지 생성 시간

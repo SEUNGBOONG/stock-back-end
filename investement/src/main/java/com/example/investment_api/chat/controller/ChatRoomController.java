@@ -4,6 +4,7 @@ import com.example.investment_api.chat.controller.dto.ChatMessageDTO;
 import com.example.investment_api.chat.domain.entity.ChatRoom;
 import com.example.investment_api.chat.service.ChatRoomService;
 import com.example.investment_api.global.annotation.Member;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -43,10 +44,11 @@ public class ChatRoomController {
     @PostMapping("/{roomId}/messages")
     public ResponseEntity<ChatMessageDTO> sendMessage(
             @PathVariable Long roomId,
-            @RequestBody ChatMessageDTO message) {
+            @Member Long memberId,
+            @RequestBody @Valid ChatMessageDTO messageDTO) {
         try {
-            message = chatRoomService.sendMessage(message);
-            return ResponseEntity.ok(message);
+            ChatMessageDTO savedMessage = chatRoomService.sendMessage(memberId, messageDTO.getStockName(), messageDTO.getContent());
+            return ResponseEntity.ok(savedMessage);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
