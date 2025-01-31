@@ -1,61 +1,70 @@
 package com.example.investment_api.chat.service;
 
+import com.example.investment_api.chat.controller.dto.ChatMessageDTO;
 import com.example.investment_api.chat.domain.StockOwnership;
 import com.example.investment_api.chat.domain.entity.ChatRoom;
 import com.example.investment_api.chat.domain.entity.ChatMessage;
 import com.example.investment_api.chat.domain.repository.ChatRoomRepository;
 import com.example.investment_api.chat.domain.repository.ChatMessageRepository;
 import com.example.investment_api.chat.exception.AlreadyExistChatRoom;
-import com.example.investment_api.chat.exception.NotFoundChattingRoom;
+import com.example.investment_api.virtual.account.domain.MemberAccount;
+import com.example.investment_api.virtual.account.domain.MemberAccountRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class ChatRoomService {
 
     private final ChatRoomRepository chatRoomRepository;
-    private final ChatMessageRepository chatMessageRepository;  // 메시지 저장을 위한 repository
+    private final ChatMessageRepository chatMessageRepository;
     private final StockOwnership stockOwnership;
+    private final MemberAccountRepository memberAccountRepository;
 
     public ChatRoomService(ChatRoomRepository chatRoomRepository,
                            ChatMessageRepository chatMessageRepository,
-                           StockOwnership stockOwnership) {
+                           StockOwnership stockOwnership, final MemberAccountRepository memberAccountRepository) {
         this.chatRoomRepository = chatRoomRepository;
-        this.chatMessageRepository = chatMessageRepository;  // 메시지 저장을 위한 repository 초기화
+        this.chatMessageRepository = chatMessageRepository;
         this.stockOwnership = stockOwnership;
+        this.memberAccountRepository = memberAccountRepository;
     }
 
-    // 1. 주식명으로 채팅방 검색
     public ChatRoom getChatRoomByStock(String stockName) {
         return chatRoomRepository.findByStockName(stockName)
                 .orElseThrow(AlreadyExistChatRoom::new);
     }
 
-    // 2. 주식 보유 여부 확인 (주식을 보유한 사람만 채팅방에 입장 가능)
     public void checkIfCanJoin(Long memberId, String stockName) {
         stockOwnership.validateOwnership(memberId, stockName);
     }
 
-    // 채팅방 생성
     public ChatRoom createChatRoom(String stockName) {
-        // 이미 존재하는 채팅방 확인
         if (chatRoomRepository.findByStockName(stockName).isPresent()) {
             throw new AlreadyExistChatRoom();
         }
-
-        // 새로운 채팅방 생성
         ChatRoom newChatRoom = new ChatRoom(stockName);
         return chatRoomRepository.save(newChatRoom);
     }
 
-    // 3. 채팅 메시지 저장
-    public ChatMessage sendMessage(Long roomId, Long senderId, String content) {
-        ChatRoom chatRoom = chatRoomRepository.findById(roomId)
-                .orElseThrow(NotFoundChattingRoom::new);
+    // 메시지 전송
+    public ChatMessageDTO sendMessage(Long memberId, String stockName, String content) {
+        // 채팅방이 존재하는지 확인
+        ChatRoom chatRoom = chatRoomRepository.findByStockName(stockName).
+                orElseThrow(() -> new RuntimeException("ChatRoom not found"));
+        Optional<MemberAccount> memberAccountOpt = memberAccountRepository.findByMemberIdAndStockName(memberId, stockName);
 
-        // 메시지 객체 생성
-        ChatMessage message = new ChatMessage(chatRoom, senderId, content);
+        // 메시지 생성 및 저장
+        ChatMessage message = new ChatMessage(chatRoom, chatRoom.getId(), content);
+        ChatMessage savedMessage = chatMessageRepository.save(message);
 
-        // 메시지 저장
-        return chatMessageRepository.save(message);
+        // DTO로 변환 후 반환
+        return new ChatMessageDTO(
+                savedMessage.getId(),
+                stockName,
+                savedMessage.getSenderId(),
+                savedMessage.getContent()
+        );
     }
+
 }
