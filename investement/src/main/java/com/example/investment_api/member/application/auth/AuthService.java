@@ -11,6 +11,7 @@ import com.example.investment_api.member.infrastructure.member.MemberJpaReposito
 import com.example.investment_api.member.ui.auth.dto.LoginResponse;
 import com.example.investment_api.member.ui.auth.dto.SignUpRequest;
 
+import com.example.investment_api.virtual.notification.LoginEventPublisher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +26,7 @@ public class AuthService {
 
     private final MemberJpaRepository memberJpaRepository;
     private final JwtTokenProvider jwtTokenProvider;
+    private final LoginEventPublisher loginEventPublisher;
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$");
 
 
@@ -81,6 +83,7 @@ public class AuthService {
         Member member = findMemberByEmail(loginRequest.memberEmail());
         member.checkPassword(loginRequest.memberPassword());
         String token = jwtTokenProvider.createToken(member.getId());
+        loginEventPublisher.publishLoginEvent(member.getId());
 
         return new LoginResponse(token, member.getId(), member.getMemberName(), member.getMemberNickName(),
                 member.getAnnualIncome(), member.getDeposit());
