@@ -1,8 +1,9 @@
 package com.example.investment_api.member.service.auth.client;
 
+import com.example.investment_api.member.controller.auth.dto.GoogleTokenResponse;
+import com.example.investment_api.member.controller.auth.dto.GoogleUserInfoResponse;
 import com.example.investment_api.member.domain.auth.OAuthClient;
 import com.example.investment_api.member.exception.exceptions.auth.NotFoundTokenException;
-import com.fasterxml.jackson.databind.JsonNode;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -24,6 +26,7 @@ public class GoogleOAuthClient implements OAuthClient {
 
     private static final String AUTH_URL = "https://accounts.google.com/o/oauth2/auth";
     private static final String TOKEN_URL = "https://oauth2.googleapis.com/token";
+    private static final String USER_INFO_URL = "https://www.googleapis.com/oauth2/v3/userinfo";
 
     private final RestTemplate restTemplate;
 
@@ -49,7 +52,20 @@ public class GoogleOAuthClient implements OAuthClient {
                 "&access_type=offline";
     }
 
-    public String getAccessToken(String code) {
+    public GoogleUserInfoResponse getUserInfo(String code) {
+        String token = getAccessToken(code);
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + token);
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+
+        // 사용자 정보를 요청
+        ResponseEntity<GoogleUserInfoResponse> response = restTemplate.exchange(
+                USER_INFO_URL, HttpMethod.GET, entity, GoogleUserInfoResponse.class);
+
+        return response.getBody();
+    }
+
+    private String getAccessToken(String code) {
         String decode = URLDecoder.decode(code, StandardCharsets.UTF_8);
         MultiValueMap<String, String> params = setTokenRequestParameter(decode);
 
@@ -58,12 +74,10 @@ public class GoogleOAuthClient implements OAuthClient {
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
 
-        System.out.println("Sending request to: " + TOKEN_URL);
-        System.out.println("Headers: " + headers);
-        System.out.println("Request Body: " + params);
-
-        ResponseEntity<JsonNode> response = makeTokenRequest(request);
-        return extractToken(response.getBody());
+        ResponseEntity<GoogleTokenResponse> response = makeTokenRequest(request);
+        String token = String.valueOf(Optional.of(response));
+        validateTokenResponse(token);
+        return token;
     }
 
     private MultiValueMap<String, String> setTokenRequestParameter(String code) {
@@ -76,16 +90,8 @@ public class GoogleOAuthClient implements OAuthClient {
         return params;
     }
 
-    private ResponseEntity<JsonNode> makeTokenRequest(HttpEntity<MultiValueMap<String, String>> request) {
-        return restTemplate.postForEntity(TOKEN_URL, request, JsonNode.class);
-    }
-
-    private String extractToken(JsonNode jsonNode) {
-        String token = Optional.ofNullable(jsonNode)
-                .map(body -> body.get("access_token").asText())
-                .orElse(null);
-        validateTokenResponse(token);
-        return token;
+    private ResponseEntity<GoogleTokenResponse> makeTokenRequest(HttpEntity<MultiValueMap<String, String>> request) {
+        return restTemplate.postForEntity(TOKEN_URL, request, GoogleTokenResponse.class);
     }
 
     private void validateTokenResponse(String token) {
