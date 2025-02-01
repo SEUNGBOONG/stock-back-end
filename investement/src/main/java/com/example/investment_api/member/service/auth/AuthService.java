@@ -98,4 +98,6 @@ public class AuthService {
         return memberJpaRepository.findMemberByMemberEmail(email)
                 .orElseThrow(NotFoundMemberByEmailException::new);
     }
+
+
 }
