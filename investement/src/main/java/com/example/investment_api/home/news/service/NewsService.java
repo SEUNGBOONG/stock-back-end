@@ -31,4 +31,9 @@ public class NewsService {
         ResponseEntity<String> response = newsFetcher.fetch("경제뉴스");
         return newsParser.parseNews(response.getBody());
     }
+
+    public List<NewsResponse> getNewsResponses(String keyword) throws  IOException{
+        ResponseEntity<String> response = newsFetcher.fetch(keyword);
+        return newsParser.parseNews(response.getBody());
+    }
 }
