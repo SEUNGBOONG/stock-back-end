@@ -37,6 +37,10 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-annotations'
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
 
+    // Redis
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'redis.clients:jedis'  // Jedis 클라이언트 사용
+
     // jwt
     implementation 'com.auth0:java-jwt:4.2.1'
 }
