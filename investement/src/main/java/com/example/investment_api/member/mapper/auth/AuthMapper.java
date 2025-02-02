@@ -9,8 +9,9 @@ import com.example.investment_api.member.controller.auth.dto.SignUpResponse;
 public class AuthMapper {
 
     private static final String NOT_SERVICE_MEMBER = "회원 가입이 필요한 유저입니다.";
-    private static final Long NOT_SERVICE_MEMBER_ID = Long.MIN_VALUE;
-    private static final int NO_NUMBER_INFORMATION = Integer.MIN_VALUE;
+    private static final Long NOT_SERVICE_MEMBER_ID = 0L;
+    private static final int NO_NUMBER_INFORMATION = 0;
+    private static final int DEPOSIT = 100000000;
 
     public static Member toMember(SignUpRequest signUpRequest) {
         return new Member(
@@ -20,7 +21,7 @@ public class AuthMapper {
                 signUpRequest.memberNickName(),
                 signUpRequest.annualIncome(),
                 signUpRequest.propensity(),
-                100000000,
+                DEPOSIT,
                 signUpRequest.releaseCheck()
         );
     }
@@ -38,7 +39,7 @@ public class AuthMapper {
                 NOT_SERVICE_MEMBER,
                 userInfo.email(),
                 NO_NUMBER_INFORMATION,
-                NO_NUMBER_INFORMATION
+                DEPOSIT
         );
     }
 
