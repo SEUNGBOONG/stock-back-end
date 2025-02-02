@@ -1,7 +1,7 @@
-package com.example.investment_api.member.ui.member;
+package com.example.investment_api.member.controller.member;
 
-import com.example.investment_api.member.application.member.MemberService;
-import com.example.investment_api.member.ui.member.dto.MemberDto;
+import com.example.investment_api.member.service.member.MemberService;
+import com.example.investment_api.member.controller.member.dto.MemberDto;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
