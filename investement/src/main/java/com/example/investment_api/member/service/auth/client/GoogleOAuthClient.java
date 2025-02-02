@@ -7,7 +7,6 @@ import com.example.investment_api.member.exception.exceptions.auth.NotFoundToken
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -75,7 +74,7 @@ public class GoogleOAuthClient implements OAuthClient {
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
 
         ResponseEntity<GoogleTokenResponse> response = makeTokenRequest(request);
-        String token = String.valueOf(Optional.of(response));
+        String token = response.getBody().access_token();
         validateTokenResponse(token);
         return token;
     }

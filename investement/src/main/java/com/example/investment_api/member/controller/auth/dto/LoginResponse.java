@@ -5,6 +5,7 @@ public record LoginResponse(
         Long memberId,
         String memberName,
         String memberNickName,
+        String memberEmail,
         int annualIncome,
         int deposit
 ) {
