@@ -59,7 +59,7 @@ public class ChatRoomController {
     @GetMapping("/{roomId}/messages")
     public ResponseEntity<List<ChatMessageDTO>> getAllMessagesInRoom(@PathVariable Long roomId) {
         try {
-            List<ChatMessageDTO> messages = chatRoomService.getAllMessagesInRoom(roomId);
+            List<ChatMessageDTO> messages = chatRoomService.getMessages(roomId);
             return ResponseEntity.ok(messages);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
