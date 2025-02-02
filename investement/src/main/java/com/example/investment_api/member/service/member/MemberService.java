@@ -1,8 +1,8 @@
-package com.example.investment_api.member.application.member;
+package com.example.investment_api.member.service.member;
 
 import com.example.investment_api.member.domain.member.Member;
 import com.example.investment_api.member.infrastructure.member.MemberJpaRepository;
-import com.example.investment_api.member.ui.member.dto.MemberDto;
+import com.example.investment_api.member.controller.member.dto.MemberDto;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

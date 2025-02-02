@@ -1,6 +1,6 @@
 package com.example.investment_api.virtual.calculator.mapper;
 
-import com.example.investment_api.member.application.member.MemberService;
+import com.example.investment_api.member.service.member.MemberService;
 import com.example.investment_api.virtual.account.controller.dto.AllResultDTO;
 import com.example.investment_api.virtual.account.controller.dto.AccountStockData;
 import com.example.investment_api.virtual.account.controller.dto.ResultDTO;

@@ -39,6 +39,9 @@ dependencies {
 
     // jwt
     implementation 'com.auth0:java-jwt:4.2.1'
+
+    // Oauth2
+    implementation "org.springframework.boot:spring-boot-starter-oauth2-client"
 }
 
 tasks.named('test') {
