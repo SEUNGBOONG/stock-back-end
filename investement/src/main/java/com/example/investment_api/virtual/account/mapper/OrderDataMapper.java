@@ -22,7 +22,6 @@ public class OrderDataMapper {
     }
 
     public AccountStockData mapToAccountStockData(MemberAccount account, int currentPrice, double prevChangeRate) {
-        String stockName = account.getStockName();
 
         return new AccountStockData(
                 account.getStockName(),
