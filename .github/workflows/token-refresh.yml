@@ -1,0 +1,51 @@
+name: Refresh Token and Update Properties
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # 매일 자정(UTC) 실행 (한국 시간 오전 9시)
+  workflow_dispatch:  # 수동 실행 가능
+
+jobs:
+  refresh-token:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Refresh Token
+        run: |
+          # 토큰 갱신을 위한 POST 요청
+          RESPONSE=$(curl -s -X POST "https://openapi.koreainvestment.com:9443/oauth2/token" \
+            -H "Content-Type: application/json" \
+            -d '{
+                "grant_type": "client_credentials",
+                "appkey": "${{ secrets.API_APP_KEY }}",
+                "appsecret": "${{ secrets.API_APP_SECRET }}"
+            }')
+          
+          # access_token 추출
+          NEW_TOKEN=$(echo $RESPONSE | jq -r '.access_token')
+
+          # access_token이 null이면 실패 메시지 출력
+          if [ "$NEW_TOKEN" == "null" ]; then
+            echo "Failed to get a new token"
+            exit 1
+          fi
+
+          echo "New Token: $NEW_TOKEN"
+
+      - name: Update application.properties on Server
+        run: |
+          # 서버에서 application.properties 파일을 갱신
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << EOF
+            # API_ACCESS_TOKEN 값을 갱신된 토큰으로 업데이트
+            sed -i 's/^API_ACCESS_TOKEN=.*/API_ACCESS_TOKEN=${NEW_TOKEN}/' ${{ secrets.APP_PATH }}/application.properties
+          EOF
+
+      - name: Restart Application (Optional)
+        run: |
+          # 애플리케이션을 재시작하여 새 토큰을 반영
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << EOF
+            sudo systemctl restart your-spring-app
+          EOF
