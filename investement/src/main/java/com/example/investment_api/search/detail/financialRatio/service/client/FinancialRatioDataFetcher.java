@@ -1,5 +1,6 @@
 package com.example.investment_api.search.detail.financialRatio.service.client;
 
+import com.example.investment_api.common.token.TokenService;
 import org.springframework.beans.factory.annotation.Value;
 
 import org.springframework.http.HttpEntity;
@@ -23,12 +24,11 @@ public class FinancialRatioDataFetcher {
     @Value("${API_APP_KEY}")
     private String appKey;
 
-    @Value("${API_ACCESS_TOKEN}")
-    private String accessToken;
-
+    private final TokenService tokenService;
     private final RestTemplate restTemplate;
 
-    public FinancialRatioDataFetcher(RestTemplate restTemplate) {
+    public FinancialRatioDataFetcher(final TokenService tokenService, RestTemplate restTemplate) {
+        this.tokenService = tokenService;
         this.restTemplate = restTemplate;
     }
 
@@ -50,7 +50,7 @@ public class FinancialRatioDataFetcher {
         headers.set("tr_id", trId);
         headers.set("appsecret", appSecret);
         headers.set("appkey", appKey);
-        headers.set("Authorization", "Bearer " + accessToken);
+        headers.set("Authorization", "Bearer " + tokenService.getAccessToken());
         return headers;
     }
 

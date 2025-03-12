@@ -1,5 +1,6 @@
 package com.example.investment_api.home.tradingVolume.service.client;
 
+import com.example.investment_api.common.token.TokenService;
 import org.springframework.beans.factory.annotation.Value;
 
 import org.springframework.http.HttpEntity;
@@ -21,21 +22,22 @@ public class TradingVolumeFetcher {
     private static final String AUTHORIZATION = "Authorization";
     private static final String BEARER = "Bearer ";
 
+    private final TokenService tokenService;
+
     @Value("${API_APP_SECRET}")
     private String appSecret;
 
     @Value("${API_APP_KEY}")
     private String appKey;
 
-    @Value("${API_ACCESS_TOKEN}")
-    private String accessToken;
 
     @Value("${API_TRID}")
     private String trId;
 
     private final RestTemplate restTemplate;
 
-    public TradingVolumeFetcher(final RestTemplate restTemplate) {
+    public TradingVolumeFetcher(final TokenService tokenService, final RestTemplate restTemplate) {
+        this.tokenService = tokenService;
         this.restTemplate = restTemplate;
     }
 
@@ -48,7 +50,7 @@ public class TradingVolumeFetcher {
         headers.set(TR_ID, trId);
         headers.set(APPSECRET, appSecret);
         headers.set(APPKEY, appKey);
-        headers.set(AUTHORIZATION, BEARER + accessToken);
+        headers.set(AUTHORIZATION, BEARER + tokenService.getAccessToken());
         HttpEntity<String> entity = new HttpEntity<>(headers);
         return restTemplate.exchange(URL, HttpMethod.GET, entity, String.class);
     }

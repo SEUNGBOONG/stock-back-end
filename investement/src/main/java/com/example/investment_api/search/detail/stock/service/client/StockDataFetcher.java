@@ -1,5 +1,6 @@
 package com.example.investment_api.search.detail.stock.service.client;
 
+import com.example.investment_api.common.token.TokenService;
 import org.springframework.beans.factory.annotation.Value;
 
 import org.springframework.http.HttpEntity;
@@ -16,8 +17,9 @@ public class StockDataFetcher {
 
     private final RestTemplate restTemplate;
 
-    public StockDataFetcher(final RestTemplate restTemplate) {
+    public StockDataFetcher(final RestTemplate restTemplate, final TokenService tokenService) {
         this.restTemplate = restTemplate;
+        this.tokenService = tokenService;
     }
 
     @Value("${STOCK_TR_ID}")
@@ -29,9 +31,7 @@ public class StockDataFetcher {
     @Value("${API_APP_KEY}")
     private String appKey;
 
-    @Value("${API_ACCESS_TOKEN}")
-    private String accessToken;
-
+    private final TokenService tokenService;
     public ResponseEntity<String> fetchStockData(String stockInfo) {
         String url = "https://openapi.koreainvestment.com:9443/uapi/domestic-stock/v1/quotations/inquire-price?FID_COND_MRKT_DIV_CODE=J" +
                 "&FID_INPUT_ISCD=" + stockInfo;
@@ -40,7 +40,7 @@ public class StockDataFetcher {
         headers.set("tr_id", trId);
         headers.set("appsecret", appSecret);
         headers.set("appkey", appKey);
-        headers.set("Authorization", "Bearer " + accessToken);
+        headers.set("Authorization", "Bearer " + tokenService.getAccessToken());
 
         HttpEntity<String> entity = new HttpEntity<>(headers);
         return restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
