@@ -1,5 +1,6 @@
 package com.example.investment_api.home.fluctuation.service.client;
 
+import com.example.investment_api.common.token.TokenService;
 import org.springframework.beans.factory.annotation.Value;
 
 import org.springframework.http.HttpEntity;
@@ -24,6 +25,8 @@ public class FluctuationDataFetcher {
 
     private final RestTemplate restTemplate;
 
+    private final TokenService tokenService;
+
     @Value("${API_APP_KEY}")
     private String appKey;
 
@@ -33,11 +36,9 @@ public class FluctuationDataFetcher {
     @Value("${FLUCTUATION_TR_ID}")
     private String trId;
 
-    @Value("${API_ACCESS_TOKEN}")
-    private String accessToken;
-
-    public FluctuationDataFetcher(RestTemplate restTemplate) {
+    public FluctuationDataFetcher(RestTemplate restTemplate, final TokenService tokenService) {
         this.restTemplate = restTemplate;
+        this.tokenService = tokenService;
     }
 
     public ResponseEntity<String> fluctuationData() {
@@ -54,6 +55,8 @@ public class FluctuationDataFetcher {
     }
 
     private void setHeader(final HttpHeaders headers) {
+        String accessToken = tokenService.getAccessToken();
+        System.out.println(accessToken);
         headers.set(TR_ID, trId);
         headers.set(APPSECRET, appSecret);
         headers.set(APPKEY, appKey);

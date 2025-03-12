@@ -1,5 +1,6 @@
 package com.example.investment_api.home.marketCapitalization.service.client;
 
+import com.example.investment_api.common.token.TokenService;
 import org.springframework.beans.factory.annotation.Value;
 
 import org.springframework.http.HttpEntity;
@@ -32,9 +33,11 @@ public class MarketCapitalizationFetcher {
     private static final String BEARER = "Bearer ";
 
     private final RestTemplate restTemplate;
+    private final TokenService tokenService;
 
-    public MarketCapitalizationFetcher(final RestTemplate restTemplate) {
+    public MarketCapitalizationFetcher(final RestTemplate restTemplate, final TokenService tokenService) {
         this.restTemplate = restTemplate;
+        this.tokenService = tokenService;
     }
 
     @Value("${API_APP_SECRET}")
@@ -42,9 +45,6 @@ public class MarketCapitalizationFetcher {
 
     @Value("${API_APP_KEY}")
     private String appKey;
-
-    @Value("${API_ACCESS_TOKEN}")
-    private String accessToken;
 
     @Value("${MARKET_TR_ID}")
     private String trId;
@@ -73,7 +73,7 @@ public class MarketCapitalizationFetcher {
         headers.set(TR_ID, trId);
         headers.set(APPSECRET, appSecret);
         headers.set(APPKEY, appKey);
-        headers.set(AUTHORIZATION, BEARER + accessToken);
+        headers.set(AUTHORIZATION, BEARER + tokenService.getAccessToken());
         headers.setContentType(MediaType.APPLICATION_JSON);
         return headers;
     }

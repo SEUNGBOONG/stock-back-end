@@ -3,6 +3,7 @@ package com.example.investment_api.search.detail.chart.service.client;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+import com.example.investment_api.common.token.TokenService;
 import org.springframework.beans.factory.annotation.Value;
 
 import org.springframework.http.HttpEntity;
@@ -26,13 +27,12 @@ public class DayChartFetcher {
     @Value("${API_APP_KEY}")
     private String appKey;
 
-    @Value("${API_ACCESS_TOKEN}")
-    private String accessToken;
-
     private final RestTemplate restTemplate;
+    private final TokenService tokenService;
 
-    public DayChartFetcher(final RestTemplate restTemplate) {
+    public DayChartFetcher(final RestTemplate restTemplate, final TokenService tokenService) {
         this.restTemplate = restTemplate;
+        this.tokenService = tokenService;
     }
 
     public ResponseEntity<String> getDayChartData(String fid_input_iscd) {
@@ -62,7 +62,7 @@ public class DayChartFetcher {
         headers.set("tr_id", trId);
         headers.set("appsecret", appSecret);
         headers.set("appkey", appKey);
-        headers.set("Authorization", "Bearer " + accessToken);
+        headers.set("Authorization", "Bearer " + tokenService.getAccessToken());
         return headers;
     }
 }

@@ -1,5 +1,6 @@
 package com.example.investment_api.search.detail.chart.service.client;
 
+import com.example.investment_api.common.token.TokenService;
 import org.springframework.beans.factory.annotation.Value;
 
 import org.springframework.http.HttpEntity;
@@ -25,12 +26,11 @@ public class YearChartFetcher {
     @Value("${API_APP_KEY}")
     private String appKey;
 
-    @Value("${API_ACCESS_TOKEN}")
-    private String accessToken;
-
+    private final TokenService tokenService;
     private final RestTemplate restTemplate;
 
-    public YearChartFetcher(final RestTemplate restTemplate) {
+    public YearChartFetcher(final TokenService tokenService, final RestTemplate restTemplate) {
+        this.tokenService = tokenService;
         this.restTemplate = restTemplate;
     }
 
@@ -61,7 +61,7 @@ public class YearChartFetcher {
         headers.set("tr_id", trId);
         headers.set("appsecret", appSecret);
         headers.set("appkey", appKey);
-        headers.set("Authorization", "Bearer " + accessToken);
+        headers.set("Authorization", "Bearer " + tokenService.getAccessToken());
         return headers;
     }
 }
