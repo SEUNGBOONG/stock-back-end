@@ -26,20 +26,22 @@ import java.net.URI;
 @Slf4j
 public class AuthController {
 
+    public static final String 로그인_성공 = "로그인 성공";
+    public static final String CREATE_USER_VALIDATE = "유저 생성 - {}번 유저 : {}";
     private final AuthService authService;
 
     @PostMapping("/members")
     public ResponseEntity<SignUpResponse> signUp(@RequestBody SignUpRequest signUpRequest) {
         SignUpResponse signUpResponse = AuthMapper.toSignUpResponse(authService.signUp(signUpRequest));
         URI location = URI.create("/members/" + signUpResponse.id());
-        log.info("유저 생성 - {}번 유저 : {}", signUpResponse.id(), signUpResponse.memberNickname());
+        log.info(CREATE_USER_VALIDATE, signUpResponse.id(), signUpResponse.memberNickname());
         return ResponseEntity.created(location).body(signUpResponse);
     }
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
         LoginResponse loginResponse = authService.login(loginRequest);
-        log.info("로그인 성공");
+        log.info(로그인_성공);
         return ResponseEntity.ok(loginResponse);
     }
 }

@@ -18,6 +18,7 @@ import java.util.List;
 @Transactional
 public class NewsService {
 
+    public static final String KEY = "경제뉴스";
     private final NewsFetcher newsFetcher;
     private final NewsParser newsParser;
 
@@ -28,7 +29,7 @@ public class NewsService {
     }
 
     public List<NewsResponse> getNewsResponses() throws IOException {
-        ResponseEntity<String> response = newsFetcher.fetch("경제뉴스");
+        ResponseEntity<String> response = newsFetcher.fetch(KEY);
         return newsParser.parseNews(response.getBody());
     }
 
