@@ -14,6 +14,8 @@ import org.springframework.http.ResponseEntity;
 @Component
 public class IndexFetcher {
 
+    public static final String KOPSI_URL = "https://apis.data.go.kr/1160100/service/GetMarketIndexInfoService/getStockMarketIndex?serviceKey=";
+    public static final String KOSDAQ_URL = "https://apis.data.go.kr/1160100/service/GetMarketIndexInfoService/getStockMarketIndex?serviceKey=";
     @Value("${SERVICEKEY}")
     private String serviceKey;
 
@@ -28,7 +30,7 @@ public class IndexFetcher {
     }
 
     private ResponseEntity<String> getResponseEntity() {
-        String url = "https://apis.data.go.kr/1160100/service/GetMarketIndexInfoService/getStockMarketIndex?serviceKey="
+        String url = KOPSI_URL
                 + serviceKey + "&resultType=json&pageNo=1&numOfRows=1&idxNm=코스피";
         HttpHeaders headers = new HttpHeaders();
         setURLHeaders result = new setURLHeaders(url, headers);
@@ -40,7 +42,7 @@ public class IndexFetcher {
     }
 
     private ResponseEntity<String> getStringResponseEntity() {
-        String url = "https://apis.data.go.kr/1160100/service/GetMarketIndexInfoService/getStockMarketIndex?serviceKey="
+        String url = KOSDAQ_URL
                 + serviceKey + "&resultType=json&pageNo=1&numOfRows=1&idxNm=코스닥";
         HttpHeaders headers = new HttpHeaders();
         return restTemplateClient.exchange(url, HttpMethod.GET, headers, null);
