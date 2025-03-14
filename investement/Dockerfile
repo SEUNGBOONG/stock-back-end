@@ -15,14 +15,8 @@ RUN chmod +x gradlew
 # 5. Gradle을 사용하여 종속성을 설치하고 애플리케이션을 빌드
 RUN ./gradlew build -x test
 
-# 6. 빌드된 JAR 파일을 컨테이너 안으로 복사 (둘 중 하나 선택)
+# 6. 빌드된 JAR 파일을 컨테이너 안으로 복사
 COPY build/libs/investement-0.0.1-SNAPSHOT.jar app.jar
-# 또는
-# COPY build/libs/investement-0.0.1-SNAPSHOT-plain.jar app.jar
 
-# 7. 실행 스크립트 추가
-COPY start.sh /app/start.sh
-RUN chmod +x /app/start.sh
-
-# 8. 애플리케이션 실행
-ENTRYPOINT ["/app/start.sh"]
+# 7. 바로 애플리케이션 실행
+ENTRYPOINT ["java", "-jar", "app.jar"]
