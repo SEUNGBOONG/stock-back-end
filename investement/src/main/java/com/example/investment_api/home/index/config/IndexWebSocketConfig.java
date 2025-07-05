@@ -17,6 +17,6 @@ public class IndexWebSocketConfig implements WebSocketConfigurer {
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(indexWebSocketHandler, "/wss/index");
+        registry.addHandler(indexWebSocketHandler, "/ws/index");
     }
 }

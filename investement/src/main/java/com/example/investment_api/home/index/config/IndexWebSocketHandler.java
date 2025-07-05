@@ -2,11 +2,8 @@ package com.example.investment_api.home.index.config;
 
 import com.example.investment_api.home.index.controller.dto.KOSDAQResponse;
 import com.example.investment_api.home.index.controller.dto.KOSPIResponse;
-
 import com.example.investment_api.home.index.service.IndexService;
-
 import org.springframework.stereotype.Component;
-
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
@@ -29,16 +26,16 @@ public class IndexWebSocketHandler extends TextWebSocketHandler {
 
     private void webSocketSession(final WebSocketSession session) throws IOException, InterruptedException {
         while (session.isOpen()) {
-            KOSPIResponse KOSPI = indexService.getKOSPIIndex();
+            KOSPIResponse kospi = indexService.getKOSPIIndex();
             KOSDAQResponse kosdaq = indexService.getKOSDAQIndex();
-            String message = String.format("{\"kospi\": %s, \"kosdaq\": %s}",
-                    KOSPI.toString(),
-                    kosdaq.toString());
+            String message = String.format("{\"kospi\": {\"indexName\": \"%s\", \"indexValue\": \"%s\", \"fluctuationRate\": \"%s\"}, " +
+                            "\"kosdaq\": {\"indexName\": \"%s\", \"indexValue\": \"%s\", \"fluctuationRate\": \"%s\"}}",
+                    kospi.indexName(), kospi.indexValue(), kospi.fluctuationRate(),
+                    kosdaq.indexName(), kosdaq.indexValue(), kosdaq.fluctuationRate());
             if (session.isOpen()) {
                 session.sendMessage(new TextMessage(message));
             }
             Thread.sleep(1000);
         }
     }
-
 }

@@ -8,6 +8,7 @@ import com.example.investment_api.home.tradingVolume.service.client.TradingVolum
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.stereotype.Service;
@@ -31,6 +32,7 @@ public class TradingVolumeService {
         this.tradingVolumeParser = tradingVolumeParser;
     }
 
+    @Cacheable(value = "tradingVolumeCache", key = "'tradingVolume'", unless = "#result == null or #result.isEmpty()")
     public List<TradingVolumeDTO> getTradingVolume() throws IOException {
         return getTradingVolumeDTOS();
     }

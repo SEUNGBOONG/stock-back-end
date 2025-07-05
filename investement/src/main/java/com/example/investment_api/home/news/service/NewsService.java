@@ -7,6 +7,7 @@ import com.example.investment_api.home.news.controller.dto.NewsResponse;
 import jakarta.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.stereotype.Service;
@@ -33,8 +34,11 @@ public class NewsService {
         return newsParser.parseNews(response.getBody());
     }
 
-    public List<NewsResponse> getNewsResponses(String keyword) throws  IOException{
+    @Cacheable(value = "newsCache", key = "#keyword", unless = "#result == null")
+    public List<NewsResponse> getNewsResponses(String keyword) throws IOException {
+        System.out.println("Fetching data for keyword: " + keyword);  // 로그 추가
         ResponseEntity<String> response = newsFetcher.fetch(keyword);
         return newsParser.parseNews(response.getBody());
     }
+
 }

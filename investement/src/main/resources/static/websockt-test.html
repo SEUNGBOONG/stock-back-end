@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>WebSocket 테스트</title>
+</head>
+<body>
+<h2>📊 WebSocket 연결 테스트</h2>
+<button onclick="connectWebSocket()">WebSocket 연결하기</button>
+<div id="output" style="margin-top: 1rem;"></div>
+
+<script>
+    function connectWebSocket() {
+        const approvalKey = "테스트키"; // 필요한 경우 수정
+        const socket = new WebSocket(`ws://localhost:8080/wss/tradingVolume?approval_key=${approvalKey}`);
+
+        const output = document.getElementById("output");
+
+        socket.onopen = function () {
+            output.innerHTML += "<p>✅ 연결됨</p>";
+        };
+
+        socket.onmessage = function (event) {
+            output.innerHTML += `<p>📨 메시지: ${event.data}</p>`;
+        };
+
+        socket.onerror = function (error) {
+            output.innerHTML += `<p style="color:red;">❌ 에러 발생: ${error}</p>`;
+        };
+
+        socket.onclose = function () {
+            output.innerHTML += "<p>🔌 연결 종료됨</p>";
+        };
+    }
+</script>
+</body>
+</html>

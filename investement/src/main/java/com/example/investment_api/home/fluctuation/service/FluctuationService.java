@@ -8,6 +8,7 @@ import com.example.investment_api.home.fluctuation.service.client.FluctuationDat
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.stereotype.Service;
@@ -31,6 +32,7 @@ public class FluctuationService {
         this.fluctuationParser=fluctuationParser;
     }
 
+    @Cacheable(value = "fluctuationCache", key = "'fluctuationData'", unless = "#result == null || #result.isEmpty()")
     public List<FluctuationDTO> getFluctuation() throws IOException {
         return getFluctuationDTOS();
     }

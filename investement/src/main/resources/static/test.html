@@ -8,15 +8,25 @@
 <h1>KOSPI 및 KOSDAQ 데이터</h1>
 <pre id="output"></pre>
 <script>
-    const socket = new WebSocket("ws://localhost:8080/ws/fluctuation?approval_key=92cd1571-4ab4-4f29-8bec-a7c443194abc");
+    const socket = new WebSocket("ws://localhost:8080/ws/index?approval_key=80db2348-458c-4215-a3e2-13c564d2819c");
+
     socket.onopen = function () {
         console.log('WebSocket 연결됨');
     };
 
     socket.onmessage = function (event) {
         const data = JSON.parse(event.data);
-        document.getElementById('output').textContent += `KOSPI: ${JSON.stringify(data.kospi)}\n`;
-        document.getElementById('output').textContent += `KOSDAQ: ${JSON.stringify(data.kosdaq)}\n`;
+        // KOSPI 데이터 출력
+        document.getElementById('output').textContent += `KOSPI: \n`;
+        document.getElementById('output').textContent += `  Index Name: ${data.kospi.indexName}\n`;
+        document.getElementById('output').textContent += `  Index Value: ${data.kospi.indexValue}\n`;
+        document.getElementById('output').textContent += `  Fluctuation Rate: ${data.kospi.fluctuationRate}\n`;
+
+        // KOSDAQ 데이터 출력
+        document.getElementById('output').textContent += `KOSDAQ: \n`;
+        document.getElementById('output').textContent += `  Index Name: ${data.kosdaq.indexName}\n`;
+        document.getElementById('output').textContent += `  Index Value: ${data.kosdaq.indexValue}\n`;
+        document.getElementById('output').textContent += `  Fluctuation Rate: ${data.kosdaq.fluctuationRate}\n`;
     };
 
     socket.onclose = function () {
