@@ -14,11 +14,19 @@ public class CorsCustomFilter extends OncePerRequestFilter {
     protected void doFilterInternal(final HttpServletRequest request,
                                     final HttpServletResponse response,
                                     final FilterChain filterChain) throws ServletException, IOException {
-        response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+
+        String origin = request.getHeader("Origin");
+
+        // 허용할 Origin 목록
+        if ("http://localhost:3000".equals(origin) || "https://growfolio-nu.vercel.app".equals(origin)) {
+            response.setHeader("Access-Control-Allow-Origin", origin);
+        }
+
         response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
         response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
         response.setHeader("Access-Control-Allow-Credentials", "true");
         response.setHeader("Access-Control-Max-Age", "3600");
+
         filterChain.doFilter(request, response);
     }
 }
